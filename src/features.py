@@ -177,16 +177,19 @@ def compute_expected_runs(
     """Compute expected runs for a team in a game.
 
     Formula:
-        E[runs] = league_avg * off_factor * def_factor * starter_adj * park * home_adj
+        E[runs] = league_avg * off_factor * pitching_factor * park * home_adj
 
-    The starter factor adjusts the defensive factor to account for the specific
-    pitcher on the mound (rather than the team's season-long average).
+    The starter_factor parameter is the game-level pitching quality factor.
+    When bullpen module is used, this is already a weighted blend of
+    starter quality (for their projected IP) and bullpen quality (remainder).
+    It's combined with the team's overall defensive factor to get the
+    final pitching adjustment.
     """
-    # Starter adjustment: blend starter quality with team pitching
-    # Starters typically pitch ~5.5 innings (61% of game), bullpen covers rest
-    starter_weight = 0.55
+    # Blend game-specific pitching (starter + bullpen) with team baseline
+    # Game pitching gets 55% weight, team seasonal projection gets 45%
+    # This ensures individual matchup matters but team quality anchors
     pitching_factor = (
-        starter_factor * starter_weight + pitching_team_def_factor * (1 - starter_weight)
+        starter_factor * 0.55 + pitching_team_def_factor * 0.45
     )
 
     expected = league_avg_rpg * batting_team_off_factor * pitching_factor * park_factor

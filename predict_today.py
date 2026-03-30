@@ -6,6 +6,8 @@ Uses a Poisson-based model powered by an aggregate of projection systems:
   → Team-level projected runs scored / allowed per game
 - Steamer, ZiPS, THE BAT pitcher-level projections (blended equally)
   → Per-game starting pitcher quality adjustments
+- Team bullpen projections (reliever ERA/FIP aggregated per team)
+  → Dynamic starter/bullpen split based on projected IP/GS
 - Park factors (multi-year historical averages)
 - Live weather adjustments (temperature, wind, humidity, precipitation)
 - Home field advantage
@@ -32,6 +34,12 @@ from src.features import (
 )
 from src.model import generate_prediction
 from src.weather import fetch_game_weather, VENUE_DATA
+from src.bullpen import (
+    load_team_bullpen_projections,
+    get_starter_projected_length,
+    compute_game_pitching_factor,
+    get_bullpen_summary,
+)
 
 
 def load_projection_data() -> dict:
@@ -59,6 +67,19 @@ def load_projection_data() -> dict:
     else:
         print(f"  ⚠ No batter projections loaded")
 
+    # Team bullpen projections
+    bullpen_proj = load_team_bullpen_projections()
+    if bullpen_proj:
+        bp_eras = [bp["era"] for bp in bullpen_proj.values()]
+        avg_bp = sum(bp_eras) / len(bp_eras)
+        best = min(bullpen_proj.items(), key=lambda x: x[1]["era"])
+        worst = max(bullpen_proj.items(), key=lambda x: x[1]["era"])
+        print(f"  ✓ Bullpen projections: {len(bullpen_proj)} teams (avg {avg_bp:.2f} ERA)")
+        print(f"    Best: {best[0].split()[-1]} ({best[1]['era']:.2f}) | "
+              f"Worst: {worst[0].split()[-1]} ({worst[1]['era']:.2f})")
+    else:
+        print(f"  ⚠ No bullpen projections loaded")
+
     # League average
     league_avg = get_league_avg_rpg()
     print(f"  ✓ League avg: {league_avg:.3f} R/G (from projected standings)")
@@ -66,6 +87,7 @@ def load_projection_data() -> dict:
     return {
         "pitcher_projections": pitcher_proj,
         "batting_projections": batting_proj,
+        "bullpen_projections": bullpen_proj,
         "league_avg_rpg": league_avg,
     }
 
@@ -186,6 +208,19 @@ def predict_game(game: dict, data: dict, venue_weather: dict) -> dict:
         game["home_pitcher_name"], data,
     )
 
+    # Bullpen factors
+    away_bp_factor = get_bullpen_summary(game["away_team_name"]).get("factor", 1.0)
+    home_bp_factor = get_bullpen_summary(game["home_team_name"]).get("factor", 1.0)
+
+    # Starter projected length (IP/GS)
+    pitcher_proj = data["pitcher_projections"]
+    away_sp_ip = get_starter_projected_length(game["away_pitcher_name"], pitcher_proj)
+    home_sp_ip = get_starter_projected_length(game["home_pitcher_name"], pitcher_proj)
+
+    # Blended game pitching factors (starter innings + bullpen for remainder)
+    away_game_pitch = compute_game_pitching_factor(away_sp_factor, away_bp_factor, away_sp_ip)
+    home_game_pitch = compute_game_pitching_factor(home_sp_factor, home_bp_factor, home_sp_ip)
+
     # Park factor
     park_factor = get_park_factor(game.get("venue_id"))
 
@@ -195,21 +230,21 @@ def predict_game(game: dict, data: dict, venue_weather: dict) -> dict:
         vid, (None, 1.0, {"total": 1.0, "roof": "unknown"})
     )
 
-    # Expected runs: away team batting vs home pitching + home starter
+    # Expected runs: away team batting vs home game pitching (starter + bullpen)
     away_lambda = compute_expected_runs(
         batting_team_off_factor=away_off,
         pitching_team_def_factor=home_def,
-        starter_factor=home_sp_factor,
+        starter_factor=home_game_pitch,
         park_factor=park_factor,
         league_avg_rpg=league_rpg,
         is_home=False,
     ) * weather_factor
 
-    # Home team batting vs away pitching + away starter
+    # Home team batting vs away game pitching (starter + bullpen)
     home_lambda = compute_expected_runs(
         batting_team_off_factor=home_off,
         pitching_team_def_factor=away_def,
-        starter_factor=away_sp_factor,
+        starter_factor=away_game_pitch,
         park_factor=park_factor,
         league_avg_rpg=league_rpg,
         is_home=True,
@@ -244,6 +279,14 @@ def predict_game(game: dict, data: dict, venue_weather: dict) -> dict:
     prediction["home_sp_systems"] = (
         home_sp_data.get("systems_count", 0) if home_sp_data else 0
     )
+
+    # Bullpen data
+    prediction["away_bp_factor"] = round(away_bp_factor, 3)
+    prediction["home_bp_factor"] = round(home_bp_factor, 3)
+    prediction["away_sp_ip"] = round(away_sp_ip, 1)
+    prediction["home_sp_ip"] = round(home_sp_ip, 1)
+    prediction["away_game_pitch"] = round(away_game_pitch, 3)
+    prediction["home_game_pitch"] = round(home_game_pitch, 3)
 
     # Weather data
     prediction["weather"] = weather_data
@@ -323,13 +366,15 @@ def print_predictions(predictions: list[dict], game_date: str) -> None:
         print(f"  📈 Projected Season: {away.split()[-1]} {p['away_proj_wins']:.0f}W | "
               f"{home.split()[-1]} {p['home_proj_wins']:.0f}W")
 
-        # Pitcher info with per-system breakdown
+        # Pitcher info with bullpen context
         a_sys = p["away_sp_systems"]
         h_sys = p["home_sp_systems"]
-        print(f"  🎯 {p['away_pitcher']} (adj: {p['away_sp_factor']:.3f}, {a_sys} systems)")
+        print(f"  🎯 {p['away_pitcher']} (SP: {p['away_sp_factor']:.3f}, ~{p.get('away_sp_ip',5.0):.1f} IP) "
+              f"→ pen ({p.get('away_bp_factor',1.0):.3f}) → game: {p.get('away_game_pitch',1.0):.3f}")
         if p["away_sp_breakdown"]:
             print(f"     {_format_sp_breakdown(p['away_sp_breakdown'])}")
-        print(f"  🎯 {p['home_pitcher']} (adj: {p['home_sp_factor']:.3f}, {h_sys} systems)")
+        print(f"  🎯 {p['home_pitcher']} (SP: {p['home_sp_factor']:.3f}, ~{p.get('home_sp_ip',5.0):.1f} IP) "
+              f"→ pen ({p.get('home_bp_factor',1.0):.3f}) → game: {p.get('home_game_pitch',1.0):.3f}")
         if p["home_sp_breakdown"]:
             print(f"     {_format_sp_breakdown(p['home_sp_breakdown'])}")
 
@@ -392,6 +437,7 @@ def print_predictions(predictions: list[dict], game_date: str) -> None:
     print(f"  MODEL METHODOLOGY:")
     print(f"  • Team offense/defense: FanGraphs Depth Charts projected RS/RA per game")
     print(f"  • Pitcher adjustment: Blended ERA/FIP (Steamer + ZiPS + THE BAT)")
+    print(f"  • Bullpen: IP-weighted reliever ERA/FIP per team, split by starter IP/GS")
     print(f"  • Park factors: Multi-year historical averages (30 venues)")
     print(f"  • Weather: Live conditions (Open-Meteo) — temp, wind, humidity, precip")
     print(f"  • Home advantage: +0.25 runs | Starter game share: 55%")
