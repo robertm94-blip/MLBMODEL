@@ -7,12 +7,15 @@ Uses a Poisson-based model powered by an aggregate of projection systems:
 - Steamer, ZiPS, THE BAT pitcher-level projections (blended equally)
   → Per-game starting pitcher quality adjustments
 - Park factors (multi-year historical averages)
+- Live weather adjustments (temperature, wind, humidity, precipitation)
 - Home field advantage
 
 All projection data loaded from FanGraphs API JSON exports.
+Weather data from Open-Meteo API (free, no key required).
 """
 
 import sys
+import time
 import argparse
 from datetime import date
 
@@ -28,6 +31,7 @@ from src.features import (
     get_park_factor,
 )
 from src.model import generate_prediction
+from src.weather import fetch_game_weather, VENUE_DATA
 
 
 def load_projection_data() -> dict:
@@ -64,6 +68,47 @@ def load_projection_data() -> dict:
         "batting_projections": batting_proj,
         "league_avg_rpg": league_avg,
     }
+
+
+def fetch_weather_for_games(games: list[dict]) -> dict[int, tuple]:
+    """Fetch weather for all unique venues."""
+    print(f"\n🌤️  Fetching live weather for game venues...\n")
+    venue_weather = {}
+    seen_venues = set()
+
+    for game in games:
+        vid = game.get("venue_id")
+        if vid is None or vid in seen_venues:
+            continue
+        seen_venues.add(vid)
+
+        weather, factor, breakdown = fetch_game_weather(vid)
+        venue_weather[vid] = (weather, factor, breakdown)
+
+        venue_name = VENUE_DATA.get(vid, {}).get("name", game.get("venue_name", "Unknown"))
+        if weather:
+            emoji = "☀️" if weather["weather_code"] <= 2 else "⛅" if weather["weather_code"] <= 3 else "🌧️"
+            wind_dir_arrow = _wind_arrow(weather["wind_direction_deg"])
+            print(f"  {emoji} {venue_name}: {weather['temp_f']:.0f}°F, "
+                  f"{weather['wind_mph']:.0f}mph {wind_dir_arrow}, "
+                  f"{weather['humidity']:.0f}% humidity"
+                  f"{', Rain' if weather['precip_mm'] > 0 else ''}"
+                  f" → adj: {factor:.3f}"
+                  f"{' (roof closed)' if breakdown.get('roof', '').endswith('closed') else ''}"
+                  f"{' (dome)' if breakdown.get('roof') == 'dome' else ''}")
+        else:
+            print(f"  ❓ {venue_name}: Weather unavailable → adj: 1.000")
+
+        time.sleep(0.15)  # Rate limit
+
+    return venue_weather
+
+
+def _wind_arrow(degrees: float) -> str:
+    """Convert wind direction (where FROM) to arrow character."""
+    arrows = ["↓", "↙", "←", "↖", "↑", "↗", "→", "↘"]
+    idx = int((degrees + 22.5) / 45) % 8
+    return arrows[idx]
 
 
 def compute_pitcher_adjustment(
@@ -120,7 +165,7 @@ def compute_pitcher_adjustment(
     return factor, proj
 
 
-def predict_game(game: dict, data: dict) -> dict:
+def predict_game(game: dict, data: dict, venue_weather: dict) -> dict:
     """Generate prediction for a single game."""
     league_rpg = data["league_avg_rpg"]
 
@@ -144,6 +189,12 @@ def predict_game(game: dict, data: dict) -> dict:
     # Park factor
     park_factor = get_park_factor(game.get("venue_id"))
 
+    # Weather adjustment
+    vid = game.get("venue_id")
+    weather_data, weather_factor, weather_breakdown = venue_weather.get(
+        vid, (None, 1.0, {"total": 1.0, "roof": "unknown"})
+    )
+
     # Expected runs: away team batting vs home pitching + home starter
     away_lambda = compute_expected_runs(
         batting_team_off_factor=away_off,
@@ -152,7 +203,7 @@ def predict_game(game: dict, data: dict) -> dict:
         park_factor=park_factor,
         league_avg_rpg=league_rpg,
         is_home=False,
-    )
+    ) * weather_factor
 
     # Home team batting vs away pitching + away starter
     home_lambda = compute_expected_runs(
@@ -162,7 +213,7 @@ def predict_game(game: dict, data: dict) -> dict:
         park_factor=park_factor,
         league_avg_rpg=league_rpg,
         is_home=True,
-    )
+    ) * weather_factor
 
     prediction = generate_prediction(
         away_lambda, home_lambda,
@@ -193,6 +244,11 @@ def predict_game(game: dict, data: dict) -> dict:
     prediction["home_sp_systems"] = (
         home_sp_data.get("systems_count", 0) if home_sp_data else 0
     )
+
+    # Weather data
+    prediction["weather"] = weather_data
+    prediction["weather_factor"] = round(weather_factor, 4)
+    prediction["weather_breakdown"] = weather_breakdown
 
     return prediction
 
@@ -229,6 +285,41 @@ def print_predictions(predictions: list[dict], game_date: str) -> None:
         print(f"\n{'─' * 94}")
         print(f"  Game {i}: {away} @ {home}")
         print(f"  📍 {p['venue']} | Park Factor: {p['park_factor']:.2f}")
+
+        # Weather line
+        w = p.get("weather")
+        wf = p.get("weather_factor", 1.0)
+        wb = p.get("weather_breakdown", {})
+        if w:
+            emoji = "☀️" if w["weather_code"] <= 2 else "⛅" if w["weather_code"] <= 3 else "🌧️"
+            wind_arrow = _wind_arrow(w["wind_direction_deg"])
+            roof_note = ""
+            if wb.get("roof") == "dome":
+                roof_note = " (dome — no weather effect)"
+            elif wb.get("roof", "").endswith("closed"):
+                roof_note = " (roof closed — no weather effect)"
+            weather_impact = ""
+            if abs(wf - 1.0) >= 0.005:
+                direction = "↑ runs" if wf > 1.0 else "↓ runs"
+                weather_impact = f" | Impact: {direction} ({wf:.3f}x)"
+                # Show component breakdown if significant
+                components = []
+                if abs(wb.get("temp", 0)) >= 0.005:
+                    components.append(f"temp {'+'if wb['temp']>0 else ''}{wb['temp']:.1%}")
+                if abs(wb.get("wind", 0)) >= 0.005:
+                    components.append(f"wind {'+'if wb['wind']>0 else ''}{wb['wind']:.1%}")
+                if abs(wb.get("humidity", 0)) >= 0.003:
+                    components.append(f"humid {'+'if wb['humidity']>0 else ''}{wb['humidity']:.1%}")
+                if wb.get("precip", 0) != 0:
+                    components.append(f"rain {wb['precip']:.1%}")
+                if components:
+                    weather_impact += f" [{', '.join(components)}]"
+            print(f"  {emoji} Weather: {w['temp_f']:.0f}°F, {w['wind_mph']:.0f}mph {wind_arrow} "
+                  f"({w['weather_desc']}), {w['humidity']:.0f}% humidity"
+                  f"{roof_note}{weather_impact}")
+        else:
+            print(f"  ❓ Weather: unavailable")
+
         print(f"  📈 Projected Season: {away.split()[-1]} {p['away_proj_wins']:.0f}W | "
               f"{home.split()[-1]} {p['home_proj_wins']:.0f}W")
 
@@ -276,8 +367,8 @@ def print_predictions(predictions: list[dict], game_date: str) -> None:
     print(f"\n{'=' * 94}")
     print(f"  SUMMARY — ALL GAMES")
     print(f"{'=' * 94}")
-    print(f"  {'Matchup':<34} {'Score':>7} {'Win%':>8} {'E[Total]':>8} {'O/U':>6}  {'SP (A/H)':>14}")
-    print(f"  {'─' * 82}")
+    print(f"  {'Matchup':<28} {'Score':>6} {'Win%':>7} {'E[Tot]':>6} {'O/U':>5}  {'SP(A/H)':>12} {'Wx':>6}")
+    print(f"  {'─' * 78}")
 
     for p in predictions:
         away = p["away_team"]
@@ -288,19 +379,21 @@ def print_predictions(predictions: list[dict], game_date: str) -> None:
         fav = "A" if p["win_probability"]["away"] > p["win_probability"]["home"] else "H"
         total = p["expected_total"]
         ou_line = p["over_under"]["line"]
+        wf = p.get("weather_factor", 1.0)
 
-        away_short = away.split()[-1][:6]
-        home_short = home.split()[-1][:6]
-        matchup = f"{away_short:<6} @ {home_short:<6}"
-        sp_adj = f"{p['away_sp_factor']:.2f} / {p['home_sp_factor']:.2f}"
+        away_short = away.split()[-1][:5]
+        home_short = home.split()[-1][:5]
+        matchup = f"{away_short:<5} @ {home_short:<5}"
+        sp_adj = f"{p['away_sp_factor']:.2f}/{p['home_sp_factor']:.2f}"
 
-        print(f"  {matchup:<34} {a_s:>2}-{h_s:<2}  {fav}{fav_pct:>5.1f}%  {total:>7.1f}  {ou_line:>5.1f}  {sp_adj:>14}")
+        print(f"  {matchup:<28} {a_s:>2}-{h_s:<2}  {fav}{fav_pct:>5.1f}% {total:>5.1f}  {ou_line:>4.1f}  {sp_adj:>12} {wf:>5.3f}")
 
     print(f"\n{'=' * 94}")
     print(f"  MODEL METHODOLOGY:")
     print(f"  • Team offense/defense: FanGraphs Depth Charts projected RS/RA per game")
     print(f"  • Pitcher adjustment: Blended ERA/FIP (Steamer + ZiPS + THE BAT)")
     print(f"  • Park factors: Multi-year historical averages (30 venues)")
+    print(f"  • Weather: Live conditions (Open-Meteo) — temp, wind, humidity, precip")
     print(f"  • Home advantage: +0.25 runs | Starter game share: 55%")
     print(f"  • Score distribution: Independent Poisson per team")
     print(f"{'─' * 94}")
@@ -336,11 +429,14 @@ def main():
     # Load projection data
     data = load_projection_data()
 
+    # Fetch weather
+    venue_weather = fetch_weather_for_games(games)
+
     # Generate predictions
     print(f"\n🔮 Generating predictions...")
     predictions = []
     for game in games:
-        pred = predict_game(game, data)
+        pred = predict_game(game, data, venue_weather)
         predictions.append(pred)
 
     print_predictions(predictions, game_date)
