@@ -1,361 +1,239 @@
-"""Pre-season projection data from major projection systems.
+"""Projection data aggregation from Steamer, ZiPS, and THE BAT.
 
-Sources:
-- FanGraphs Depth Charts (50/50 blend of Steamer + ZiPS, prorated to
-  RosterResource playing time) — projected records + WAR breakdowns
-- ZiPS standalone projected standings
-- ESPN projected records
+Loads team-level projected standings (RS/RA per game) and individual
+pitcher projections from FanGraphs API JSON exports. Blends all available
+systems with equal weight for the most robust estimates.
 
-Team projections are blended across systems for more robust estimates.
-Individual pitcher projections can be loaded from CSV exports (see load_pitcher_csv).
+Data files (in data/projections/2026/):
+- fangraphs_projected_standings.json  — Depth Charts composite standings
+- steamer_pitchers.json               — Steamer pitcher projections
+- zips_pitchers.json                  — ZiPS pitcher projections
+- thebat_pitchers.json                — THE BAT pitcher projections
+- steamer_batters.json                — Steamer batter projections
+- zips_batters.json                   — ZiPS batter projections
+- thebat_batters.json                 — THE BAT batter projections
 """
 
+import json
+import os
 from typing import Any
 
-# =============================================================================
-# TEAM PROJECTIONS — 2026 Pre-Season
-# =============================================================================
-# Format: team_name -> {
-#   "dc_w": Depth Charts projected wins,
-#   "dc_l": Depth Charts projected losses,
-#   "zips_w": ZiPS projected wins,
-#   "zips_l": ZiPS projected losses,
-#   "bat_war": Depth Charts projected batter WAR,
-#   "pitch_war": Depth Charts projected pitcher WAR,
-# }
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "projections", "2026")
 
-TEAM_PROJECTIONS_2026 = {
-    "Los Angeles Dodgers": {
-        "dc_w": 99, "dc_l": 63,
-        "zips_w": 97, "zips_l": 65,
-        "bat_war": 35.3, "pitch_war": 20.6,
-    },
-    "New York Mets": {
-        "dc_w": 90, "dc_l": 72,
-        "zips_w": 89, "zips_l": 73,
-        "bat_war": 31.5, "pitch_war": 15.6,
-    },
-    "Atlanta Braves": {
-        "dc_w": 89, "dc_l": 73,
-        "zips_w": 84, "zips_l": 78,
-        "bat_war": 27.6, "pitch_war": 17.3,
-    },
-    "Seattle Mariners": {
-        "dc_w": 88, "dc_l": 74,
-        "zips_w": 88, "zips_l": 74,
-        "bat_war": 29.1, "pitch_war": 17.8,
-    },
-    "Philadelphia Phillies": {
-        "dc_w": 88, "dc_l": 74,
-        "zips_w": 91, "zips_l": 71,
-        "bat_war": 25.9, "pitch_war": 20.9,
-    },
-    "New York Yankees": {
-        "dc_w": 87, "dc_l": 75,
-        "zips_w": 88, "zips_l": 74,
-        "bat_war": 30.2, "pitch_war": 17.0,
-    },
-    "Detroit Tigers": {
-        "dc_w": 86, "dc_l": 76,
-        "zips_w": 86, "zips_l": 76,
-        "bat_war": 24.7, "pitch_war": 20.0,
-    },
-    "Chicago Cubs": {
-        "dc_w": 86, "dc_l": 76,
-        "zips_w": 87, "zips_l": 75,
-        "bat_war": 29.4, "pitch_war": 14.1,
-    },
-    "Toronto Blue Jays": {
-        "dc_w": 85, "dc_l": 77,
-        "zips_w": 89, "zips_l": 73,
-        "bat_war": 30.2, "pitch_war": 17.7,
-    },
-    "Boston Red Sox": {
-        "dc_w": 85, "dc_l": 77,
-        "zips_w": 90, "zips_l": 72,
-        "bat_war": 23.8, "pitch_war": 22.4,
-    },
-    "Baltimore Orioles": {
-        "dc_w": 84, "dc_l": 78,
-        "zips_w": 88, "zips_l": 74,
-        "bat_war": 30.3, "pitch_war": 14.7,
-    },
-    "Pittsburgh Pirates": {
-        "dc_w": 84, "dc_l": 78,
-        "zips_w": 79, "zips_l": 83,
-        "bat_war": 20.2, "pitch_war": 17.2,
-    },
-    "San Francisco Giants": {
-        "dc_w": 82, "dc_l": 80,
-        "zips_w": 84, "zips_l": 78,
-        "bat_war": 26.4, "pitch_war": 12.5,
-    },
-    "Milwaukee Brewers": {
-        "dc_w": 82, "dc_l": 80,
-        "zips_w": 85, "zips_l": 77,
-        "bat_war": 22.6, "pitch_war": 15.8,
-    },
-    "Arizona Diamondbacks": {
-        "dc_w": 82, "dc_l": 80,
-        "zips_w": 82, "zips_l": 80,
-        "bat_war": 25.9, "pitch_war": 12.1,
-    },
-    "Kansas City Royals": {
-        "dc_w": 81, "dc_l": 81,
-        "zips_w": 82, "zips_l": 80,
-        "bat_war": 22.5, "pitch_war": 16.0,
-    },
-    "Texas Rangers": {
-        "dc_w": 81, "dc_l": 81,
-        "zips_w": 81, "zips_l": 81,
-        "bat_war": 23.1, "pitch_war": 16.7,
-    },
-    "Houston Astros": {
-        "dc_w": 80, "dc_l": 82,
-        "zips_w": 84, "zips_l": 78,
-        "bat_war": 26.1, "pitch_war": 14.8,
-    },
-    "Tampa Bay Rays": {
-        "dc_w": 80, "dc_l": 82,
-        "zips_w": 74, "zips_l": 88,
-        "bat_war": 19.9, "pitch_war": 19.1,
-    },
-    "San Diego Padres": {
-        "dc_w": 80, "dc_l": 82,
-        "zips_w": 83, "zips_l": 79,
-        "bat_war": 25.7, "pitch_war": 14.8,
-    },
-    "Athletics": {
-        "dc_w": 79, "dc_l": 83,
-        "zips_w": 74, "zips_l": 88,
-        "bat_war": 25.7, "pitch_war": 11.7,
-    },
-    "Minnesota Twins": {
-        "dc_w": 78, "dc_l": 84,
-        "zips_w": 77, "zips_l": 85,
-        "bat_war": 21.9, "pitch_war": 14.8,
-    },
-    "Cincinnati Reds": {
-        "dc_w": 77, "dc_l": 85,
-        "zips_w": 76, "zips_l": 86,
-        "bat_war": 19.0, "pitch_war": 15.7,
-    },
-    "Cleveland Guardians": {
-        "dc_w": 76, "dc_l": 86,
-        "zips_w": 78, "zips_l": 84,
-        "bat_war": 22.0, "pitch_war": 12.9,
-    },
-    "St. Louis Cardinals": {
-        "dc_w": 75, "dc_l": 87,
-        "zips_w": 76, "zips_l": 86,
-        "bat_war": 22.1, "pitch_war": 9.8,
-    },
-    "Miami Marlins": {
-        "dc_w": 75, "dc_l": 87,
-        "zips_w": 76, "zips_l": 86,
-        "bat_war": 17.4, "pitch_war": 13.6,
-    },
-    "Los Angeles Angels": {
-        "dc_w": 72, "dc_l": 90,
-        "zips_w": 67, "zips_l": 95,
-        "bat_war": 16.4, "pitch_war": 13.1,
-    },
-    "Washington Nationals": {
-        "dc_w": 68, "dc_l": 94,
-        "zips_w": 63, "zips_l": 99,
-        "bat_war": 16.9, "pitch_war": 8.7,
-    },
-    "Chicago White Sox": {
-        "dc_w": 67, "dc_l": 95,
-        "zips_w": 72, "zips_l": 90,
-        "bat_war": 16.1, "pitch_war": 11.5,
-    },
-    "Colorado Rockies": {
-        "dc_w": 65, "dc_l": 97,
-        "zips_w": 60, "zips_l": 102,
-        "bat_war": 14.8, "pitch_war": 7.9,
-    },
+# Team short name → MLB Stats API full name mapping
+_TEAM_NAME_MAP = {
+    "Dodgers": "Los Angeles Dodgers",
+    "Yankees": "New York Yankees",
+    "Mets": "New York Mets",
+    "Mariners": "Seattle Mariners",
+    "Braves": "Atlanta Braves",
+    "Blue Jays": "Toronto Blue Jays",
+    "Phillies": "Philadelphia Phillies",
+    "Red Sox": "Boston Red Sox",
+    "Tigers": "Detroit Tigers",
+    "Orioles": "Baltimore Orioles",
+    "Brewers": "Milwaukee Brewers",
+    "Rangers": "Texas Rangers",
+    "Cubs": "Chicago Cubs",
+    "Pirates": "Pittsburgh Pirates",
+    "Rays": "Tampa Bay Rays",
+    "Astros": "Houston Astros",
+    "Royals": "Kansas City Royals",
+    "Padres": "San Diego Padres",
+    "Diamondbacks": "Arizona Diamondbacks",
+    "Giants": "San Francisco Giants",
+    "Twins": "Minnesota Twins",
+    "Reds": "Cincinnati Reds",
+    "Marlins": "Miami Marlins",
+    "Guardians": "Cleveland Guardians",
+    "Athletics": "Athletics",
+    "Cardinals": "St. Louis Cardinals",
+    "Angels": "Los Angeles Angels",
+    "Nationals": "Washington Nationals",
+    "White Sox": "Chicago White Sox",
+    "Rockies": "Colorado Rockies",
 }
 
+# Reverse: full name → short name
+_FULL_TO_SHORT = {v: k for k, v in _TEAM_NAME_MAP.items()}
+
+
+def _load_json(filename: str) -> Any:
+    """Load a JSON file from the projections data directory."""
+    filepath = os.path.join(DATA_DIR, filename)
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, "r") as f:
+        return json.load(f)
+
 
 # =============================================================================
-# DERIVED TEAM STRENGTH — Runs Scored / Runs Allowed
+# TEAM PROJECTED STANDINGS (Depth Charts composite)
 # =============================================================================
-# We derive projected RS/RA from the blended projected records using
-# the inverse PythagenPat formula, anchored to league-average run environment.
 
-LEAGUE_AVG_RPG_2026 = 4.50  # Projected league-average runs per game
-REPLACEMENT_LEVEL_WINS = 47.7  # Replacement-level wins over 162 games
-RUNS_PER_WAR = 10.0  # ~10 runs of value per 1 WAR
+_standings_cache: dict[str, dict] | None = None
 
 
-def _compute_projected_rs_ra(proj: dict) -> tuple[float, float]:
-    """Derive projected runs scored and allowed from WAR + blended record.
+def _load_standings() -> dict[str, dict]:
+    """Load and cache projected standings keyed by full team name."""
+    global _standings_cache
+    if _standings_cache is not None:
+        return _standings_cache
 
-    Uses two signals:
-    1. Blended W-L record → total run differential via PythagenPat inverse
-    2. WAR split (bat vs pitch) → apportion differential to offense vs defense
+    data = _load_json("fangraphs_projected_standings.json")
+    if not data:
+        _standings_cache = {}
+        return _standings_cache
 
-    Returns (projected_rs_per_game, projected_ra_per_game).
-    """
-    # Blend Depth Charts and ZiPS records (60/40 weight — DC is more current)
-    blended_w = proj["dc_w"] * 0.6 + proj["zips_w"] * 0.4
-    blended_l = proj["dc_l"] * 0.6 + proj["zips_l"] * 0.4
-    win_pct = blended_w / (blended_w + blended_l)
+    standings = {}
+    for team in data:
+        short = team.get("shortName", "")
+        full_name = _TEAM_NAME_MAP.get(short, short)
+        standings[full_name] = {
+            "xW": team.get("xW", 81),
+            "xL": team.get("xL", 81),
+            "xRpG": team.get("xRpG", 4.5),
+            "xRApG": team.get("xRApG", 4.5),
+            "xRS": team.get("xRS", 729),
+            "xRA": team.get("xRA", 729),
+        }
 
-    # Total projected WAR
-    total_war = proj["bat_war"] + proj["pitch_war"]
+    _standings_cache = standings
+    return _standings_cache
 
-    # WAR-based run differential (above replacement)
-    # Replacement team: ~47.7 wins → needs ~(81 - 47.7) * 10 = 333 runs above repl
-    war_above_avg = total_war - 22.7  # ~22.7 WAR = average team (81-win pace)
-    run_diff_from_war = war_above_avg * RUNS_PER_WAR
 
-    # Split differential: offensive WAR → runs scored boost, pitching WAR → runs allowed reduction
-    avg_bat_war = 23.0  # approximate league average batter WAR
-    avg_pitch_war = 14.9  # approximate league average pitcher WAR
-    offensive_boost = (proj["bat_war"] - avg_bat_war) * RUNS_PER_WAR
-    defensive_boost = (proj["pitch_war"] - avg_pitch_war) * RUNS_PER_WAR
+def get_league_avg_rpg() -> float:
+    """Compute league average runs per game from projected standings."""
+    standings = _load_standings()
+    if not standings:
+        return 4.50
+    total_rpg = sum(t["xRpG"] for t in standings.values())
+    return total_rpg / len(standings)
 
-    # Projected runs per game
-    rs_per_game = LEAGUE_AVG_RPG_2026 + (offensive_boost / 162)
-    ra_per_game = LEAGUE_AVG_RPG_2026 - (defensive_boost / 162)
 
-    # Sanity bounds
-    rs_per_game = max(3.2, min(rs_per_game, 5.8))
-    ra_per_game = max(3.2, min(ra_per_game, 5.8))
+LEAGUE_AVG_RPG_2026 = None  # Set lazily
 
-    return rs_per_game, ra_per_game
+
+def _get_league_avg() -> float:
+    global LEAGUE_AVG_RPG_2026
+    if LEAGUE_AVG_RPG_2026 is None:
+        LEAGUE_AVG_RPG_2026 = get_league_avg_rpg()
+    return LEAGUE_AVG_RPG_2026
 
 
 def get_team_projected_strength(team_name: str) -> dict[str, float]:
     """Get a team's projected offensive and defensive strength.
 
-    Returns {
-        "proj_rs_per_game": float,  # Projected runs scored per game
-        "proj_ra_per_game": float,  # Projected runs allowed per game
-        "proj_off_factor": float,   # Offensive factor (1.0 = league avg)
-        "proj_def_factor": float,   # Defensive factor (<1.0 = better defense)
-        "blended_wins": float,      # Blended projected wins
-        "bat_war": float,
-        "pitch_war": float,
-    }
+    Uses FanGraphs Depth Charts projected standings (composite of
+    Steamer + ZiPS, prorated to actual roster depth).
+
+    Returns projected RS/RA per game and strength factors normalized
+    to the league average.
     """
-    proj = TEAM_PROJECTIONS_2026.get(team_name)
-    if proj is None:
+    standings = _load_standings()
+    league_avg = _get_league_avg()
+
+    team = standings.get(team_name)
+    if team is None:
         return {
-            "proj_rs_per_game": LEAGUE_AVG_RPG_2026,
-            "proj_ra_per_game": LEAGUE_AVG_RPG_2026,
+            "proj_rs_per_game": league_avg,
+            "proj_ra_per_game": league_avg,
             "proj_off_factor": 1.0,
             "proj_def_factor": 1.0,
-            "blended_wins": 81.0,
-            "bat_war": 23.0,
-            "pitch_war": 14.9,
+            "proj_wins": 81.0,
         }
 
-    rs, ra = _compute_projected_rs_ra(proj)
-    blended_w = proj["dc_w"] * 0.6 + proj["zips_w"] * 0.4
+    rs_pg = team["xRpG"]
+    ra_pg = team["xRApG"]
 
     return {
-        "proj_rs_per_game": round(rs, 3),
-        "proj_ra_per_game": round(ra, 3),
-        "proj_off_factor": round(rs / LEAGUE_AVG_RPG_2026, 4),
-        "proj_def_factor": round(ra / LEAGUE_AVG_RPG_2026, 4),
-        "blended_wins": round(blended_w, 1),
-        "bat_war": proj["bat_war"],
-        "pitch_war": proj["pitch_war"],
+        "proj_rs_per_game": round(rs_pg, 3),
+        "proj_ra_per_game": round(ra_pg, 3),
+        "proj_off_factor": round(rs_pg / league_avg, 4),
+        "proj_def_factor": round(ra_pg / league_avg, 4),
+        "proj_wins": round(team["xW"], 1),
     }
 
 
 # =============================================================================
-# PITCHER PROJECTIONS — CSV Import
+# PITCHER PROJECTIONS — Blended from Steamer, ZiPS, THE BAT
 # =============================================================================
-# Users can export pitcher projections from FanGraphs as CSV:
-#   - Steamer: projections?type=steamer&stats=pit
-#   - ZiPS: projections?type=zips&stats=pit
-#   - THE BAT: projections?type=thebat&stats=pit
-#
-# Place CSVs in data/ directory:
-#   data/steamer_pitchers.csv
-#   data/zips_pitchers.csv
-#   data/thebat_pitchers.csv
-
-import csv
-import os
 
 PROJECTION_SYSTEMS = ["steamer", "zips", "thebat"]
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+
+_pitcher_cache: dict[str, dict] | None = None
 
 
-def load_pitcher_csv(filepath: str) -> dict[str, dict[str, float]]:
-    """Load pitcher projections from a FanGraphs CSV export.
+def _load_pitcher_json(system: str) -> dict[str, dict[str, float]]:
+    """Load pitcher projections from a FanGraphs API JSON export."""
+    data = _load_json(f"{system}_pitchers.json")
+    if not data:
+        return {}
 
-    Expected columns: Name, Team, ERA, FIP, WHIP, K/9, BB/9, IP, WAR
-    (FanGraphs exports use these column names)
-
-    Returns: {pitcher_name: {era, fip, whip, k9, bb9, ip, war}}
-    """
     pitchers = {}
-    if not os.path.exists(filepath):
-        return pitchers
+    for row in data:
+        name = row.get("PlayerName", "")
+        if not name:
+            continue
 
-    with open(filepath, "r", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            name = row.get("Name") or row.get("PlayerName") or row.get("name", "")
-            if not name:
-                continue
+        ip = row.get("IP", 0) or 0
+        era = row.get("ERA", 0) or 0
+        if ip < 1 or era == 0:
+            continue
 
-            def _float(key: str, *alt_keys: str) -> float:
-                for k in (key, *alt_keys):
-                    val = row.get(k, "")
-                    try:
-                        return float(val)
-                    except (ValueError, TypeError):
-                        continue
-                return 0.0
-
-            pitchers[name] = {
-                "era": _float("ERA"),
-                "fip": _float("FIP"),
-                "whip": _float("WHIP"),
-                "k9": _float("K/9", "K9"),
-                "bb9": _float("BB/9", "BB9"),
-                "ip": _float("IP"),
-                "war": _float("WAR"),
-                "team": row.get("Team", row.get("team", "")),
-            }
+        pitchers[name] = {
+            "era": era,
+            "fip": row.get("FIP", 0) or 0,
+            "whip": row.get("WHIP", 0) or 0,
+            "k9": row.get("K/9", 0) or 0,
+            "bb9": row.get("BB/9", 0) or 0,
+            "ip": ip,
+            "war": row.get("WAR", 0) or 0,
+            "k_pct": row.get("K%", 0) or 0,
+            "bb_pct": row.get("BB%", 0) or 0,
+            "gb_pct": row.get("GB%", 0) or 0,
+            "babip": row.get("BABIP", 0) or 0,
+            "lob_pct": row.get("LOB%", 0) or 0,
+            "team": row.get("Team", ""),
+            "mlbam_id": row.get("xMLBAMID"),
+            "gs": row.get("GS", 0) or 0,
+        }
 
     return pitchers
 
 
 def load_all_pitcher_projections() -> dict[str, dict[str, Any]]:
-    """Load and blend pitcher projections from all available CSV systems.
+    """Load and blend pitcher projections from all available systems.
 
-    Blends Steamer, ZiPS, and THE BAT with equal weight for available systems.
-    Returns: {pitcher_name: {era, fip, whip, k9, bb9, ip, war, systems_count}}
+    Equal-weights Steamer, ZiPS, and THE BAT for each pitcher.
+    Returns: {pitcher_name: {era, fip, whip, k9, bb9, ip, war, ...}}
     """
+    global _pitcher_cache
+    if _pitcher_cache is not None:
+        return _pitcher_cache
+
     all_systems = {}
     systems_loaded = []
 
     for system in PROJECTION_SYSTEMS:
-        filepath = os.path.join(DATA_DIR, f"{system}_pitchers.csv")
-        data = load_pitcher_csv(filepath)
+        data = _load_pitcher_json(system)
         if data:
             all_systems[system] = data
             systems_loaded.append(system)
 
     if not all_systems:
-        return {}
+        _pitcher_cache = {}
+        return _pitcher_cache
 
-    # Collect all pitcher names across systems
+    # Collect all pitcher names
     all_names = set()
     for system_data in all_systems.values():
         all_names.update(system_data.keys())
 
-    # Blend projections with equal weight
+    # Blend with equal weight
+    stat_keys = ["era", "fip", "whip", "k9", "bb9", "ip", "war",
+                 "k_pct", "bb_pct", "gb_pct", "babip", "lob_pct", "gs"]
     blended = {}
-    stat_keys = ["era", "fip", "whip", "k9", "bb9", "ip", "war"]
 
     for name in all_names:
         available = []
@@ -368,11 +246,108 @@ def load_all_pitcher_projections() -> dict[str, dict[str, Any]]:
 
         blended_stats = {}
         for key in stat_keys:
-            values = [s[key] for s in available if s[key] > 0]
+            values = [s[key] for s in available if s.get(key, 0)]
             blended_stats[key] = sum(values) / len(values) if values else 0.0
 
         blended_stats["systems_count"] = len(available)
+        blended_stats["systems"] = [
+            sys for sys in systems_loaded if name in all_systems[sys]
+        ]
         blended_stats["team"] = available[0].get("team", "")
+        blended_stats["mlbam_id"] = available[0].get("mlbam_id")
+
+        # Per-system breakdown for transparency
+        blended_stats["by_system"] = {}
+        for system in systems_loaded:
+            if name in all_systems[system]:
+                blended_stats["by_system"][system] = {
+                    "era": all_systems[system][name]["era"],
+                    "fip": all_systems[system][name]["fip"],
+                    "ip": all_systems[system][name]["ip"],
+                }
+
         blended[name] = blended_stats
 
-    return blended
+    _pitcher_cache = blended
+    return _pitcher_cache
+
+
+# =============================================================================
+# BATTER PROJECTIONS — Aggregate team offense from individual projections
+# =============================================================================
+
+_batter_cache: dict[str, dict] | None = None
+
+
+def _load_batter_json(system: str) -> list[dict]:
+    """Load batter projections from a FanGraphs API JSON export."""
+    data = _load_json(f"{system}_batters.json")
+    return data if data else []
+
+
+def load_team_batting_projections() -> dict[str, dict[str, float]]:
+    """Aggregate individual batter projections to team level.
+
+    Sums projected PA, R, HR, and computes weighted-average OPS/wOBA
+    across all systems, then averages per team.
+
+    Returns: {team_short_name: {ops, woba, runs, hr, pa, ...}}
+    """
+    global _batter_cache
+    if _batter_cache is not None:
+        return _batter_cache
+
+    team_totals: dict[str, dict[str, list[float]]] = {}
+
+    for system in PROJECTION_SYSTEMS:
+        batters = _load_batter_json(system)
+        if not batters:
+            continue
+
+        # Aggregate by team for this system
+        sys_teams: dict[str, dict[str, float]] = {}
+        for b in batters:
+            team = b.get("Team", "")
+            if not team:
+                continue
+            pa = b.get("PA", 0) or 0
+            if pa < 10:
+                continue
+
+            if team not in sys_teams:
+                sys_teams[team] = {"pa": 0, "r": 0, "hr": 0, "ops_sum": 0,
+                                   "woba_sum": 0, "pa_weight": 0}
+
+            t = sys_teams[team]
+            t["pa"] += pa
+            t["r"] += b.get("R", 0) or 0
+            t["hr"] += b.get("HR", 0) or 0
+            ops = b.get("OPS", 0) or 0
+            woba = b.get("wOBA", 0) or 0
+            t["ops_sum"] += ops * pa
+            t["woba_sum"] += woba * pa
+            t["pa_weight"] += pa
+
+        # Store per-system results
+        for team, t in sys_teams.items():
+            if team not in team_totals:
+                team_totals[team] = {"ops": [], "woba": [], "r_per_pa": []}
+            if t["pa_weight"] > 0:
+                team_totals[team]["ops"].append(t["ops_sum"] / t["pa_weight"])
+                team_totals[team]["woba"].append(t["woba_sum"] / t["pa_weight"])
+            if t["pa"] > 0:
+                team_totals[team]["r_per_pa"].append(t["r"] / t["pa"])
+
+    # Average across systems
+    result = {}
+    for team, totals in team_totals.items():
+        full_name = _TEAM_NAME_MAP.get(team, team)
+        result[full_name] = {
+            "ops": sum(totals["ops"]) / len(totals["ops"]) if totals["ops"] else 0.720,
+            "woba": sum(totals["woba"]) / len(totals["woba"]) if totals["woba"] else 0.320,
+            "r_per_pa": (sum(totals["r_per_pa"]) / len(totals["r_per_pa"])
+                         if totals["r_per_pa"] else 0.11),
+        }
+
+    _batter_cache = result
+    return _batter_cache
