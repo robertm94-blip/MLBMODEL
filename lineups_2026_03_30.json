@@ -1,0 +1,5838 @@
+{
+  "date": "2026-03-30",
+  "total_games": 15,
+  "games": {
+    "824135": {
+      "game_id": 824135,
+      "status": "In Progress",
+      "away_team": "Minnesota Twins",
+      "away_team_id": 142,
+      "home_team": "Kansas City Royals",
+      "home_team_id": 118,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Austin Martin",
+          "id": 668885,
+          "position": "LF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Byron Buxton",
+          "id": 621439,
+          "position": "CF"
+        },
+        {
+          "batting_order": 3,
+          "name": "Luke Keaschall",
+          "id": 807712,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Ryan Jeffers",
+          "id": 680777,
+          "position": "C"
+        },
+        {
+          "batting_order": 5,
+          "name": "Matt Wallner",
+          "id": 670242,
+          "position": "RF"
+        },
+        {
+          "batting_order": 6,
+          "name": "Josh Bell",
+          "id": 605137,
+          "position": "DH"
+        },
+        {
+          "batting_order": 7,
+          "name": "Victor Caratini",
+          "id": 605170,
+          "position": "1B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Royce Lewis",
+          "id": 668904,
+          "position": "3B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Brooks Lee",
+          "id": 686797,
+          "position": "SS"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Maikel Garcia",
+          "id": 672580,
+          "position": "3B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Bobby Witt Jr.",
+          "id": 677951,
+          "position": "SS"
+        },
+        {
+          "batting_order": 3,
+          "name": "Vinnie Pasquantino",
+          "id": 686469,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Salvador Perez",
+          "id": 521692,
+          "position": "C"
+        },
+        {
+          "batting_order": 5,
+          "name": "Carter Jensen",
+          "id": 695600,
+          "position": "DH"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jonathan India",
+          "id": 663697,
+          "position": "2B"
+        },
+        {
+          "batting_order": 7,
+          "name": "Jac Caglianone",
+          "id": 695506,
+          "position": "RF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Isaac Collins",
+          "id": 686555,
+          "position": "LF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Kyle Isbel",
+          "id": 664728,
+          "position": "CF"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "824863": {
+      "game_id": 824863,
+      "status": "Pre-Game",
+      "away_team": "Texas Rangers",
+      "away_team_id": 140,
+      "home_team": "Baltimore Orioles",
+      "home_team_id": 110,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Brandon Nimmo",
+          "id": 607043,
+          "position": "RF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Wyatt Langford",
+          "id": 694671,
+          "position": "LF"
+        },
+        {
+          "batting_order": 3,
+          "name": "Corey Seager",
+          "id": 608369,
+          "position": "SS"
+        },
+        {
+          "batting_order": 4,
+          "name": "Jake Burger",
+          "id": 669394,
+          "position": "1B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Joc Pederson",
+          "id": 592626,
+          "position": "DH"
+        },
+        {
+          "batting_order": 6,
+          "name": "Josh Smith",
+          "id": 669701,
+          "position": "2B"
+        },
+        {
+          "batting_order": 7,
+          "name": "Josh Jung",
+          "id": 673962,
+          "position": "3B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Evan Carter",
+          "id": 694497,
+          "position": "CF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Kyle Higashioka",
+          "id": 543309,
+          "position": "C"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Taylor Ward",
+          "id": 621493,
+          "position": "LF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Gunnar Henderson",
+          "id": 683002,
+          "position": "SS"
+        },
+        {
+          "batting_order": 3,
+          "name": "Pete Alonso",
+          "id": 624413,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Adley Rutschman",
+          "id": 668939,
+          "position": "C"
+        },
+        {
+          "batting_order": 5,
+          "name": "Tyler O'Neill",
+          "id": 641933,
+          "position": "DH"
+        },
+        {
+          "batting_order": 6,
+          "name": "Dylan Beavers",
+          "id": 687637,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Coby Mayo",
+          "id": 691723,
+          "position": "3B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Colton Cowser",
+          "id": 681297,
+          "position": "CF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Blaze Alexander",
+          "id": 677942,
+          "position": "2B"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "824539": {
+      "game_id": 824539,
+      "status": "Pre-Game",
+      "away_team": "Pittsburgh Pirates",
+      "away_team_id": 134,
+      "home_team": "Cincinnati Reds",
+      "home_team_id": 113,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Oneil Cruz",
+          "id": 665833,
+          "position": "CF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Brandon Lowe",
+          "id": 664040,
+          "position": "2B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Bryan Reynolds",
+          "id": 668804,
+          "position": "LF"
+        },
+        {
+          "batting_order": 4,
+          "name": "Marcell Ozuna",
+          "id": 542303,
+          "position": "DH"
+        },
+        {
+          "batting_order": 5,
+          "name": "Ryan O'Hearn",
+          "id": 656811,
+          "position": "RF"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jared Triolo",
+          "id": 669707,
+          "position": "SS"
+        },
+        {
+          "batting_order": 7,
+          "name": "Spencer Horwitz",
+          "id": 687462,
+          "position": "1B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Nick Gonzales",
+          "id": 693304,
+          "position": "3B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Henry Davis",
+          "id": 680779,
+          "position": "C"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "TJ Friedl",
+          "id": 670770,
+          "position": "CF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Matt McLain",
+          "id": 680574,
+          "position": "2B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Elly De La Cruz",
+          "id": 682829,
+          "position": "SS"
+        },
+        {
+          "batting_order": 4,
+          "name": "Sal Stewart",
+          "id": 701398,
+          "position": "1B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Eugenio Suárez",
+          "id": 553993,
+          "position": "DH"
+        },
+        {
+          "batting_order": 6,
+          "name": "Spencer Steer",
+          "id": 668715,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Will Benson",
+          "id": 666181,
+          "position": "RF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Tyler Stephenson",
+          "id": 663886,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Ke'Bryan Hayes",
+          "id": 663647,
+          "position": "3B"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "823484": {
+      "game_id": 823484,
+      "status": "Pre-Game",
+      "away_team": "Washington Nationals",
+      "away_team_id": 120,
+      "home_team": "Philadelphia Phillies",
+      "home_team_id": 143,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "James Wood",
+          "id": 695578,
+          "position": "RF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Luis García Jr.",
+          "id": 671277,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Brady House",
+          "id": 691781,
+          "position": "3B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Daylen Lile",
+          "id": 695734,
+          "position": "LF"
+        },
+        {
+          "batting_order": 5,
+          "name": "CJ Abrams",
+          "id": 682928,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Drew Millas",
+          "id": 686452,
+          "position": "C"
+        },
+        {
+          "batting_order": 7,
+          "name": "José Tena",
+          "id": 677588,
+          "position": "DH"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jorbit Vivas",
+          "id": 678391,
+          "position": "2B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Joey Wiemer",
+          "id": 686894,
+          "position": "CF"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Trea Turner",
+          "id": 607208,
+          "position": "SS"
+        },
+        {
+          "batting_order": 2,
+          "name": "Kyle Schwarber",
+          "id": 656941,
+          "position": "DH"
+        },
+        {
+          "batting_order": 3,
+          "name": "Bryce Harper",
+          "id": 547180,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Alec Bohm",
+          "id": 664761,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Adolis García",
+          "id": 666969,
+          "position": "RF"
+        },
+        {
+          "batting_order": 6,
+          "name": "Edmundo Sosa",
+          "id": 624641,
+          "position": "2B"
+        },
+        {
+          "batting_order": 7,
+          "name": "Otto Kemp",
+          "id": 805249,
+          "position": "LF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Brandon Marsh",
+          "id": 669016,
+          "position": "CF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Rafael Marchán",
+          "id": 665561,
+          "position": "C"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "823890": {
+      "game_id": 823890,
+      "status": "Pre-Game",
+      "away_team": "Chicago White Sox",
+      "away_team_id": 145,
+      "home_team": "Miami Marlins",
+      "home_team_id": 146,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Miguel Vargas",
+          "id": 678246,
+          "position": "1B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Munetaka Murakami",
+          "id": 808959,
+          "position": "DH"
+        },
+        {
+          "batting_order": 3,
+          "name": "Austin Hays",
+          "id": 669720,
+          "position": "LF"
+        },
+        {
+          "batting_order": 4,
+          "name": "Colson Montgomery",
+          "id": 695657,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Lenyn Sosa",
+          "id": 672820,
+          "position": "2B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Tristan Peters",
+          "id": 671976,
+          "position": "CF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Everson Pereira",
+          "id": 677592,
+          "position": "RF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Edgar Quero",
+          "id": 700337,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Luisangel Acuña",
+          "id": 682668,
+          "position": "SS"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Jakob Marsee",
+          "id": 805300,
+          "position": "CF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Xavier Edwards",
+          "id": 669364,
+          "position": "2B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Agustín Ramírez",
+          "id": 682663,
+          "position": "DH"
+        },
+        {
+          "batting_order": 4,
+          "name": "Liam Hicks",
+          "id": 689414,
+          "position": "C"
+        },
+        {
+          "batting_order": 5,
+          "name": "Otto Lopez",
+          "id": 672640,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Owen Caissie",
+          "id": 683357,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Connor Norby",
+          "id": 681393,
+          "position": "1B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Griffin Conine",
+          "id": 665052,
+          "position": "LF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Graham Pauley",
+          "id": 688363,
+          "position": "3B"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "822834": {
+      "game_id": 822834,
+      "status": "Pre-Game",
+      "away_team": "Colorado Rockies",
+      "away_team_id": 115,
+      "home_team": "Toronto Blue Jays",
+      "home_team_id": 141,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Jake McCarthy",
+          "id": 664983,
+          "position": "CF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Hunter Goodman",
+          "id": 696100,
+          "position": "C"
+        },
+        {
+          "batting_order": 3,
+          "name": "Willi Castro",
+          "id": 650489,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Ezequiel Tovar",
+          "id": 678662,
+          "position": "SS"
+        },
+        {
+          "batting_order": 5,
+          "name": "TJ Rumfield",
+          "id": 681198,
+          "position": "1B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Troy Johnston",
+          "id": 687859,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Jordan Beck",
+          "id": 687597,
+          "position": "LF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Kyle Karros",
+          "id": 691720,
+          "position": "3B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Edouard Julien",
+          "id": 666397,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "George Springer",
+          "id": 543807,
+          "position": "DH"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jesús Sánchez",
+          "id": 660821,
+          "position": "LF"
+        },
+        {
+          "batting_order": 3,
+          "name": "Vladimir Guerrero Jr.",
+          "id": 665489,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Addison Barger",
+          "id": 680718,
+          "position": "RF"
+        },
+        {
+          "batting_order": 5,
+          "name": "Alejandro Kirk",
+          "id": 672386,
+          "position": "C"
+        },
+        {
+          "batting_order": 6,
+          "name": "Daulton Varsho",
+          "id": 662139,
+          "position": "CF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Kazuma Okamoto",
+          "id": 672960,
+          "position": "3B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Ernie Clement",
+          "id": 676391,
+          "position": "2B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Andrés Giménez",
+          "id": 665926,
+          "position": "SS"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "824943": {
+      "game_id": 824943,
+      "status": "Pre-Game",
+      "away_team": "Athletics",
+      "away_team_id": 133,
+      "home_team": "Atlanta Braves",
+      "home_team_id": 144,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Nick Kurtz",
+          "id": 701762,
+          "position": "1B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Shea Langeliers",
+          "id": 669127,
+          "position": "C"
+        },
+        {
+          "batting_order": 3,
+          "name": "Tyler Soderstrom",
+          "id": 691016,
+          "position": "LF"
+        },
+        {
+          "batting_order": 4,
+          "name": "Brent Rooker",
+          "id": 667670,
+          "position": "DH"
+        },
+        {
+          "batting_order": 5,
+          "name": "Jacob Wilson",
+          "id": 805779,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Lawrence Butler",
+          "id": 671732,
+          "position": "CF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Max Muncy",
+          "id": 691777,
+          "position": "3B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jeff McNeil",
+          "id": 643446,
+          "position": "2B"
+        },
+        {
+          "batting_order": 9,
+          "name": "Carlos Cortes",
+          "id": 666126,
+          "position": "RF"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Ronald Acuña Jr.",
+          "id": 660670,
+          "position": "RF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Drake Baldwin",
+          "id": 686948,
+          "position": "DH"
+        },
+        {
+          "batting_order": 3,
+          "name": "Ozzie Albies",
+          "id": 645277,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Matt Olson",
+          "id": 621566,
+          "position": "1B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Austin Riley",
+          "id": 663586,
+          "position": "3B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Eli White",
+          "id": 642201,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Mauricio Dubón",
+          "id": 643289,
+          "position": "SS"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jonah Heim",
+          "id": 641680,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Michael Harris II",
+          "id": 671739,
+          "position": "CF"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "824702": {
+      "game_id": 824702,
+      "status": "Pre-Game",
+      "away_team": "Los Angeles Angels",
+      "away_team_id": 108,
+      "home_team": "Chicago Cubs",
+      "home_team_id": 112,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Zach Neto",
+          "id": 687263,
+          "position": "SS"
+        },
+        {
+          "batting_order": 2,
+          "name": "Mike Trout",
+          "id": 545361,
+          "position": "CF"
+        },
+        {
+          "batting_order": 3,
+          "name": "Nolan Schanuel",
+          "id": 694384,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Jorge Soler",
+          "id": 624585,
+          "position": "DH"
+        },
+        {
+          "batting_order": 5,
+          "name": "Yoán Moncada",
+          "id": 660162,
+          "position": "3B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jo Adell",
+          "id": 666176,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Josh Lowe",
+          "id": 666139,
+          "position": "LF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Logan O'Hoppe",
+          "id": 681351,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Oswald Peraza",
+          "id": 672724,
+          "position": "2B"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Carson Kelly",
+          "id": 608348,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Michael Busch",
+          "id": 683737,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Nico Hoerner",
+          "id": 663538,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Alex Bregman",
+          "id": 608324,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Dansby Swanson",
+          "id": 621020,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Ian Happ",
+          "id": 664023,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Pete Crow-Armstrong",
+          "id": 691718,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Michael Conforto",
+          "id": 624424,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Moisés Ballesteros",
+          "id": 694208,
+          "position": "DH"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "depth_chart_projection"
+    },
+    "823809": {
+      "game_id": 823809,
+      "status": "Scheduled",
+      "away_team": "Tampa Bay Rays",
+      "away_team_id": 139,
+      "home_team": "Milwaukee Brewers",
+      "home_team_id": 158,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Nick Fortes",
+          "id": 663743,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jonathan Aranda",
+          "id": 666018,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Richie Palacios",
+          "id": 680700,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Junior Caminero",
+          "id": 691406,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Carson Williams",
+          "id": 700246,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Chandler Simpson",
+          "id": 802415,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Cedric Mullins",
+          "id": 656775,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jake Fraley",
+          "id": 641584,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Yandy Díaz",
+          "id": 650490,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "William Contreras",
+          "id": 661388,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jake Bauers",
+          "id": 641343,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Brice Turang",
+          "id": 668930,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Luis Rengifo",
+          "id": 650859,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Joey Ortiz",
+          "id": 687401,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Christian Yelich",
+          "id": 592885,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Garrett Mitchell",
+          "id": 669003,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Sal Frelick",
+          "id": 686217,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Christian Yelich",
+          "id": 592885,
+          "position": "DH"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "depth_chart_projection"
+    },
+    "823080": {
+      "game_id": 823080,
+      "status": "Pre-Game",
+      "away_team": "New York Mets",
+      "away_team_id": 121,
+      "home_team": "St. Louis Cardinals",
+      "home_team_id": 138,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Francisco Alvarez",
+          "id": 682626,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jorge Polanco",
+          "id": 593871,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Marcus Semien",
+          "id": 543760,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Bo Bichette",
+          "id": 666182,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Francisco Lindor",
+          "id": 596019,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Juan Soto",
+          "id": 665742,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Luis Robert Jr.",
+          "id": 673357,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Carson Benge",
+          "id": 701807,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Brett Baty",
+          "id": 683146,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "JJ Wetherholt",
+          "id": 802139,
+          "position": "2B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Iván Herrera",
+          "id": 671056,
+          "position": "DH"
+        },
+        {
+          "batting_order": 3,
+          "name": "Alec Burleson",
+          "id": 676475,
+          "position": "1B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Masyn Winn",
+          "id": 691026,
+          "position": "SS"
+        },
+        {
+          "batting_order": 5,
+          "name": "Nolan Gorman",
+          "id": 669357,
+          "position": "3B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jordan Walker",
+          "id": 691023,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Nathan Church",
+          "id": 701675,
+          "position": "LF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Pedro Pagés",
+          "id": 686780,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Victor Scott II",
+          "id": 687363,
+          "position": "CF"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "official_lineup"
+    },
+    "824214": {
+      "game_id": 824214,
+      "status": "Pre-Game",
+      "away_team": "Boston Red Sox",
+      "away_team_id": 111,
+      "home_team": "Houston Astros",
+      "home_team_id": 117,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Roman Anthony",
+          "id": 701350,
+          "position": "LF"
+        },
+        {
+          "batting_order": 2,
+          "name": "Trevor Story",
+          "id": 596115,
+          "position": "SS"
+        },
+        {
+          "batting_order": 3,
+          "name": "Jarren Duran",
+          "id": 680776,
+          "position": "DH"
+        },
+        {
+          "batting_order": 4,
+          "name": "Willson Contreras",
+          "id": 575929,
+          "position": "1B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Wilyer Abreu",
+          "id": 677800,
+          "position": "RF"
+        },
+        {
+          "batting_order": 6,
+          "name": "Caleb Durbin",
+          "id": 702332,
+          "position": "3B"
+        },
+        {
+          "batting_order": 7,
+          "name": "Marcelo Mayer",
+          "id": 691785,
+          "position": "2B"
+        },
+        {
+          "batting_order": 8,
+          "name": "Carlos Narváez",
+          "id": 665966,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Ceddanne Rafaela",
+          "id": 678882,
+          "position": "CF"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Jose Altuve",
+          "id": 514888,
+          "position": "2B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Yordan Alvarez",
+          "id": 670541,
+          "position": "DH"
+        },
+        {
+          "batting_order": 3,
+          "name": "Isaac Paredes",
+          "id": 670623,
+          "position": "3B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Carlos Correa",
+          "id": 621043,
+          "position": "SS"
+        },
+        {
+          "batting_order": 5,
+          "name": "Christian Walker",
+          "id": 572233,
+          "position": "1B"
+        },
+        {
+          "batting_order": 6,
+          "name": "Cam Smith",
+          "id": 701358,
+          "position": "RF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Jake Meyers",
+          "id": 676694,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Yainer Diaz",
+          "id": 673237,
+          "position": "C"
+        },
+        {
+          "batting_order": 9,
+          "name": "Brice Matthews",
+          "id": 694728,
+          "position": "LF"
+        }
+      ],
+      "away_lineup_source": "official_lineup",
+      "home_lineup_source": "official_lineup"
+    },
+    "823320": {
+      "game_id": 823320,
+      "status": "Pre-Game",
+      "away_team": "San Francisco Giants",
+      "away_team_id": 137,
+      "home_team": "San Diego Padres",
+      "home_team_id": 135,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Patrick Bailey",
+          "id": 672275,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Rafael Devers",
+          "id": 646240,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Luis Arraez",
+          "id": 650333,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Matt Chapman",
+          "id": 656305,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Willy Adames",
+          "id": 642715,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Heliot Ramos",
+          "id": 671218,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Harrison Bader",
+          "id": 664056,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jung Hoo Lee",
+          "id": 808982,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Jerar Encarnacion",
+          "id": 666464,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Jake Cronenworth",
+          "id": 630105,
+          "position": "2B"
+        },
+        {
+          "batting_order": 2,
+          "name": "Fernando Tatis Jr.",
+          "id": 665487,
+          "position": "RF"
+        },
+        {
+          "batting_order": 3,
+          "name": "Manny Machado",
+          "id": 592518,
+          "position": "3B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Jackson Merrill",
+          "id": 701538,
+          "position": "CF"
+        },
+        {
+          "batting_order": 5,
+          "name": "Xander Bogaerts",
+          "id": 593428,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Gavin Sheets",
+          "id": 657757,
+          "position": "1B"
+        },
+        {
+          "batting_order": 7,
+          "name": "Ramón Laureano",
+          "id": 657656,
+          "position": "LF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Nick Castellanos",
+          "id": 592206,
+          "position": "DH"
+        },
+        {
+          "batting_order": 9,
+          "name": "Luis Campusano",
+          "id": 669134,
+          "position": "C"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "official_lineup"
+    },
+    "823159": {
+      "game_id": 823159,
+      "status": "Scheduled",
+      "away_team": "New York Yankees",
+      "away_team_id": 147,
+      "home_team": "Seattle Mariners",
+      "home_team_id": 136,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Austin Wells",
+          "id": 669224,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Ben Rice",
+          "id": 700250,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Jazz Chisholm Jr.",
+          "id": 665862,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Ryan McMahon",
+          "id": 641857,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "José Caballero",
+          "id": 676609,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Cody Bellinger",
+          "id": 641355,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Trent Grisham",
+          "id": 663757,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Aaron Judge",
+          "id": 592450,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Giancarlo Stanton",
+          "id": 519317,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Cal Raleigh",
+          "id": 663728,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Josh Naylor",
+          "id": 647304,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Cole Young",
+          "id": 702284,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Brendan Donovan",
+          "id": 680977,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Leo Rivas",
+          "id": 660844,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Randy Arozarena",
+          "id": 668227,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Julio Rodríguez",
+          "id": 677594,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Luke Raley",
+          "id": 670042,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Rob Refsnyder",
+          "id": 608701,
+          "position": "DH"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "depth_chart_projection"
+    },
+    "825108": {
+      "game_id": 825108,
+      "status": "Scheduled",
+      "away_team": "Detroit Tigers",
+      "away_team_id": 116,
+      "home_team": "Arizona Diamondbacks",
+      "home_team_id": 109,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Dillon Dingler",
+          "id": 693307,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Spencer Torkelson",
+          "id": 679529,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Gleyber Torres",
+          "id": 650402,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Colt Keith",
+          "id": 690993,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Kevin McGonigle",
+          "id": 805808,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Riley Greene",
+          "id": 682985,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Parker Meadows",
+          "id": 678009,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Matt Vierling",
+          "id": 663837,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Kerry Carpenter",
+          "id": 681481,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Gabriel Moreno",
+          "id": 672515,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Carlos Santana",
+          "id": 467793,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Ketel Marte",
+          "id": 606466,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Nolan Arenado",
+          "id": 571448,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Geraldo Perdomo",
+          "id": 672695,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jordan Lawlar",
+          "id": 691783,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Alek Thomas",
+          "id": 677950,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Corbin Carroll",
+          "id": 682998,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Pavin Smith",
+          "id": 656976,
+          "position": "DH"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "depth_chart_projection"
+    },
+    "823972": {
+      "game_id": 823972,
+      "status": "Scheduled",
+      "away_team": "Cleveland Guardians",
+      "away_team_id": 114,
+      "home_team": "Los Angeles Dodgers",
+      "home_team_id": 119,
+      "away_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Bo Naylor",
+          "id": 666310,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Kyle Manzardo",
+          "id": 700932,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Brayan Rocchio",
+          "id": 677587,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "José Ramírez",
+          "id": 608070,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Gabriel Arias",
+          "id": 672356,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Steven Kwan",
+          "id": 680757,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Angel Martínez",
+          "id": 682657,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Chase DeLauter",
+          "id": 800050,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Rhys Hoskins",
+          "id": 656555,
+          "position": "DH"
+        }
+      ],
+      "home_lineup": [
+        {
+          "batting_order": 1,
+          "name": "Will Smith",
+          "id": 669257,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Freddie Freeman",
+          "id": 518692,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Miguel Rojas",
+          "id": 500743,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Max Muncy",
+          "id": 571970,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Mookie Betts",
+          "id": 605141,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Teoscar Hernández",
+          "id": 606192,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Andy Pages",
+          "id": 681624,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Kyle Tucker",
+          "id": 663656,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Shohei Ohtani",
+          "id": 660271,
+          "position": "DH"
+        }
+      ],
+      "away_lineup_source": "depth_chart_projection",
+      "home_lineup_source": "depth_chart_projection"
+    }
+  },
+  "depth_charts": {
+    "137": {
+      "team_name": "San Francisco Giants",
+      "team_id": 137,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Patrick Bailey",
+          "id": 672275,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Rafael Devers",
+          "id": 646240,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Luis Arraez",
+          "id": 650333,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Matt Chapman",
+          "id": 656305,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Willy Adames",
+          "id": 642715,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Heliot Ramos",
+          "id": 671218,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Harrison Bader",
+          "id": 664056,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jung Hoo Lee",
+          "id": 808982,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Jerar Encarnacion",
+          "id": 666464,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Ryan Walker",
+            "id": 676254,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Matt Gage",
+            "id": 657424,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "José Buttó",
+            "id": 676130,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Borucki",
+            "id": 621366,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Erik Miller",
+            "id": 669062,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Keaton Winn",
+            "id": 676775,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "JT Brubaker",
+            "id": 664141,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Caleb Kilian",
+            "id": 668873,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Patrick Bailey",
+            "id": 672275,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Susac",
+            "id": 691740,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Jesus Rodriguez",
+            "id": 683679,
+            "position": "C",
+            "status": "RM"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Rafael Devers",
+            "id": 646240,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Casey Schmitt",
+            "id": 669477,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Jerar Encarnacion",
+            "id": 666464,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Luis Arraez",
+            "id": 650333,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Casey Schmitt",
+            "id": 669477,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Christian Koss",
+            "id": 683766,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Matt Chapman",
+            "id": 656305,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Casey Schmitt",
+            "id": 669477,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Willy Adames",
+            "id": 642715,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Christian Koss",
+            "id": 683766,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Heliot Ramos",
+            "id": 671218,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jung Hoo Lee",
+            "id": 808982,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jerar Encarnacion",
+            "id": 666464,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Harrison Bader",
+            "id": 664056,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jung Hoo Lee",
+            "id": 808982,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jared Oliva",
+            "id": 666931,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Jung Hoo Lee",
+            "id": 808982,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Heliot Ramos",
+            "id": 671218,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Jerar Encarnacion",
+            "id": 666464,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Jerar Encarnacion",
+            "id": 666464,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Bryce Eldridge",
+            "id": 805811,
+            "position": "DH",
+            "status": "RM"
+          },
+          {
+            "name": "Rafael Devers",
+            "id": 646240,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Logan Webb",
+            "id": 657277,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Robbie Ray",
+            "id": 592662,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Landen Roupp",
+            "id": 694738,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Adrian Houser",
+            "id": 605288,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Tyler Mahle",
+            "id": 641816,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "147": {
+      "team_name": "New York Yankees",
+      "team_id": 147,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Austin Wells",
+          "id": 669224,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Ben Rice",
+          "id": 700250,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Jazz Chisholm Jr.",
+          "id": 665862,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Ryan McMahon",
+          "id": 641857,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "José Caballero",
+          "id": 676609,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Cody Bellinger",
+          "id": 641355,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Trent Grisham",
+          "id": 663757,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Aaron Judge",
+          "id": 592450,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Giancarlo Stanton",
+          "id": 519317,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Camilo Doval",
+            "id": 666808,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Fernando Cruz",
+            "id": 518585,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Tim Hill",
+            "id": 657612,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Paul Blackburn",
+            "id": 621112,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Cade Winquest",
+            "id": 685464,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Yarbrough",
+            "id": 642232,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Brent Headrick",
+            "id": 687396,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jake Bird",
+            "id": 656234,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Austin Wells",
+            "id": 669224,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "J.C. Escarra",
+            "id": 641555,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Ben Rice",
+            "id": 700250,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Ben Rice",
+            "id": 700250,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Paul Goldschmidt",
+            "id": 502671,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Cody Bellinger",
+            "id": 641355,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "J.C. Escarra",
+            "id": 641555,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Jazz Chisholm Jr.",
+            "id": 665862,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "José Caballero",
+            "id": 676609,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Amed Rosario",
+            "id": 642708,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Ryan McMahon",
+            "id": 641857,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Amed Rosario",
+            "id": 642708,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "J.C. Escarra",
+            "id": 641555,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Jazz Chisholm Jr.",
+            "id": 665862,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "José Caballero",
+            "id": 676609,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "José Caballero",
+            "id": 676609,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Anthony Volpe",
+            "id": 683011,
+            "position": "SS",
+            "status": "D10"
+          },
+          {
+            "name": "Ryan McMahon",
+            "id": 641857,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Amed Rosario",
+            "id": 642708,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Cody Bellinger",
+            "id": 641355,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Aaron Judge",
+            "id": 592450,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Randal Grichuk",
+            "id": 545341,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Amed Rosario",
+            "id": 642708,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Trent Grisham",
+            "id": 663757,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Cody Bellinger",
+            "id": 641355,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Aaron Judge",
+            "id": 592450,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Aaron Judge",
+            "id": 592450,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Cody Bellinger",
+            "id": 641355,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Giancarlo Stanton",
+            "id": 519317,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Randal Grichuk",
+            "id": 545341,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Amed Rosario",
+            "id": 642708,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "CP": [
+          {
+            "name": "David Bednar",
+            "id": 670280,
+            "position": "CP",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Giancarlo Stanton",
+            "id": 519317,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Aaron Judge",
+            "id": 592450,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Ben Rice",
+            "id": 700250,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Paul Goldschmidt",
+            "id": 502671,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Max Fried",
+            "id": 608331,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Cam Schlittler",
+            "id": 693645,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Will Warren",
+            "id": 701542,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Weathers",
+            "id": 677960,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Carlos Rodón",
+            "id": 607074,
+            "position": "SP",
+            "status": "D15"
+          },
+          {
+            "name": "Gerrit Cole",
+            "id": 543037,
+            "position": "SP",
+            "status": "D15"
+          },
+          {
+            "name": "Clarke Schmidt",
+            "id": 657376,
+            "position": "SP",
+            "status": "D60"
+          }
+        ]
+      }
+    },
+    "116": {
+      "team_name": "Detroit Tigers",
+      "team_id": 116,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Dillon Dingler",
+          "id": 693307,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Spencer Torkelson",
+          "id": 679529,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Gleyber Torres",
+          "id": 650402,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Colt Keith",
+          "id": 690993,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Kevin McGonigle",
+          "id": 805808,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Riley Greene",
+          "id": 682985,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Parker Meadows",
+          "id": 678009,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Matt Vierling",
+          "id": 663837,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Kerry Carpenter",
+          "id": 681481,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Kenley Jansen",
+            "id": 445276,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Kyle Finnegan",
+            "id": 640448,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Will Vest",
+            "id": 676684,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Tyler Holton",
+            "id": 663947,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Connor Seabold",
+            "id": 657756,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Enmanuel De Jesus",
+            "id": 646241,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Brenan Hanifee",
+            "id": 669724,
+            "position": "P",
+            "status": "RM"
+          },
+          {
+            "name": "Brant Hurter",
+            "id": 676428,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Dillon Dingler",
+            "id": 693307,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Jake Rogers",
+            "id": 668670,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Spencer Torkelson",
+            "id": 679529,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Colt Keith",
+            "id": 690993,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Gleyber Torres",
+            "id": 650402,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Zach McKinstry",
+            "id": 656716,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Javier Báez",
+            "id": 595879,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Colt Keith",
+            "id": 690993,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Kevin McGonigle",
+            "id": 805808,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Zach McKinstry",
+            "id": 656716,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Matt Vierling",
+            "id": 663837,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Kevin McGonigle",
+            "id": 805808,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Javier Báez",
+            "id": 595879,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Zach McKinstry",
+            "id": 656716,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Riley Greene",
+            "id": 682985,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Kerry Carpenter",
+            "id": 681481,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jahmai Jones",
+            "id": 663330,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Parker Meadows",
+            "id": 678009,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Matt Vierling",
+            "id": 663837,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Javier Báez",
+            "id": 595879,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Matt Vierling",
+            "id": 663837,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Kerry Carpenter",
+            "id": 681481,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Jahmai Jones",
+            "id": 663330,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Zach McKinstry",
+            "id": 656716,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Kerry Carpenter",
+            "id": 681481,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Riley Greene",
+            "id": 682985,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Colt Keith",
+            "id": 690993,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Spencer Torkelson",
+            "id": 679529,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Tarik Skubal",
+            "id": 669373,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Framber Valdez",
+            "id": 664285,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Jack Flaherty",
+            "id": 656427,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Justin Verlander",
+            "id": 434378,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Casey Mize",
+            "id": 663554,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "136": {
+      "team_name": "Seattle Mariners",
+      "team_id": 136,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Cal Raleigh",
+          "id": 663728,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Josh Naylor",
+          "id": 647304,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Cole Young",
+          "id": 702284,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Brendan Donovan",
+          "id": 680977,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Leo Rivas",
+          "id": 660844,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Randy Arozarena",
+          "id": 668227,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Julio Rodríguez",
+          "id": 677594,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Luke Raley",
+          "id": 670042,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Rob Refsnyder",
+          "id": 608701,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Matt Brash",
+            "id": 666374,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Gabe Speier",
+            "id": 642100,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Eduard Bazardo",
+            "id": 660825,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jose A. Ferrer",
+            "id": 678606,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Cooper Criswell",
+            "id": 681867,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Casey Legumina",
+            "id": 668984,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Cole Wilcox",
+            "id": 677961,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Carlos Vargas",
+            "id": 672841,
+            "position": "P",
+            "status": "D15"
+          }
+        ],
+        "C": [
+          {
+            "name": "Cal Raleigh",
+            "id": 663728,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Mitch Garver",
+            "id": 641598,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Josh Naylor",
+            "id": 647304,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Luke Raley",
+            "id": 670042,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Cole Young",
+            "id": 702284,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Brendan Donovan",
+            "id": 680977,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Leo Rivas",
+            "id": 660844,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Miles Mastrobuoni",
+            "id": 670156,
+            "position": "2B",
+            "status": "D10"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Brendan Donovan",
+            "id": 680977,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Miles Mastrobuoni",
+            "id": 670156,
+            "position": "3B",
+            "status": "D10"
+          }
+        ],
+        "SS": [
+          {
+            "name": "J.P. Crawford",
+            "id": 641487,
+            "position": "SS",
+            "status": "D10"
+          },
+          {
+            "name": "Leo Rivas",
+            "id": 660844,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Randy Arozarena",
+            "id": 668227,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Brendan Donovan",
+            "id": 680977,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Rob Refsnyder",
+            "id": 608701,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Miles Mastrobuoni",
+            "id": 670156,
+            "position": "LF",
+            "status": "D10"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Julio Rodríguez",
+            "id": 677594,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Luke Raley",
+            "id": 670042,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Victor Robles",
+            "id": 645302,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Dominic Canzone",
+            "id": 686527,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Rob Refsnyder",
+            "id": 608701,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "CP": [
+          {
+            "name": "Andrés Muñoz",
+            "id": 662253,
+            "position": "CP",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Rob Refsnyder",
+            "id": 608701,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Dominic Canzone",
+            "id": 686527,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Mitch Garver",
+            "id": 641598,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Luke Raley",
+            "id": 670042,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Logan Gilbert",
+            "id": 669302,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Bryan Woo",
+            "id": 693433,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "George Kirby",
+            "id": 669923,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Luis Castillo",
+            "id": 622491,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Bryce Miller",
+            "id": 682243,
+            "position": "SP",
+            "status": "D15"
+          },
+          {
+            "name": "Emerson Hancock",
+            "id": 676106,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "114": {
+      "team_name": "Cleveland Guardians",
+      "team_id": 114,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Bo Naylor",
+          "id": 666310,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Kyle Manzardo",
+          "id": 700932,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Brayan Rocchio",
+          "id": 677587,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "José Ramírez",
+          "id": 608070,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Gabriel Arias",
+          "id": 672356,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Steven Kwan",
+          "id": 680757,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Angel Martínez",
+          "id": 682657,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Chase DeLauter",
+          "id": 800050,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Rhys Hoskins",
+          "id": 656555,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Cade Smith",
+            "id": 671922,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Hunter Gaddis",
+            "id": 683769,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Shawn Armstrong",
+            "id": 542888,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Erik Sabrowski",
+            "id": 681870,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Matt Festa",
+            "id": 670036,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Colin Holderman",
+            "id": 670059,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Tim Herrin",
+            "id": 682120,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Connor Brogdon",
+            "id": 641401,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Peyton Pallette",
+            "id": 688883,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Bo Naylor",
+            "id": 666310,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Austin Hedges",
+            "id": 595978,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "David Fry",
+            "id": 681807,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Kyle Manzardo",
+            "id": 700932,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Rhys Hoskins",
+            "id": 656555,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "CJ Kayfus",
+            "id": 692216,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "David Fry",
+            "id": 681807,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Brayan Rocchio",
+            "id": 677587,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Angel Martínez",
+            "id": 682657,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Gabriel Arias",
+            "id": 672356,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "José Ramírez",
+            "id": 608070,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Gabriel Arias",
+            "id": 672356,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Brayan Rocchio",
+            "id": 677587,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Angel Martínez",
+            "id": 682657,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Steven Kwan",
+            "id": 680757,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "George Valera",
+            "id": 671655,
+            "position": "LF",
+            "status": "D10"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "CJ Kayfus",
+            "id": 692216,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Angel Martínez",
+            "id": 682657,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Angel Martínez",
+            "id": 682657,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Steven Kwan",
+            "id": 680757,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Chase DeLauter",
+            "id": 800050,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "George Valera",
+            "id": 671655,
+            "position": "RF",
+            "status": "D10"
+          },
+          {
+            "name": "CJ Kayfus",
+            "id": 692216,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Daniel Schneemann",
+            "id": 682177,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Angel Martínez",
+            "id": 682657,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Rhys Hoskins",
+            "id": 656555,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "David Fry",
+            "id": 681807,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Kyle Manzardo",
+            "id": 700932,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "CJ Kayfus",
+            "id": 692216,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Tanner Bibee",
+            "id": 676440,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Gavin Williams",
+            "id": 668909,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Slade Cecconi",
+            "id": 677944,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Joey Cantillo",
+            "id": 676282,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Parker Messick",
+            "id": 800048,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "139": {
+      "team_name": "Tampa Bay Rays",
+      "team_id": 139,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Nick Fortes",
+          "id": 663743,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jonathan Aranda",
+          "id": 666018,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Richie Palacios",
+          "id": 680700,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Junior Caminero",
+          "id": 691406,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Carson Williams",
+          "id": 700246,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Chandler Simpson",
+          "id": 802415,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Cedric Mullins",
+          "id": 656775,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Jake Fraley",
+          "id": 641584,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Yandy Díaz",
+          "id": 650490,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Griffin Jax",
+            "id": 643377,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Garrett Cleavinger",
+            "id": 664076,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Bryan Baker",
+            "id": 641329,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Cole Sulser",
+            "id": 642121,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Ian Seymour",
+            "id": 693855,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Mason Englert",
+            "id": 669438,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Yoendrys Gómez",
+            "id": 672782,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Kevin Kelly",
+            "id": 687330,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Nick Fortes",
+            "id": 663743,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Hunter Feduccia",
+            "id": 676439,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Jonathan Aranda",
+            "id": 666018,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Yandy Díaz",
+            "id": 650490,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Vilade",
+            "id": 668723,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Gavin Lux",
+            "id": 666158,
+            "position": "2B",
+            "status": "D10"
+          },
+          {
+            "name": "Richie Palacios",
+            "id": 680700,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Ben Williamson",
+            "id": 810938,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Vilade",
+            "id": 668723,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Junior Caminero",
+            "id": 691406,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Ben Williamson",
+            "id": 810938,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Taylor Walls",
+            "id": 670764,
+            "position": "3B",
+            "status": "D10"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Carson Williams",
+            "id": 700246,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Taylor Walls",
+            "id": 670764,
+            "position": "SS",
+            "status": "D10"
+          },
+          {
+            "name": "Ben Williamson",
+            "id": 810938,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Chandler Simpson",
+            "id": 802415,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jonny DeLuca",
+            "id": 676356,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Vilade",
+            "id": 668723,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Cedric Mullins",
+            "id": 656775,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jonny DeLuca",
+            "id": 676356,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Jake Fraley",
+            "id": 641584,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Jonny DeLuca",
+            "id": 676356,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Ryan Vilade",
+            "id": 668723,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Yandy Díaz",
+            "id": 650490,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Jonathan Aranda",
+            "id": 666018,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Drew Rasmussen",
+            "id": 656876,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Joe Boyle",
+            "id": 671212,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Steven Matz",
+            "id": 571927,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Nick Martinez",
+            "id": 607259,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Shane McClanahan",
+            "id": 663556,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "119": {
+      "team_name": "Los Angeles Dodgers",
+      "team_id": 119,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Will Smith",
+          "id": 669257,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Freddie Freeman",
+          "id": 518692,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Miguel Rojas",
+          "id": 500743,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Max Muncy",
+          "id": 571970,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Mookie Betts",
+          "id": 605141,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Teoscar Hernández",
+          "id": 606192,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Andy Pages",
+          "id": 681624,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Kyle Tucker",
+          "id": 663656,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Shohei Ohtani",
+          "id": 660271,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Tanner Scott",
+            "id": 656945,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Alex Vesia",
+            "id": 681911,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Blake Treinen",
+            "id": 595014,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jack Dreyer",
+            "id": 676263,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Will Klein",
+            "id": 694361,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Ben Casparius",
+            "id": 676508,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Edgardo Henriquez",
+            "id": 683618,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Justin Wrobleski",
+            "id": 680736,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Brock Stewart",
+            "id": 592779,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Evan Phillips",
+            "id": 623465,
+            "position": "P",
+            "status": "D60"
+          },
+          {
+            "name": "Brusdar Graterol",
+            "id": 660813,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Jake Cousins",
+            "id": 664776,
+            "position": "P",
+            "status": "D15"
+          }
+        ],
+        "C": [
+          {
+            "name": "Will Smith",
+            "id": 669257,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Dalton Rushing",
+            "id": 687221,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Freddie Freeman",
+            "id": 518692,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Dalton Rushing",
+            "id": 687221,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Santiago Espinal",
+            "id": 669289,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "1B",
+            "status": "D60"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Miguel Rojas",
+            "id": 500743,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Alex Freeland",
+            "id": 690976,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Tommy Edman",
+            "id": 669242,
+            "position": "2B",
+            "status": "D10"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "2B",
+            "status": "D60"
+          },
+          {
+            "name": "Santiago Espinal",
+            "id": 669289,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Max Muncy",
+            "id": 571970,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "3B",
+            "status": "D60"
+          },
+          {
+            "name": "Miguel Rojas",
+            "id": 500743,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Alex Freeland",
+            "id": 690976,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Santiago Espinal",
+            "id": 669289,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Mookie Betts",
+            "id": 605141,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Miguel Rojas",
+            "id": 500743,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "SS",
+            "status": "D60"
+          },
+          {
+            "name": "Alex Freeland",
+            "id": 690976,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Teoscar Hernández",
+            "id": 606192,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "LF",
+            "status": "D60"
+          },
+          {
+            "name": "Alex Call",
+            "id": 669743,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Andy Pages",
+            "id": 681624,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Santiago Espinal",
+            "id": 669289,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Andy Pages",
+            "id": 681624,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Tommy Edman",
+            "id": 669242,
+            "position": "CF",
+            "status": "D10"
+          },
+          {
+            "name": "Enrique Hernández",
+            "id": 571771,
+            "position": "CF",
+            "status": "D60"
+          },
+          {
+            "name": "Alex Call",
+            "id": 669743,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Kyle Tucker",
+            "id": 663656,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Andy Pages",
+            "id": 681624,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Alex Call",
+            "id": 669743,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Teoscar Hernández",
+            "id": 606192,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Santiago Espinal",
+            "id": 669289,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "CP": [
+          {
+            "name": "Edwin Díaz",
+            "id": 621242,
+            "position": "CP",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Shohei Ohtani",
+            "id": 660271,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Will Smith",
+            "id": 669257,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Yoshinobu Yamamoto",
+            "id": 808967,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Tyler Glasnow",
+            "id": 607192,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Shohei Ohtani",
+            "id": 660271,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Emmet Sheehan",
+            "id": 686218,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Roki Sasaki",
+            "id": 808963,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Justin Wrobleski",
+            "id": 680736,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Gavin Stone",
+            "id": 694813,
+            "position": "SP",
+            "status": "D15"
+          },
+          {
+            "name": "Blake Snell",
+            "id": 605483,
+            "position": "SP",
+            "status": "D15"
+          }
+        ]
+      }
+    },
+    "112": {
+      "team_name": "Chicago Cubs",
+      "team_id": 112,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Carson Kelly",
+          "id": 608348,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Michael Busch",
+          "id": 683737,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Nico Hoerner",
+          "id": 663538,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Alex Bregman",
+          "id": 608324,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Dansby Swanson",
+          "id": 621020,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Ian Happ",
+          "id": 664023,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Pete Crow-Armstrong",
+          "id": 691718,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Michael Conforto",
+          "id": 624424,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Moisés Ballesteros",
+          "id": 694208,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Phil Maton",
+            "id": 664208,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Caleb Thielbar",
+            "id": 573204,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Hunter Harvey",
+            "id": 640451,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jacob Webb",
+            "id": 657097,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Hoby Milner",
+            "id": 571948,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Ben Brown",
+            "id": 676962,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Colin Rea",
+            "id": 607067,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Porter Hodge",
+            "id": 687863,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Jordan Wicks",
+            "id": 696136,
+            "position": "P",
+            "status": "D15"
+          }
+        ],
+        "C": [
+          {
+            "name": "Carson Kelly",
+            "id": 608348,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Miguel Amaya",
+            "id": 665804,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Moisés Ballesteros",
+            "id": 694208,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Michael Busch",
+            "id": 683737,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Miguel Amaya",
+            "id": 665804,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Moisés Ballesteros",
+            "id": 694208,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Carson Kelly",
+            "id": 608348,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Tyler Austin",
+            "id": 592122,
+            "position": "1B",
+            "status": "D60"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Nico Hoerner",
+            "id": 663538,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Scott Kingery",
+            "id": 664068,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Alex Bregman",
+            "id": 608324,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Scott Kingery",
+            "id": 664068,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Dansby Swanson",
+            "id": 621020,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Nico Hoerner",
+            "id": 663538,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Scott Kingery",
+            "id": 664068,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Ian Happ",
+            "id": 664023,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Dylan Carlson",
+            "id": 666185,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Michael Conforto",
+            "id": 624424,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Seiya Suzuki",
+            "id": 673548,
+            "position": "LF",
+            "status": "D10"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Pete Crow-Armstrong",
+            "id": 691718,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Dylan Carlson",
+            "id": 666185,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Michael Conforto",
+            "id": 624424,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Dylan Carlson",
+            "id": 666185,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Seiya Suzuki",
+            "id": 673548,
+            "position": "RF",
+            "status": "D10"
+          }
+        ],
+        "CP": [
+          {
+            "name": "Daniel Palencia",
+            "id": 694037,
+            "position": "CP",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Moisés Ballesteros",
+            "id": 694208,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Matt Shaw",
+            "id": 807713,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Michael Conforto",
+            "id": 624424,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Miguel Amaya",
+            "id": 665804,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Carson Kelly",
+            "id": 608348,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Seiya Suzuki",
+            "id": 673548,
+            "position": "DH",
+            "status": "D10"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Matthew Boyd",
+            "id": 571510,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Cade Horton",
+            "id": 690990,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Shota Imanaga",
+            "id": 684007,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Edward Cabrera",
+            "id": 665795,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Jameson Taillon",
+            "id": 592791,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Colin Rea",
+            "id": 607067,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Ben Brown",
+            "id": 676962,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Justin Steele",
+            "id": 657006,
+            "position": "SP",
+            "status": "D60"
+          }
+        ]
+      }
+    },
+    "121": {
+      "team_name": "New York Mets",
+      "team_id": 121,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Francisco Alvarez",
+          "id": 682626,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jorge Polanco",
+          "id": 593871,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Marcus Semien",
+          "id": 543760,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Bo Bichette",
+          "id": 666182,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Francisco Lindor",
+          "id": 596019,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Juan Soto",
+          "id": 665742,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Luis Robert Jr.",
+          "id": 673357,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Carson Benge",
+          "id": 701807,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Brett Baty",
+          "id": 683146,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Devin Williams",
+            "id": 642207,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Sean Manaea",
+            "id": 640455,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Luke Weaver",
+            "id": 596133,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "A.J. Minter",
+            "id": 621345,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Brooks Raley",
+            "id": 548384,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Tobias Myers",
+            "id": 668964,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Huascar Brazobán",
+            "id": 623211,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Luis García",
+            "id": 472610,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Richard Lovelady",
+            "id": 663992,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Francisco Alvarez",
+            "id": 682626,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Luis Torrens",
+            "id": 620443,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Jorge Polanco",
+            "id": 593871,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Brett Baty",
+            "id": 683146,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Mark Vientos",
+            "id": 668901,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Marcus Semien",
+            "id": 543760,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Brett Baty",
+            "id": 683146,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Bo Bichette",
+            "id": 666182,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Brett Baty",
+            "id": 683146,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Mark Vientos",
+            "id": 668901,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Francisco Lindor",
+            "id": 596019,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Bo Bichette",
+            "id": 666182,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Juan Soto",
+            "id": 665742,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Tyrone Taylor",
+            "id": 621438,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Brett Baty",
+            "id": 683146,
+            "position": "LF",
+            "status": "A"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Luis Robert Jr.",
+            "id": 673357,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Tyrone Taylor",
+            "id": 621438,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Carson Benge",
+            "id": 701807,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Tyrone Taylor",
+            "id": 621438,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Brett Baty",
+            "id": 683146,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Jorge Polanco",
+            "id": 593871,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Mark Vientos",
+            "id": 668901,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Freddy Peralta",
+            "id": 642547,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Nolan McLean",
+            "id": 690997,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Clay Holmes",
+            "id": 605280,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "David Peterson",
+            "id": 656849,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Kodai Senga",
+            "id": 673540,
+            "position": "SP",
+            "status": "A"
+          }
+        ]
+      }
+    },
+    "109": {
+      "team_name": "Arizona Diamondbacks",
+      "team_id": 109,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "Gabriel Moreno",
+          "id": 672515,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Carlos Santana",
+          "id": 467793,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Ketel Marte",
+          "id": 606466,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Nolan Arenado",
+          "id": 571448,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Geraldo Perdomo",
+          "id": 672695,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Jordan Lawlar",
+          "id": 691783,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Alek Thomas",
+          "id": 677950,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Corbin Carroll",
+          "id": 682998,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Pavin Smith",
+          "id": 656976,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Justin Martinez",
+            "id": 679885,
+            "position": "P",
+            "status": "D60"
+          },
+          {
+            "name": "A.J. Puk",
+            "id": 640462,
+            "position": "P",
+            "status": "D60"
+          },
+          {
+            "name": "Andrew Saalfrank",
+            "id": 685314,
+            "position": "P",
+            "status": "D60"
+          },
+          {
+            "name": "Ryan Thompson",
+            "id": 657044,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Kevin Ginkel",
+            "id": 656464,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Paul Sewald",
+            "id": 623149,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Taylor Clarke",
+            "id": 664199,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Joe Ross",
+            "id": 605452,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jonathan Loáisiga",
+            "id": 642528,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Juan Morillo",
+            "id": 666661,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Andrew Hoffmann",
+            "id": 694851,
+            "position": "P",
+            "status": "A"
+          }
+        ],
+        "C": [
+          {
+            "name": "Gabriel Moreno",
+            "id": 672515,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "James McCann",
+            "id": 543510,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Carlos Santana",
+            "id": 467793,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Pavin Smith",
+            "id": 656976,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Ildemaro Vargas",
+            "id": 545121,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Tim Tawa",
+            "id": 694374,
+            "position": "1B",
+            "status": "A"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Ketel Marte",
+            "id": 606466,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Tim Tawa",
+            "id": 694374,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Ildemaro Vargas",
+            "id": 545121,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Nolan Arenado",
+            "id": 571448,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Ildemaro Vargas",
+            "id": 545121,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Jordan Lawlar",
+            "id": 691783,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Geraldo Perdomo",
+            "id": 672695,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Geraldo Perdomo",
+            "id": 672695,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Jordan Lawlar",
+            "id": 691783,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "Ildemaro Vargas",
+            "id": 545121,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Jordan Lawlar",
+            "id": 691783,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Alek Thomas",
+            "id": 677950,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jorge Barrosa",
+            "id": 678489,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Lourdes Gurriel Jr.",
+            "id": 666971,
+            "position": "LF",
+            "status": "D10"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Alek Thomas",
+            "id": 677950,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jordan Lawlar",
+            "id": 691783,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jorge Barrosa",
+            "id": 678489,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Corbin Carroll",
+            "id": 682998,
+            "position": "CF",
+            "status": "A"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Corbin Carroll",
+            "id": 682998,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Jorge Barrosa",
+            "id": 678489,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Pavin Smith",
+            "id": 656976,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Pavin Smith",
+            "id": 656976,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Carlos Santana",
+            "id": 467793,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Jordan Lawlar",
+            "id": 691783,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Ketel Marte",
+            "id": 606466,
+            "position": "DH",
+            "status": "A"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Zac Gallen",
+            "id": 668678,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Ryne Nelson",
+            "id": 669194,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Eduardo Rodriguez",
+            "id": 593958,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Pfaadt",
+            "id": 694297,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Michael Soroka",
+            "id": 647336,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Corbin Burnes",
+            "id": 669203,
+            "position": "SP",
+            "status": "D60"
+          },
+          {
+            "name": "Merrill Kelly",
+            "id": 518876,
+            "position": "SP",
+            "status": "D15"
+          }
+        ]
+      }
+    },
+    "158": {
+      "team_name": "Milwaukee Brewers",
+      "team_id": 158,
+      "projected_starters": [
+        {
+          "batting_order": 1,
+          "name": "William Contreras",
+          "id": 661388,
+          "position": "C"
+        },
+        {
+          "batting_order": 2,
+          "name": "Jake Bauers",
+          "id": 641343,
+          "position": "1B"
+        },
+        {
+          "batting_order": 3,
+          "name": "Brice Turang",
+          "id": 668930,
+          "position": "2B"
+        },
+        {
+          "batting_order": 4,
+          "name": "Luis Rengifo",
+          "id": 650859,
+          "position": "3B"
+        },
+        {
+          "batting_order": 5,
+          "name": "Joey Ortiz",
+          "id": 687401,
+          "position": "SS"
+        },
+        {
+          "batting_order": 6,
+          "name": "Christian Yelich",
+          "id": 592885,
+          "position": "LF"
+        },
+        {
+          "batting_order": 7,
+          "name": "Garrett Mitchell",
+          "id": 669003,
+          "position": "CF"
+        },
+        {
+          "batting_order": 8,
+          "name": "Sal Frelick",
+          "id": 686217,
+          "position": "RF"
+        },
+        {
+          "batting_order": 9,
+          "name": "Christian Yelich",
+          "id": 592885,
+          "position": "DH"
+        }
+      ],
+      "full_depth_chart": {
+        "P": [
+          {
+            "name": "Abner Uribe",
+            "id": 682842,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jared Koenig",
+            "id": 657649,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Angel Zerpa",
+            "id": 672582,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Aaron Ashby",
+            "id": 676879,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Grant Anderson",
+            "id": 681982,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "DL Hall",
+            "id": 669084,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Jake Woodford",
+            "id": 663765,
+            "position": "P",
+            "status": "A"
+          },
+          {
+            "name": "Easton McGee",
+            "id": 668834,
+            "position": "P",
+            "status": "RM"
+          },
+          {
+            "name": "Rob Zastryzny",
+            "id": 642239,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Craig Yoho",
+            "id": 684974,
+            "position": "P",
+            "status": "D15"
+          },
+          {
+            "name": "Sammy Peralta",
+            "id": 671111,
+            "position": "P",
+            "status": "DES"
+          }
+        ],
+        "C": [
+          {
+            "name": "William Contreras",
+            "id": 661388,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Gary Sánchez",
+            "id": 596142,
+            "position": "C",
+            "status": "A"
+          },
+          {
+            "name": "Jeferson Quero",
+            "id": 691620,
+            "position": "C",
+            "status": "A"
+          }
+        ],
+        "1B": [
+          {
+            "name": "Andrew Vaughn",
+            "id": 683734,
+            "position": "1B",
+            "status": "D10"
+          },
+          {
+            "name": "Jake Bauers",
+            "id": 641343,
+            "position": "1B",
+            "status": "A"
+          },
+          {
+            "name": "Tyler Black",
+            "id": 672012,
+            "position": "1B",
+            "status": "RM"
+          }
+        ],
+        "2B": [
+          {
+            "name": "Brice Turang",
+            "id": 668930,
+            "position": "2B",
+            "status": "A"
+          },
+          {
+            "name": "Luis Rengifo",
+            "id": 650859,
+            "position": "2B",
+            "status": "A"
+          }
+        ],
+        "3B": [
+          {
+            "name": "Luis Rengifo",
+            "id": 650859,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "David Hamilton",
+            "id": 666152,
+            "position": "3B",
+            "status": "A"
+          },
+          {
+            "name": "Joey Ortiz",
+            "id": 687401,
+            "position": "3B",
+            "status": "A"
+          }
+        ],
+        "SS": [
+          {
+            "name": "Joey Ortiz",
+            "id": 687401,
+            "position": "SS",
+            "status": "A"
+          },
+          {
+            "name": "David Hamilton",
+            "id": 666152,
+            "position": "SS",
+            "status": "A"
+          }
+        ],
+        "LF": [
+          {
+            "name": "Jackson Chourio",
+            "id": 694192,
+            "position": "LF",
+            "status": "D10"
+          },
+          {
+            "name": "Christian Yelich",
+            "id": 592885,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Lockridge",
+            "id": 663604,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Jake Bauers",
+            "id": 641343,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Blake Perkins",
+            "id": 663368,
+            "position": "LF",
+            "status": "A"
+          },
+          {
+            "name": "Akil Baddoo",
+            "id": 668731,
+            "position": "LF",
+            "status": "D60"
+          },
+          {
+            "name": "Tyler Black",
+            "id": 672012,
+            "position": "LF",
+            "status": "RM"
+          }
+        ],
+        "CF": [
+          {
+            "name": "Garrett Mitchell",
+            "id": 669003,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Lockridge",
+            "id": 663604,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Jackson Chourio",
+            "id": 694192,
+            "position": "CF",
+            "status": "D10"
+          },
+          {
+            "name": "Sal Frelick",
+            "id": 686217,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Blake Perkins",
+            "id": 663368,
+            "position": "CF",
+            "status": "A"
+          },
+          {
+            "name": "Steward Berroa",
+            "id": 672642,
+            "position": "CF",
+            "status": "D10"
+          },
+          {
+            "name": "Akil Baddoo",
+            "id": 668731,
+            "position": "CF",
+            "status": "D60"
+          }
+        ],
+        "RF": [
+          {
+            "name": "Sal Frelick",
+            "id": 686217,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Lockridge",
+            "id": 663604,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Jackson Chourio",
+            "id": 694192,
+            "position": "RF",
+            "status": "D10"
+          },
+          {
+            "name": "Jake Bauers",
+            "id": 641343,
+            "position": "RF",
+            "status": "A"
+          },
+          {
+            "name": "Blake Perkins",
+            "id": 663368,
+            "position": "RF",
+            "status": "A"
+          }
+        ],
+        "CP": [
+          {
+            "name": "Trevor Megill",
+            "id": 656730,
+            "position": "CP",
+            "status": "A"
+          }
+        ],
+        "DH": [
+          {
+            "name": "Christian Yelich",
+            "id": 592885,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "William Contreras",
+            "id": 661388,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Gary Sánchez",
+            "id": 596142,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Jake Bauers",
+            "id": 641343,
+            "position": "DH",
+            "status": "A"
+          },
+          {
+            "name": "Andrew Vaughn",
+            "id": 683734,
+            "position": "DH",
+            "status": "D10"
+          }
+        ],
+        "SP": [
+          {
+            "name": "Jacob Misiorowski",
+            "id": 694819,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Chad Patrick",
+            "id": 694477,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Sproat",
+            "id": 687075,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Kyle Harrison",
+            "id": 690986,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Brandon Woodruff",
+            "id": 605540,
+            "position": "SP",
+            "status": "A"
+          },
+          {
+            "name": "Robert Gasser",
+            "id": 688107,
+            "position": "SP",
+            "status": "RM"
+          },
+          {
+            "name": "Logan Henderson",
+            "id": 701656,
+            "position": "SP",
+            "status": "RM"
+          },
+          {
+            "name": "Shane Drohan",
+            "id": 675660,
+            "position": "SP",
+            "status": "RM"
+          },
+          {
+            "name": "Carlos Rodriguez",
+            "id": 692230,
+            "position": "SP",
+            "status": "RM"
+          }
+        ]
+      }
+    }
+  }
+}
