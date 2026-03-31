@@ -186,10 +186,10 @@ def compute_expected_runs(
     final pitching adjustment.
     """
     # Blend game-specific pitching (starter + bullpen) with team baseline
-    # Game pitching gets 55% weight, team seasonal projection gets 45%
-    # This ensures individual matchup matters but team quality anchors
+    # Game pitching gets 65% weight — let the specific matchup drive more
+    # of the prediction. Team baseline anchors at 35%.
     pitching_factor = (
-        starter_factor * 0.55 + pitching_team_def_factor * 0.45
+        starter_factor * 0.65 + pitching_team_def_factor * 0.35
     )
 
     expected = league_avg_rpg * batting_team_off_factor * pitching_factor * park_factor

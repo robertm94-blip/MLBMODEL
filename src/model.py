@@ -22,10 +22,12 @@ from scipy.stats import poisson, nbinom
 
 # MLB-calibrated overdispersion parameter
 # Fitted from historical run distributions: variance/mean ratio ≈ 1.15-1.25
-# r = mu^2 / (variance - mu) ≈ mu / (variance/mean - 1)
-# For typical MLB team scoring ~4.5 R/G with var ~6.5: r ≈ 4.5 / (6.5/4.5 - 1) ≈ 10
-# But empirically, r ≈ 5-6 captures multi-run innings better
-NB_SHAPE_R = 5.5
+# r = mu^2 / (variance - mu)
+# For typical MLB: ~4.5 R/G with var ~5.5-6.0 → r ≈ 10-15
+# r=5.5 over-compresses favorites (61% when should be 64%)
+# r=12 matches market pricing more closely while still capturing
+# the heavier tails that Poisson misses (blowouts, multi-run innings)
+NB_SHAPE_R = 12.0
 
 
 def _nb_params(mu: float, r: float = NB_SHAPE_R) -> tuple[float, float]:
