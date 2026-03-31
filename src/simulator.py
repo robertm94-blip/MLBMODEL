@@ -145,7 +145,12 @@ def compute_pa_probabilities(
         era = pitcher.get("era", 4.50)
         fip = pitcher.get("fip", era)
         blended = era * 0.4 + fip * 0.6
-        hit_mult = blended / league_avg_rpg if league_avg_rpg > 0 else 1.0
+        raw_hit_mult = blended / league_avg_rpg if league_avg_rpg > 0 else 1.0
+
+        # Dampen the hit multiplier — raw ERA ratio overstates the effect
+        # A 3.09 ERA pitcher doesn't cut hits by 31% vs league avg
+        # Real effect is ~40% of the raw ratio (10-15% suppression for an ace)
+        hit_mult = 1.0 + (raw_hit_mult - 1.0) * 0.40
 
         hr_rate *= hit_mult
         double_rate *= hit_mult
