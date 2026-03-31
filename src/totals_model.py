@@ -1,0 +1,238 @@
+"""Dedicated totals prediction model for MLB games.
+
+The moneyline model's total projection has systemic issues:
+- +0.35 run over-projection bias
+- Park factors compound too aggressively with other multipliers
+- Correlation with actual totals is only 0.13
+
+This dedicated model fixes these by:
+1. Using additive adjustments instead of multiplicative (prevents compounding)
+2. Recalibrated park factors specific to totals
+3. Regressing all projections toward the league mean more heavily
+4. Separate factor weights optimized for total runs, not win probability
+
+Key insight: Totals in baseball are inherently noisy (std dev ~4.6 runs).
+Even a perfect model can only reduce MAE to ~2.5 runs. The goal isn't
+perfect prediction — it's identifying when the posted total is significantly
+off from true expectation.
+"""
+
+from typing import Any
+
+# Recalibrated park factors for totals (dampened from ML model)
+# These are the ADDITIVE adjustment to runs per game, not multiplicative
+# Derived from 2025 backtest venue bias analysis
+TOTALS_PARK_ADJ = {
+    # Hitter parks (add runs)
+    19: +1.80,   # Coors Field
+    2602: +0.60, # Great American Ball Park
+    5325: +0.30, # Globe Life Field (retractable — dampened)
+    17: +0.25,   # Wrigley Field
+    3313: +0.25, # Yankee Stadium
+    2681: +0.20, # Citizens Bank Park
+    3: +0.15,    # Fenway Park
+    2392: +0.10, # Minute Maid Park
+    2: +0.10,    # Camden Yards
+
+    # Neutral
+    15: 0.0,     # Chase Field
+    14: 0.0,     # Rogers Centre
+    3309: 0.0,   # Nationals Park
+    3312: 0.0,   # Target Field
+    4705: -0.05, # Truist Park
+    32: -0.05,   # American Family Field
+    7: -0.05,    # Kauffman Stadium
+
+    # Pitcher parks (subtract runs)
+    2889: -0.10, # Busch Stadium
+    5: -0.10,    # Progressive Field
+    31: -0.10,   # PNC Park
+    1: -0.10,    # Angel Stadium
+    4: -0.10,    # Guaranteed Rate Field
+    12: -0.15,   # Tropicana Field
+    680: -0.20,  # T-Mobile Park
+    22: -0.20,   # Dodger Stadium
+    3289: -0.25, # Citi Field
+    2680: -0.30, # Petco Park
+    4169: -0.35, # loanDepot Park
+    2395: -0.35, # Oracle Park
+    10: -0.20,   # Oakland Coliseum
+    2394: -0.15, # Comerica Park
+}
+
+# League average total runs per game (2025 actual)
+LEAGUE_AVG_TOTAL = 8.90
+
+# Regression weight toward league mean
+# Higher = more regression = more conservative (less overshoot)
+REGRESSION_TO_MEAN = 0.55  # 55% regression toward league average
+
+
+def compute_totals_projection(
+    away_off_factor: float,
+    home_off_factor: float,
+    away_pitching_factor: float,
+    home_pitching_factor: float,
+    venue_id: int | None = None,
+    weather_factor: float = 1.0,
+    ump_factor: float = 1.0,
+) -> dict[str, Any]:
+    """Compute dedicated totals projection.
+
+    Uses additive adjustments instead of multiplicative to prevent
+    compounding bias. All factors are expressed as deviations from
+    the league-average total.
+
+    Returns:
+        {
+            projected_total: float,
+            away_runs: float,
+            home_runs: float,
+            confidence: str,  # "high", "medium", "low"
+            factors_breakdown: dict,
+        }
+    """
+    # Start from league average
+    base_total = LEAGUE_AVG_TOTAL
+
+    # ── OFFENSIVE ADJUSTMENTS (additive) ──
+    # Convert multiplicative factors to additive deviations
+    # off_factor of 1.05 means team scores 5% more than average
+    # On a ~4.45 R/G base, that's +0.22 runs
+    avg_rpg = base_total / 2
+
+    away_off_adj = (away_off_factor - 1.0) * avg_rpg
+    home_off_adj = (home_off_factor - 1.0) * avg_rpg
+    offense_adj = away_off_adj + home_off_adj
+
+    # ── PITCHING ADJUSTMENTS (additive) ──
+    # Pitching factor > 1.0 means MORE runs allowed (worse pitching)
+    # Factor applied to opposing team's offense
+    away_pitch_adj = (away_pitching_factor - 1.0) * avg_rpg  # Away pitcher affects home runs
+    home_pitch_adj = (home_pitching_factor - 1.0) * avg_rpg  # Home pitcher affects away runs
+    pitching_adj = away_pitch_adj + home_pitch_adj
+
+    # ── PARK ADJUSTMENT (additive, pre-calibrated) ──
+    park_adj = TOTALS_PARK_ADJ.get(venue_id, 0.0) if venue_id else 0.0
+
+    # ── WEATHER (additive, dampened from ML model) ──
+    # Convert multiplicative weather factor to additive
+    # But dampen it — weather effect on totals is smaller than on individual games
+    weather_adj = (weather_factor - 1.0) * base_total * 0.5  # 50% dampening
+
+    # ── UMPIRE (additive, dampened) ──
+    ump_adj = (ump_factor - 1.0) * base_total * 0.6  # 60% dampening
+
+    # ── RAW PROJECTION ──
+    raw_total = base_total + offense_adj + pitching_adj + park_adj + weather_adj + ump_adj
+
+    # ── REGRESSION TO MEAN ──
+    # This is the key fix: heavily regress extreme projections toward league avg
+    # Prevents the 12+ run projections that overshoot badly
+    projected_total = (raw_total * (1 - REGRESSION_TO_MEAN) +
+                       LEAGUE_AVG_TOTAL * REGRESSION_TO_MEAN)
+
+    # ── SPLIT INTO TEAM RUNS ──
+    # Use the offensive factors to split the total between teams
+    total_off = away_off_factor + home_off_factor
+    away_share = away_off_factor / total_off if total_off > 0 else 0.5
+    home_share = home_off_factor / total_off if total_off > 0 else 0.5
+
+    # Adjust shares for pitching matchup
+    # Away team faces home pitcher — if home pitcher is good, away gets fewer runs
+    away_pitch_modifier = 1.0 - (home_pitching_factor - 1.0) * 0.3
+    home_pitch_modifier = 1.0 - (away_pitching_factor - 1.0) * 0.3
+
+    away_runs = projected_total * away_share * away_pitch_modifier
+    home_runs = projected_total * home_share * home_pitch_modifier
+
+    # Renormalize to match projected total
+    run_sum = away_runs + home_runs
+    if run_sum > 0:
+        away_runs = away_runs / run_sum * projected_total
+        home_runs = home_runs / run_sum * projected_total
+
+    # Home field bump
+    away_runs -= 0.12
+    home_runs += 0.12
+
+    # Floor
+    away_runs = max(away_runs, 2.5)
+    home_runs = max(home_runs, 2.5)
+    projected_total = away_runs + home_runs
+
+    # ── CONFIDENCE ──
+    deviation = abs(projected_total - LEAGUE_AVG_TOTAL)
+    if deviation >= 1.5:
+        confidence = "high"  # Strong signal — far from mean
+    elif deviation >= 0.7:
+        confidence = "medium"
+    else:
+        confidence = "low"  # Close to league average — no real edge
+
+    return {
+        "projected_total": round(projected_total, 1),
+        "away_runs": round(away_runs, 2),
+        "home_runs": round(home_runs, 2),
+        "confidence": confidence,
+        "ou_line": round(projected_total * 2) / 2,
+        "factors_breakdown": {
+            "base": LEAGUE_AVG_TOTAL,
+            "offense_adj": round(offense_adj, 2),
+            "pitching_adj": round(pitching_adj, 2),
+            "park_adj": round(park_adj, 2),
+            "weather_adj": round(weather_adj, 2),
+            "ump_adj": round(ump_adj, 2),
+            "raw_total": round(raw_total, 2),
+            "regression": REGRESSION_TO_MEAN,
+            "final_total": round(projected_total, 1),
+        },
+    }
+
+
+def evaluate_total_bet(
+    model_total: float,
+    posted_line: float,
+    confidence: str,
+    over_odds: int = -110,
+    under_odds: int = -110,
+) -> dict[str, Any]:
+    """Evaluate if there's edge on an over/under bet.
+
+    Only recommends bets when:
+    1. Model disagrees with posted line by a meaningful amount
+    2. Confidence is medium or high
+    """
+    diff = model_total - posted_line
+
+    # Minimum disagreement thresholds by confidence
+    min_diff = {"high": 0.7, "medium": 1.0, "low": 1.5}
+    threshold = min_diff.get(confidence, 1.5)
+
+    if abs(diff) < threshold:
+        return {"recommendation": "NO BET", "reason": f"Model within {threshold} of line"}
+
+    if diff > 0:
+        side = "OVER"
+        # Simple probability estimate based on deviation
+        # Every 0.5 run deviation ≈ 3-4% probability shift
+        edge_estimate = min(diff * 0.06, 0.15)  # Cap at 15%
+    else:
+        side = "UNDER"
+        edge_estimate = min(abs(diff) * 0.06, 0.15)
+
+    # Rating
+    if abs(diff) >= 2.0:
+        rating = "STRONG"
+    elif abs(diff) >= 1.5:
+        rating = "GOOD"
+    else:
+        rating = "LEAN"
+
+    return {
+        "recommendation": side,
+        "diff": round(diff, 1),
+        "edge_estimate": round(edge_estimate * 100, 1),
+        "rating": rating,
+        "confidence": confidence,
+    }
