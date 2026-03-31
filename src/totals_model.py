@@ -126,11 +126,38 @@ def compute_totals_projection(
     # ── RAW PROJECTION ──
     raw_total = base_total + offense_adj + pitching_adj + park_adj + weather_adj + ump_adj
 
-    # ── REGRESSION TO MEAN ──
-    # This is the key fix: heavily regress extreme projections toward league avg
-    # Prevents the 12+ run projections that overshoot badly
-    projected_total = (raw_total * (1 - REGRESSION_TO_MEAN) +
-                       LEAGUE_AVG_TOTAL * REGRESSION_TO_MEAN)
+    # ── DYNAMIC REGRESSION TO MEAN ──
+    # Key insight: regression should be LIGHTER when multiple strong signals
+    # agree in the same direction (e.g., two aces + pitcher's park = confident low).
+    # Regression should be HEAVIER when signals conflict or are weak.
+
+    # Count how many factors push in the same direction
+    adjustments = [offense_adj, pitching_adj, park_adj, weather_adj, ump_adj]
+    non_zero = [a for a in adjustments if abs(a) > 0.05]
+    if non_zero:
+        # What fraction of meaningful factors agree on direction?
+        direction = 1 if (raw_total - base_total) > 0 else -1
+        agreeing = sum(1 for a in non_zero if (a > 0) == (direction > 0))
+        agreement_rate = agreeing / len(non_zero) if non_zero else 0.5
+
+        # How strong is the total signal?
+        total_signal = abs(raw_total - base_total)
+
+        # Dynamic regression:
+        # - Strong agreement (80%+) + strong signal (1.0+ run): regress only 30%
+        # - Weak/conflicting signals: regress full 55%
+        # - Middle ground: scale between 30-55%
+        if agreement_rate >= 0.75 and total_signal >= 0.8:
+            regression = 0.30  # High conviction — trust the signal more
+        elif agreement_rate >= 0.60 and total_signal >= 0.5:
+            regression = 0.40  # Moderate conviction
+        else:
+            regression = REGRESSION_TO_MEAN  # Default 55% — weak signal
+    else:
+        regression = REGRESSION_TO_MEAN
+
+    projected_total = (raw_total * (1 - regression) +
+                       LEAGUE_AVG_TOTAL * regression)
 
     # ── SPLIT INTO TEAM RUNS ──
     # Use the offensive factors to split the total between teams
@@ -163,12 +190,12 @@ def compute_totals_projection(
 
     # ── CONFIDENCE ──
     deviation = abs(projected_total - LEAGUE_AVG_TOTAL)
-    if deviation >= 1.5:
-        confidence = "high"  # Strong signal — far from mean
-    elif deviation >= 0.7:
+    if deviation >= 1.0:
+        confidence = "high"
+    elif deviation >= 0.5:
         confidence = "medium"
     else:
-        confidence = "low"  # Close to league average — no real edge
+        confidence = "low"
 
     return {
         "projected_total": round(projected_total, 1),
@@ -184,7 +211,7 @@ def compute_totals_projection(
             "weather_adj": round(weather_adj, 2),
             "ump_adj": round(ump_adj, 2),
             "raw_total": round(raw_total, 2),
-            "regression": REGRESSION_TO_MEAN,
+            "regression": regression,
             "final_total": round(projected_total, 1),
         },
     }
