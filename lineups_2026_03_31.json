@@ -9,64 +9,67 @@
       "away_team_id": 140,
       "home_team": "Baltimore Orioles",
       "home_team_id": 110,
-      "away_probable_pitcher": null,
+      "away_probable_pitcher": {
+        "id": 594798,
+        "name": "Jacob deGrom"
+      },
       "home_probable_pitcher": {
         "id": 621107,
         "name": "Zach Eflin"
       },
       "away_lineup": [
         {
-          "name": "Kyle Higashioka",
-          "id": 543309,
-          "position": "C",
+          "name": "Brandon Nimmo",
+          "id": 607043,
+          "position": "RF",
           "batting_order": 1
-        },
-        {
-          "name": "Jake Burger",
-          "id": 669394,
-          "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "Josh Smith",
-          "id": 669701,
-          "position": "2B",
-          "batting_order": 3
-        },
-        {
-          "name": "Josh Jung",
-          "id": 673962,
-          "position": "3B",
-          "batting_order": 4
-        },
-        {
-          "name": "Corey Seager",
-          "id": 608369,
-          "position": "SS",
-          "batting_order": 5
         },
         {
           "name": "Wyatt Langford",
           "id": 694671,
           "position": "LF",
-          "batting_order": 6
+          "batting_order": 2
         },
         {
-          "name": "Evan Carter",
-          "id": 694497,
-          "position": "CF",
-          "batting_order": 7
+          "name": "Corey Seager",
+          "id": 608369,
+          "position": "SS",
+          "batting_order": 3
         },
         {
-          "name": "Brandon Nimmo",
-          "id": 607043,
-          "position": "RF",
-          "batting_order": 8
+          "name": "Jake Burger",
+          "id": 669394,
+          "position": "1B",
+          "batting_order": 4
         },
         {
           "name": "Joc Pederson",
           "id": 592626,
           "position": "DH",
+          "batting_order": 5
+        },
+        {
+          "name": "Josh Smith",
+          "id": 669701,
+          "position": "2B",
+          "batting_order": 6
+        },
+        {
+          "name": "Danny Jansen",
+          "id": 643376,
+          "position": "C",
+          "batting_order": 7
+        },
+        {
+          "name": "Evan Carter",
+          "id": 694497,
+          "position": "CF",
+          "batting_order": 8
+        },
+        {
+          "name": "Ezequiel Duran",
+          "id": 677649,
+          "position": "3B",
           "batting_order": 9
         }
       ],
@@ -126,7 +129,7 @@
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "partial_official"
     },
     "824537": {
       "game_id": 824537,
@@ -145,117 +148,117 @@
       },
       "away_lineup": [
         {
-          "name": "Henry Davis",
-          "id": 680779,
-          "position": "C",
+          "name": "Jake Mangum",
+          "id": 663968,
+          "position": "RF",
           "batting_order": 1
         },
         {
-          "name": "Spencer Horwitz",
-          "id": 687462,
+          "name": "Ryan O'Hearn",
+          "id": 656811,
           "position": "1B",
           "batting_order": 2
-        },
-        {
-          "name": "Brandon Lowe",
-          "id": 664040,
-          "position": "2B",
-          "batting_order": 3
-        },
-        {
-          "name": "Nick Gonzales",
-          "id": 693304,
-          "position": "3B",
-          "batting_order": 4
-        },
-        {
-          "name": "Jared Triolo",
-          "id": 669707,
-          "position": "SS",
-          "batting_order": 5
         },
         {
           "name": "Bryan Reynolds",
           "id": 668804,
           "position": "LF",
-          "batting_order": 6
-        },
-        {
-          "name": "Oneil Cruz",
-          "id": 665833,
-          "position": "CF",
-          "batting_order": 7
-        },
-        {
-          "name": "Ryan O'Hearn",
-          "id": 656811,
-          "position": "RF",
-          "batting_order": 8
+          "batting_order": 3
         },
         {
           "name": "Marcell Ozuna",
           "id": 542303,
           "position": "DH",
+          "batting_order": 4
+        },
+        {
+          "name": "Brandon Lowe",
+          "id": 664040,
+          "position": "2B",
+          "batting_order": 5
+        },
+        {
+          "name": "Nick Gonzales",
+          "id": 693304,
+          "position": "SS",
+          "batting_order": 6
+        },
+        {
+          "name": "Joey Bart",
+          "id": 663698,
+          "position": "C",
+          "batting_order": 7
+        },
+        {
+          "name": "Oneil Cruz",
+          "id": 665833,
+          "position": "CF",
+          "batting_order": 8
+        },
+        {
+          "name": "Nick Yorke",
+          "id": 694377,
+          "position": "3B",
           "batting_order": 9
         }
       ],
       "home_lineup": [
         {
-          "name": "Tyler Stephenson",
-          "id": 663886,
-          "position": "C",
+          "name": "TJ Friedl",
+          "id": 670770,
+          "position": "CF",
           "batting_order": 1
-        },
-        {
-          "name": "Sal Stewart",
-          "id": 701398,
-          "position": "1B",
-          "batting_order": 2
         },
         {
           "name": "Matt McLain",
           "id": 680574,
           "position": "2B",
-          "batting_order": 3
-        },
-        {
-          "name": "Ke'Bryan Hayes",
-          "id": 663647,
-          "position": "3B",
-          "batting_order": 4
+          "batting_order": 2
         },
         {
           "name": "Elly De La Cruz",
           "id": 682829,
           "position": "SS",
+          "batting_order": 3
+        },
+        {
+          "name": "Sal Stewart",
+          "id": 701398,
+          "position": "1B",
+          "batting_order": 4
+        },
+        {
+          "name": "Eugenio Suárez",
+          "id": 553993,
+          "position": "DH",
           "batting_order": 5
         },
         {
-          "name": "Spencer Steer",
-          "id": 668715,
+          "name": "Will Benson",
+          "id": 666181,
           "position": "LF",
           "batting_order": 6
-        },
-        {
-          "name": "TJ Friedl",
-          "id": 670770,
-          "position": "CF",
-          "batting_order": 7
         },
         {
           "name": "Noelvi Marte",
           "id": 682622,
           "position": "RF",
+          "batting_order": 7
+        },
+        {
+          "name": "Jose Trevino",
+          "id": 624431,
+          "position": "C",
           "batting_order": 8
         },
         {
-          "name": "Eugenio Su\u00e1rez",
-          "id": 553993,
-          "position": "DH",
+          "name": "Ke'Bryan Hayes",
+          "id": 663647,
+          "position": "3B",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "official"
     },
     "823485": {
       "game_id": 823485,
@@ -274,77 +277,77 @@
       },
       "away_lineup": [
         {
-          "name": "Keibert Ruiz",
-          "id": 660688,
-          "position": "C",
+          "name": "James Wood",
+          "id": 695578,
+          "position": "RF",
           "batting_order": 1
         },
         {
-          "name": "Curtis Mead",
-          "id": 678554,
+          "name": "Luis García Jr.",
+          "id": 671277,
           "position": "1B",
           "batting_order": 2
-        },
-        {
-          "name": "Nasim Nu\u00f1ez",
-          "id": 683083,
-          "position": "2B",
-          "batting_order": 3
-        },
-        {
-          "name": "Brady House",
-          "id": 691781,
-          "position": "3B",
-          "batting_order": 4
         },
         {
           "name": "CJ Abrams",
           "id": 682928,
           "position": "SS",
-          "batting_order": 5
+          "batting_order": 3
         },
         {
           "name": "Daylen Lile",
           "id": 695734,
           "position": "LF",
+          "batting_order": 4
+        },
+        {
+          "name": "Jorbit Vivas",
+          "id": 678391,
+          "position": "3B",
+          "batting_order": 5
+        },
+        {
+          "name": "Keibert Ruiz",
+          "id": 660688,
+          "position": "C",
           "batting_order": 6
         },
         {
-          "name": "Jacob Young",
-          "id": 696285,
-          "position": "CF",
+          "name": "José Tena",
+          "id": 677588,
+          "position": "DH",
           "batting_order": 7
         },
         {
-          "name": "James Wood",
-          "id": 695578,
-          "position": "RF",
+          "name": "Joey Wiemer",
+          "id": 686894,
+          "position": "CF",
           "batting_order": 8
         },
         {
-          "name": "James Wood",
-          "id": 695578,
-          "position": "DH",
+          "name": "Nasim Nuñez",
+          "id": 683083,
+          "position": "2B",
           "batting_order": 9
         }
       ],
       "home_lineup": [
         {
-          "name": "J.T. Realmuto",
-          "id": 592663,
-          "position": "C",
+          "name": "Trea Turner",
+          "id": 607208,
+          "position": "SS",
           "batting_order": 1
+        },
+        {
+          "name": "Kyle Schwarber",
+          "id": 656941,
+          "position": "DH",
+          "batting_order": 2
         },
         {
           "name": "Bryce Harper",
           "id": 547180,
           "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "Bryson Stott",
-          "id": 681082,
-          "position": "2B",
           "batting_order": 3
         },
         {
@@ -354,37 +357,37 @@
           "batting_order": 4
         },
         {
-          "name": "Trea Turner",
-          "id": 607208,
-          "position": "SS",
+          "name": "Bryson Stott",
+          "id": 681082,
+          "position": "2B",
           "batting_order": 5
+        },
+        {
+          "name": "Adolis García",
+          "id": 666969,
+          "position": "RF",
+          "batting_order": 6
         },
         {
           "name": "Brandon Marsh",
           "id": 669016,
           "position": "LF",
-          "batting_order": 6
+          "batting_order": 7
+        },
+        {
+          "name": "J.T. Realmuto",
+          "id": 592663,
+          "position": "C",
+          "batting_order": 8
         },
         {
           "name": "Justin Crawford",
           "id": 702222,
           "position": "CF",
-          "batting_order": 7
-        },
-        {
-          "name": "Adolis Garc\u00eda",
-          "id": 666969,
-          "position": "RF",
-          "batting_order": 8
-        },
-        {
-          "name": "Kyle Schwarber",
-          "id": 656941,
-          "position": "DH",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "official"
     },
     "823888": {
       "game_id": 823888,
@@ -403,9 +406,9 @@
       },
       "away_lineup": [
         {
-          "name": "Edgar Quero",
-          "id": 700337,
-          "position": "C",
+          "name": "Chase Meidroth",
+          "id": 805367,
+          "position": "2B",
           "batting_order": 1
         },
         {
@@ -415,21 +418,21 @@
           "batting_order": 2
         },
         {
-          "name": "Chase Meidroth",
-          "id": 805367,
-          "position": "2B",
+          "name": "Andrew Benintendi",
+          "id": 643217,
+          "position": "DH",
           "batting_order": 3
-        },
-        {
-          "name": "Miguel Vargas",
-          "id": 678246,
-          "position": "3B",
-          "batting_order": 4
         },
         {
           "name": "Colson Montgomery",
           "id": 695657,
           "position": "SS",
+          "batting_order": 4
+        },
+        {
+          "name": "Miguel Vargas",
+          "id": 678246,
+          "position": "3B",
           "batting_order": 5
         },
         {
@@ -439,47 +442,47 @@
           "batting_order": 6
         },
         {
-          "name": "Luisangel Acu\u00f1a",
-          "id": 682668,
-          "position": "CF",
+          "name": "Tristan Peters",
+          "id": 671976,
+          "position": "RF",
           "batting_order": 7
         },
         {
-          "name": "Everson Pereira",
-          "id": 677592,
-          "position": "RF",
+          "name": "Edgar Quero",
+          "id": 700337,
+          "position": "C",
           "batting_order": 8
         },
         {
-          "name": "Andrew Benintendi",
-          "id": 643217,
-          "position": "DH",
+          "name": "Luisangel Acuña",
+          "id": 682668,
+          "position": "CF",
           "batting_order": 9
         }
       ],
       "home_lineup": [
         {
-          "name": "Agust\u00edn Ram\u00edrez",
-          "id": 682663,
-          "position": "C",
+          "name": "Jakob Marsee",
+          "id": 805300,
+          "position": "CF",
           "batting_order": 1
-        },
-        {
-          "name": "Christopher Morel",
-          "id": 666624,
-          "position": "1B",
-          "batting_order": 2
         },
         {
           "name": "Xavier Edwards",
           "id": 669364,
           "position": "2B",
+          "batting_order": 2
+        },
+        {
+          "name": "Agustín Ramírez",
+          "id": 682663,
+          "position": "C",
           "batting_order": 3
         },
         {
-          "name": "Graham Pauley",
-          "id": 688363,
-          "position": "3B",
+          "name": "Liam Hicks",
+          "id": 689414,
+          "position": "1B",
           "batting_order": 4
         },
         {
@@ -489,31 +492,31 @@
           "batting_order": 5
         },
         {
-          "name": "Kyle Stowers",
-          "id": 669065,
-          "position": "LF",
+          "name": "Owen Caissie",
+          "id": 683357,
+          "position": "DH",
           "batting_order": 6
         },
         {
-          "name": "Jakob Marsee",
-          "id": 805300,
-          "position": "CF",
+          "name": "Heriberto Hernández",
+          "id": 681715,
+          "position": "LF",
           "batting_order": 7
-        },
-        {
-          "name": "Owen Caissie",
-          "id": 683357,
-          "position": "RF",
-          "batting_order": 8
         },
         {
           "name": "Griffin Conine",
           "id": 665052,
-          "position": "DH",
+          "position": "RF",
+          "batting_order": 8
+        },
+        {
+          "name": "Graham Pauley",
+          "id": 688363,
+          "position": "3B",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "official"
     },
     "822836": {
       "game_id": 822836,
@@ -532,39 +535,39 @@
       },
       "away_lineup": [
         {
-          "name": "Hunter Goodman",
-          "id": 696100,
-          "position": "C",
+          "name": "Jake McCarthy",
+          "id": 664983,
+          "position": "LF",
           "batting_order": 1
         },
         {
-          "name": "TJ Rumfield",
-          "id": 681198,
-          "position": "1B",
+          "name": "Hunter Goodman",
+          "id": 696100,
+          "position": "C",
           "batting_order": 2
         },
         {
           "name": "Willi Castro",
           "id": 650489,
-          "position": "2B",
+          "position": "1B",
           "batting_order": 3
-        },
-        {
-          "name": "Kyle Karros",
-          "id": 691720,
-          "position": "3B",
-          "batting_order": 4
         },
         {
           "name": "Ezequiel Tovar",
           "id": 678662,
           "position": "SS",
+          "batting_order": 4
+        },
+        {
+          "name": "TJ Rumfield",
+          "id": 681198,
+          "position": "DH",
           "batting_order": 5
         },
         {
-          "name": "Jake McCarthy",
-          "id": 664983,
-          "position": "LF",
+          "name": "Troy Johnston",
+          "id": 687859,
+          "position": "RF",
           "batting_order": 6
         },
         {
@@ -574,35 +577,35 @@
           "batting_order": 7
         },
         {
-          "name": "Jordan Beck",
-          "id": 687597,
-          "position": "RF",
+          "name": "Kyle Karros",
+          "id": 691720,
+          "position": "3B",
           "batting_order": 8
         },
         {
-          "name": "Edouard Julien",
-          "id": 666397,
-          "position": "DH",
+          "name": "Ryan Ritter",
+          "id": 690022,
+          "position": "2B",
           "batting_order": 9
         }
       ],
       "home_lineup": [
         {
-          "name": "Alejandro Kirk",
-          "id": 672386,
-          "position": "C",
+          "name": "George Springer",
+          "id": 543807,
+          "position": "DH",
           "batting_order": 1
+        },
+        {
+          "name": "Jesús Sánchez",
+          "id": 660821,
+          "position": "LF",
+          "batting_order": 2
         },
         {
           "name": "Vladimir Guerrero Jr.",
           "id": 665489,
           "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "Ernie Clement",
-          "id": 676391,
-          "position": "2B",
           "batting_order": 3
         },
         {
@@ -612,15 +615,15 @@
           "batting_order": 4
         },
         {
-          "name": "Andr\u00e9s Gim\u00e9nez",
-          "id": 665926,
-          "position": "SS",
+          "name": "Nathan Lukes",
+          "id": 664770,
+          "position": "RF",
           "batting_order": 5
         },
         {
-          "name": "Nathan Lukes",
-          "id": 664770,
-          "position": "LF",
+          "name": "Ernie Clement",
+          "id": 676391,
+          "position": "2B",
           "batting_order": 6
         },
         {
@@ -630,19 +633,19 @@
           "batting_order": 7
         },
         {
-          "name": "Addison Barger",
-          "id": 680718,
-          "position": "RF",
+          "name": "Tyler Heineman",
+          "id": 623168,
+          "position": "C",
           "batting_order": 8
         },
         {
-          "name": "George Springer",
-          "id": 543807,
-          "position": "DH",
+          "name": "Andrés Giménez",
+          "id": 665926,
+          "position": "SS",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "official"
     },
     "824942": {
       "game_id": 824942,
@@ -657,49 +660,49 @@
       },
       "home_probable_pitcher": {
         "id": 660761,
-        "name": "Jos\u00e9 Suarez"
+        "name": "José Suarez"
       },
       "away_lineup": [
+        {
+          "name": "Jacob Wilson",
+          "id": 805779,
+          "position": "SS",
+          "batting_order": 1
+        },
         {
           "name": "Shea Langeliers",
           "id": 669127,
           "position": "C",
-          "batting_order": 1
+          "batting_order": 2
         },
         {
           "name": "Nick Kurtz",
           "id": 701762,
           "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "Jeff McNeil",
-          "id": 643446,
-          "position": "2B",
           "batting_order": 3
         },
         {
-          "name": "Max Muncy",
-          "id": 691777,
-          "position": "3B",
+          "name": "Brent Rooker",
+          "id": 667670,
+          "position": "DH",
           "batting_order": 4
-        },
-        {
-          "name": "Jacob Wilson",
-          "id": 805779,
-          "position": "SS",
-          "batting_order": 5
         },
         {
           "name": "Tyler Soderstrom",
           "id": 691016,
           "position": "LF",
+          "batting_order": 5
+        },
+        {
+          "name": "Max Muncy",
+          "id": 691777,
+          "position": "3B",
           "batting_order": 6
         },
         {
-          "name": "Denzel Clarke",
-          "id": 672016,
-          "position": "CF",
+          "name": "Andy Ibáñez",
+          "id": 628451,
+          "position": "2B",
           "batting_order": 7
         },
         {
@@ -709,29 +712,29 @@
           "batting_order": 8
         },
         {
-          "name": "Brent Rooker",
-          "id": 667670,
-          "position": "DH",
+          "name": "Denzel Clarke",
+          "id": 672016,
+          "position": "CF",
           "batting_order": 9
         }
       ],
       "home_lineup": [
         {
+          "name": "Ronald Acuña Jr.",
+          "id": 660670,
+          "position": "RF",
+          "batting_order": 1
+        },
+        {
           "name": "Drake Baldwin",
           "id": 686948,
           "position": "C",
-          "batting_order": 1
+          "batting_order": 2
         },
         {
           "name": "Matt Olson",
           "id": 621566,
           "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "Ozzie Albies",
-          "id": 645277,
-          "position": "2B",
           "batting_order": 3
         },
         {
@@ -741,15 +744,15 @@
           "batting_order": 4
         },
         {
-          "name": "Mauricio Dub\u00f3n",
-          "id": 643289,
-          "position": "SS",
-          "batting_order": 5
-        },
-        {
           "name": "Mike Yastrzemski",
           "id": 573262,
           "position": "LF",
+          "batting_order": 5
+        },
+        {
+          "name": "Ozzie Albies",
+          "id": 645277,
+          "position": "2B",
           "batting_order": 6
         },
         {
@@ -759,19 +762,19 @@
           "batting_order": 7
         },
         {
-          "name": "Ronald Acu\u00f1a Jr.",
-          "id": 660670,
-          "position": "RF",
-          "batting_order": 8
-        },
-        {
           "name": "Dominic Smith",
           "id": 642086,
           "position": "DH",
+          "batting_order": 8
+        },
+        {
+          "name": "Mauricio Dubón",
+          "id": 643289,
+          "position": "SS",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "official"
     },
     "824699": {
       "game_id": 824699,
@@ -782,7 +785,7 @@
       "home_team_id": 112,
       "away_probable_pitcher": {
         "id": 667755,
-        "name": "Jos\u00e9 Soriano"
+        "name": "José Soriano"
       },
       "home_probable_pitcher": {
         "id": 592791,
@@ -808,7 +811,7 @@
           "batting_order": 3
         },
         {
-          "name": "Yo\u00e1n Moncada",
+          "name": "Yoán Moncada",
           "id": 660162,
           "position": "3B",
           "batting_order": 4
@@ -894,7 +897,7 @@
           "batting_order": 8
         },
         {
-          "name": "Mois\u00e9s Ballesteros",
+          "name": "Moisés Ballesteros",
           "id": 694208,
           "position": "DH",
           "batting_order": 9
@@ -967,7 +970,7 @@
           "batting_order": 8
         },
         {
-          "name": "Yandy D\u00edaz",
+          "name": "Yandy Díaz",
           "id": 650490,
           "position": "DH",
           "batting_order": 9
@@ -1104,61 +1107,61 @@
       ],
       "home_lineup": [
         {
-          "name": "Pedro Pag\u00e9s",
-          "id": 686780,
-          "position": "C",
+          "name": "JJ Wetherholt",
+          "id": 802139,
+          "position": "2B",
           "batting_order": 1
+        },
+        {
+          "name": "Iván Herrera",
+          "id": 671056,
+          "position": "C",
+          "batting_order": 2
         },
         {
           "name": "Alec Burleson",
           "id": 676475,
           "position": "1B",
-          "batting_order": 2
-        },
-        {
-          "name": "JJ Wetherholt",
-          "id": 802139,
-          "position": "2B",
           "batting_order": 3
-        },
-        {
-          "name": "Nolan Gorman",
-          "id": 669357,
-          "position": "3B",
-          "batting_order": 4
         },
         {
           "name": "Masyn Winn",
           "id": 691026,
           "position": "SS",
+          "batting_order": 4
+        },
+        {
+          "name": "Nolan Gorman",
+          "id": 669357,
+          "position": "DH",
           "batting_order": 5
-        },
-        {
-          "name": "Nathan Church",
-          "id": 701675,
-          "position": "LF",
-          "batting_order": 6
-        },
-        {
-          "name": "Victor Scott II",
-          "id": 687363,
-          "position": "CF",
-          "batting_order": 7
         },
         {
           "name": "Jordan Walker",
           "id": 691023,
           "position": "RF",
+          "batting_order": 6
+        },
+        {
+          "name": "Nathan Church",
+          "id": 701675,
+          "position": "LF",
+          "batting_order": 7
+        },
+        {
+          "name": "Ramón Urías",
+          "id": 602104,
+          "position": "3B",
           "batting_order": 8
         },
         {
-          "name": "Iv\u00e1n Herrera",
-          "id": 671056,
-          "position": "DH",
+          "name": "Victor Scott II",
+          "id": 687363,
+          "position": "CF",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "partial_official"
     },
     "824212": {
       "game_id": 824212,
@@ -1177,7 +1180,7 @@
       },
       "away_lineup": [
         {
-          "name": "Carlos Narv\u00e1ez",
+          "name": "Carlos Narváez",
           "id": 665966,
           "position": "C",
           "batting_order": 1
@@ -1233,15 +1236,15 @@
       ],
       "home_lineup": [
         {
-          "name": "Yainer Diaz",
-          "id": 673237,
-          "position": "C",
+          "name": "Jeremy Peña",
+          "id": 665161,
+          "position": "SS",
           "batting_order": 1
         },
         {
-          "name": "Christian Walker",
-          "id": 572233,
-          "position": "1B",
+          "name": "Yordan Alvarez",
+          "id": 670541,
+          "position": "DH",
           "batting_order": 2
         },
         {
@@ -1257,9 +1260,9 @@
           "batting_order": 4
         },
         {
-          "name": "Jeremy Pe\u00f1a",
-          "id": 665161,
-          "position": "SS",
+          "name": "Christian Walker",
+          "id": 572233,
+          "position": "1B",
           "batting_order": 5
         },
         {
@@ -1269,25 +1272,25 @@
           "batting_order": 6
         },
         {
-          "name": "Jake Meyers",
-          "id": 676694,
-          "position": "CF",
-          "batting_order": 7
-        },
-        {
           "name": "Cam Smith",
           "id": 701358,
           "position": "RF",
+          "batting_order": 7
+        },
+        {
+          "name": "Yainer Diaz",
+          "id": 673237,
+          "position": "C",
           "batting_order": 8
         },
         {
-          "name": "Yordan Alvarez",
-          "id": 670541,
-          "position": "DH",
+          "name": "Jake Meyers",
+          "id": 676694,
+          "position": "CF",
           "batting_order": 9
         }
       ],
-      "lineup_source": "depth_chart"
+      "lineup_source": "partial_official"
     },
     "825107": {
       "game_id": 825107,
@@ -1431,7 +1434,7 @@
       },
       "home_probable_pitcher": {
         "id": 608566,
-        "name": "Germ\u00e1n M\u00e1rquez"
+        "name": "Germán Márquez"
       },
       "away_lineup": [
         {
@@ -1521,7 +1524,7 @@
           "batting_order": 5
         },
         {
-          "name": "Ram\u00f3n Laureano",
+          "name": "Ramón Laureano",
           "id": 657656,
           "position": "LF",
           "batting_order": 6
@@ -1588,7 +1591,7 @@
           "batting_order": 4
         },
         {
-          "name": "Jos\u00e9 Caballero",
+          "name": "José Caballero",
           "id": 676609,
           "position": "SS",
           "batting_order": 5
@@ -1656,7 +1659,7 @@
           "batting_order": 6
         },
         {
-          "name": "Julio Rodr\u00edguez",
+          "name": "Julio Rodríguez",
           "id": 677594,
           "position": "CF",
           "batting_order": 7
@@ -1711,7 +1714,7 @@
           "batting_order": 3
         },
         {
-          "name": "Jos\u00e9 Ram\u00edrez",
+          "name": "José Ramírez",
           "id": 608070,
           "position": "3B",
           "batting_order": 4
@@ -1729,7 +1732,7 @@
           "batting_order": 6
         },
         {
-          "name": "Angel Mart\u00ednez",
+          "name": "Angel Martínez",
           "id": 682657,
           "position": "CF",
           "batting_order": 7
@@ -1779,7 +1782,7 @@
           "batting_order": 5
         },
         {
-          "name": "Teoscar Hern\u00e1ndez",
+          "name": "Teoscar Hernández",
           "id": 606192,
           "position": "LF",
           "batting_order": 6
