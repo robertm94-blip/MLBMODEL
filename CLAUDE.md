@@ -13,15 +13,12 @@ MLB prediction model that outputs win probabilities, run lines, and totals for d
 
 ```bash
 # Install dependencies
-pip install numpy scipy requests
+pip install -r requirements.txt
 
 # Daily predictions (10-factor NB model with weather)
 python predict_full.py --date 2026-03-31
 
-# Raw Monte Carlo projections (10K sims per game, no compression)
-# Built inline in scripts — see bottom of predict_full.py usage pattern
-
-# Full box score simulation
+# Full box score simulation (Monte Carlo)
 python simulate_boxscores.py --date 2026-03-31 --sims 1000
 python simulate_boxscores.py --game 824135  # single game
 
@@ -37,6 +34,8 @@ python backtest_multiyear.py --seasons 2023,2024,2025  # multi-year
 # Older/simpler model (Poisson-era, no 10-factor)
 python predict_today.py --date 2026-03-31
 ```
+
+**No test suite or linter is configured.** Validate changes by running backtests against historical data.
 
 ## Architecture
 
@@ -63,6 +62,10 @@ python predict_today.py --date 2026-03-31
 | 9 | Weather | `src/weather.py` | Open-Meteo API live |
 | 10 | Park + home | `src/features.py` | `HOME_ADVANTAGE = 0.25` |
 
+### API Client
+
+`src/mlb_api.py` is the central MLB Stats API client (`statsapi.mlb.com/api/v1`). Used by nearly all modules for schedules, lineups, pitcher/batter data, and live game feeds. No authentication required but requests use a 30-second timeout.
+
 ### Data Flow
 
 ```
@@ -72,6 +75,15 @@ Open-Meteo API → live weather per venue
 ```
 
 `src/projections.py` loads and blends pitcher projections from all 3 systems with equal weight. `src/lineup_offense.py` does the same for batters, keyed by MLBAM ID.
+
+### Cached Data
+
+`data/` contains pre-fetched JSON files that avoid redundant API calls:
+- `data/projections/{year}/` — FanGraphs projections per season (2023-2026)
+- `data/results_{year}.json` — historical game results for backtesting
+- `data/team_stats_{year}.json` — team-level RS/RA per season
+- `data/batter_hands.json`, `data/pitcher_hands.json` — L/R handedness lookups
+- `data/umpires_YYYY_MM_DD.json` — cached umpire assignments by date
 
 ### Key Tunable Parameters
 
