@@ -14,6 +14,9 @@ Usage:
     # Quote specific market tickers
     python kalshi_mm_bot.py --tickers TICKER1 TICKER2 TICKER3
 
+    # Quote ALL open markets matching a prefix (e.g. all MLB games)
+    python kalshi_mm_bot.py --prefix KXMLB
+
     # Quote all open markets under an event
     python kalshi_mm_bot.py --event MLB-FAVTEAM-2026
 
@@ -63,6 +66,11 @@ def parse_args():
         help="Market tickers to quote (e.g. MLB-NYY-YES-2026-04-02)",
     )
     p.add_argument(
+        "--prefix", type=str, default=None,
+        help="Ticker prefix — auto-discover all open markets whose ticker starts "
+             "with this string (e.g. KXMLB, KXMLBGAME).",
+    )
+    p.add_argument(
         "--event", type=str, default=None,
         help="Event ticker — bot will quote all open markets under this event.",
     )
@@ -102,8 +110,25 @@ def parse_args():
 
 
 def resolve_tickers(client: KalshiClient, args) -> list[str]:
-    """Build the ticker list from CLI args."""
+    """Build the ticker list from CLI args, --prefix, and --event."""
     tickers = list(args.tickers)
+
+    if args.prefix:
+        logger.info("Searching for open markets with prefix '%s'...", args.prefix)
+        cursor = None
+        while True:
+            params = {"limit": 200, "status": "open"}
+            if cursor:
+                params["cursor"] = cursor
+            resp = client.get_markets(**params)
+            for m in resp.get("markets", []):
+                t = m.get("ticker", "")
+                if t.startswith(args.prefix) and t not in tickers:
+                    tickers.append(t)
+            cursor = resp.get("cursor")
+            if not cursor:
+                break
+        logger.info("Found %d open markets matching prefix '%s'", len(tickers), args.prefix)
 
     if args.event:
         logger.info("Fetching markets for event %s...", args.event)
