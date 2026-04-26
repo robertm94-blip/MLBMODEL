@@ -21,3 +21,4 @@ data/ingest.db
 data/ingest.db-journal
 data/ingest.db-wal
 data/ingest.db-shm
+data/features/
