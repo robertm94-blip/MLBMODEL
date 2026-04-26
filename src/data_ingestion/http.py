@@ -1,4 +1,9 @@
-"""Shared HTTP client with per-host rate limiting and retry-with-backoff."""
+"""Shared HTTP client with per-host rate limiting and retry-with-backoff.
+
+Owns the `requests.Session` per host so connection pooling is reused
+across calls. Concrete `DataSource` implementations receive a single
+`HttpClient` and call `get_json(url, host_key=...)`.
+"""
 
 from __future__ import annotations
 
@@ -21,7 +26,8 @@ class HostConfig:
     headers: dict[str, str] = field(default_factory=dict)
 
 
-# Conservative defaults. NBA throttles aggressively and requires browser-like headers.
+# Conservative defaults. NBA throttles aggressively and requires
+# browser-like headers to respond at all.
 DEFAULT_HOSTS: dict[str, HostConfig] = {
     "mlb": HostConfig(rate_per_sec=5.0, burst=5, timeout=30.0),
     "nba": HostConfig(
@@ -46,7 +52,7 @@ DEFAULT_HOSTS: dict[str, HostConfig] = {
 
 
 class _TokenBucket:
-    """Simple thread-safe token bucket."""
+    """Thread-safe token bucket. Acquire blocks until a token is available."""
 
     def __init__(self, rate_per_sec: float, burst: int) -> None:
         self.rate = rate_per_sec
@@ -138,7 +144,7 @@ class HttpClient:
                     self._sleep_backoff(attempt, retry_after=None)
                     continue
 
-            if resp.status_code in (429,) or 500 <= resp.status_code < 600:
+            if resp.status_code == 429 or 500 <= resp.status_code < 600:
                 retry_after = _parse_retry_after(resp.headers.get("Retry-After"))
                 log.warning(
                     "HTTP %s on %s (attempt %d/%d); backing off",
@@ -169,3 +175,6 @@ def _parse_retry_after(value: str | None) -> float | None:
         return float(value)
     except ValueError:
         return None
+
+
+__all__ = ["HostConfig", "HttpClient", "DEFAULT_HOSTS"]

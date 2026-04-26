@@ -1,8 +1,9 @@
 """CLI entry point for the MLB feature engineering pipeline.
 
-Reads schedule + lineups (preferred from the SQLite ingest DB, falls back to
-legacy JSON files), composes per-team feature rows, and writes them to
-data/ingest.db (team_features table) and/or data/features/{date}.json.
+Reads schedule + lineups from the SQLite store (`data/data_ingestion.db`),
+falls back to legacy lineups_*.json or a live MLB Stats fetch when the
+DB is empty for the date, composes per-team feature rows, and writes
+them to the `team_features` table and/or data/features/{date}.json.
 
 Examples:
     python feature_engineer.py --date 2026-03-30
@@ -17,14 +18,12 @@ import argparse
 import json
 import logging
 import os
-import sqlite3
 import sys
-from collections import defaultdict
 from datetime import date, timedelta
 from typing import Any
 
+from src.data_ingestion.storage import DEFAULT_DB_PATH, SQLiteStore
 from src.feature_pipeline import build_game_features
-from src.ingest import db
 from src.mlb_api import get_schedule
 
 log = logging.getLogger("feature_engineer")
@@ -52,33 +51,24 @@ def _daterange(start: date, end: date):
         cur += one
 
 
-def _load_schedule_from_db(conn: sqlite3.Connection, target_date: str) -> list[dict[str, Any]]:
-    rows = conn.execute(
-        """
-        SELECT game_id, home_team_id, home_team_name, away_team_id, away_team_name,
-               venue, raw_json
-        FROM games
-        WHERE sport='mlb' AND game_date=?
-        ORDER BY game_id
-        """,
-        (target_date,),
-    ).fetchall()
-    games = []
-    for row in rows:
-        raw = json.loads(row["raw_json"]) if row["raw_json"] else {}
-        games.append({
-            "game_id": row["game_id"],
-            "home_team_id": row["home_team_id"],
-            "home_team_name": row["home_team_name"],
-            "away_team_id": row["away_team_id"],
-            "away_team_name": row["away_team_name"],
-            "venue_id": raw.get("venue_id"),
+def _load_schedule_from_store(store: SQLiteStore, target_date: str) -> list[dict[str, Any]]:
+    games = store.query_games_for_date("mlb", target_date)
+    out = []
+    for g in games:
+        raw = json.loads(g["raw_json"]) if g.get("raw_json") else {}
+        out.append({
+            "game_id": g["game_id"],
+            "home_team_id": g.get("home_team_id"),
+            "home_team_name": g.get("home_team_name") or raw.get("home_team_name"),
+            "away_team_id": g.get("away_team_id"),
+            "away_team_name": g.get("away_team_name") or raw.get("away_team_name"),
+            "venue_id": g.get("venue_id") or raw.get("venue_id"),
             "home_pitcher_id": raw.get("home_pitcher_id"),
             "home_pitcher_name": raw.get("home_pitcher_name"),
             "away_pitcher_id": raw.get("away_pitcher_id"),
             "away_pitcher_name": raw.get("away_pitcher_name"),
         })
-    return games
+    return out
 
 
 def _load_schedule_live(target_date: str) -> list[dict[str, Any]]:
@@ -100,37 +90,28 @@ def _load_schedule_live(target_date: str) -> list[dict[str, Any]]:
     ]
 
 
-def _load_lineups_from_db(
-    conn: sqlite3.Connection, target_date: str
+def _load_lineups_from_store(
+    store: SQLiteStore, target_date: str
 ) -> dict[str, dict[str, list[dict[str, Any]]]]:
-    """Returns {game_id: {team_id: [{batting_order, id, name, position, source}, ...]}}"""
-    rows = conn.execute(
-        """
-        SELECT l.game_id, l.team_id, l.batting_order, l.player_id, l.player_name,
-               l.position, l.source
-        FROM lineups l
-        JOIN games g ON g.sport=l.sport AND g.game_id=l.game_id
-        WHERE l.sport='mlb' AND g.game_date=?
-        ORDER BY l.game_id, l.team_id, COALESCE(l.batting_order, 999)
-        """,
-        (target_date,),
-    ).fetchall()
-    out: dict[str, dict[str, list[dict[str, Any]]]] = defaultdict(lambda: defaultdict(list))
-    for row in rows:
-        if row["batting_order"] is None:
-            continue
-        out[row["game_id"]][row["team_id"]].append({
-            "batting_order": row["batting_order"],
-            "id": int(row["player_id"]),
-            "name": row["player_name"],
-            "position": row["position"],
-            "source": row["source"],
-        })
+    """Returns {game_id: {team_id: [lineup row dicts...]}} from the SQLite store."""
+    raw = store.query_lineups_for_date("mlb", target_date)
+    out: dict[str, dict[str, list[dict[str, Any]]]] = {}
+    for game_id, by_team in raw.items():
+        for team_id, entries in by_team.items():
+            for e in entries:
+                if e.get("batting_order") is None:
+                    continue
+                out.setdefault(game_id, {}).setdefault(team_id, []).append({
+                    "batting_order": e["batting_order"],
+                    "id": e["id"],
+                    "name": e["name"],
+                    "position": e["position"],
+                    "source": e["source"],
+                })
     return out
 
 
 def _load_lineups_legacy(target_date: str) -> dict[str, dict[str, dict[str, Any]]]:
-    """Fallback to root lineups_YYYY_MM_DD.json files."""
     y, m, d = target_date.split("-")
     path = LEGACY_LINEUP_TEMPLATE.format(y=int(y), m=int(m), d=int(d))
     if not os.path.exists(path):
@@ -155,32 +136,31 @@ def _load_lineups_legacy(target_date: str) -> dict[str, dict[str, dict[str, Any]
 def _resolve_lineup(
     game_id: str,
     team_id: str,
-    db_lineups: dict[str, dict[str, list[dict[str, Any]]]],
+    store_lineups: dict[str, dict[str, list[dict[str, Any]]]],
     legacy_lineups: dict[str, dict[str, dict[str, Any]]],
 ) -> tuple[list[dict[str, Any]], str | None]:
-    db_lu = db_lineups.get(game_id, {}).get(team_id, [])
+    db_lu = store_lineups.get(game_id, {}).get(team_id, [])
     if db_lu:
-        source = db_lu[0].get("source") if db_lu else None
-        return db_lu, source
+        return db_lu, db_lu[0].get("source")
     legacy = legacy_lineups.get(game_id, {}).get(team_id, {})
     return legacy.get("lineup", []) or [], legacy.get("source")
 
 
 def process_date(
     target_date: str,
-    conn: sqlite3.Connection,
+    store: SQLiteStore,
     write_db: bool,
     out_dir: str,
     only_game_id: str | None = None,
 ) -> tuple[int, int]:
-    schedule = _load_schedule_from_db(conn, target_date)
+    schedule = _load_schedule_from_store(store, target_date)
     if not schedule:
-        log.info("[%s] no schedule in DB, fetching from MLB Stats API", target_date)
+        log.info("[%s] no schedule in store, fetching from MLB Stats API", target_date)
         schedule = _load_schedule_live(target_date)
     if only_game_id:
         schedule = [g for g in schedule if str(g["game_id"]) == str(only_game_id)]
 
-    db_lineups = _load_lineups_from_db(conn, target_date)
+    store_lineups = _load_lineups_from_store(store, target_date)
     legacy_lineups = _load_lineups_legacy(target_date)
 
     output_rows: list[dict[str, Any]] = []
@@ -189,8 +169,8 @@ def process_date(
         game_id = str(game["game_id"])
         home_team_id = str(game["home_team_id"])
         away_team_id = str(game["away_team_id"])
-        home_lineup, home_src = _resolve_lineup(game_id, home_team_id, db_lineups, legacy_lineups)
-        away_lineup, away_src = _resolve_lineup(game_id, away_team_id, db_lineups, legacy_lineups)
+        home_lineup, home_src = _resolve_lineup(game_id, home_team_id, store_lineups, legacy_lineups)
+        away_lineup, away_src = _resolve_lineup(game_id, away_team_id, store_lineups, legacy_lineups)
         features = build_game_features(
             game_id=game_id,
             game_date=target_date,
@@ -216,7 +196,7 @@ def process_date(
             row = features[side]
             output_rows.append(row)
             if write_db:
-                inserts += db.upsert_team_features(conn, row)
+                inserts += int(store.upsert_team_features(row))
         log.info(
             "[%s] %s @ %s: home wRC+=%s pitch_fip=%s | away wRC+=%s pitch_fip=%s | park=%s",
             target_date, game["away_team_name"], game["home_team_name"],
@@ -228,7 +208,7 @@ def process_date(
         )
 
     if write_db:
-        conn.commit()
+        store.conn.commit()
 
     if output_rows:
         os.makedirs(out_dir, exist_ok=True)
@@ -242,7 +222,7 @@ def process_date(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="MLB feature engineering pipeline")
-    parser.add_argument("--db", default=db.DEFAULT_DB_PATH, help="SQLite path (default: data/ingest.db)")
+    parser.add_argument("--db", default=DEFAULT_DB_PATH, help=f"SQLite path (default: {DEFAULT_DB_PATH})")
     parser.add_argument("--out-dir", default=FEATURES_DIR, help="JSON output dir (default: data/features)")
     parser.add_argument("--write-db", action="store_true", help="Upsert rows into team_features")
     parser.add_argument("--log-level", default="INFO")
@@ -259,20 +239,20 @@ def main(argv: list[str] | None = None) -> int:
         level=getattr(logging, args.log_level.upper(), logging.INFO),
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
-    conn = db.connect(args.db)
+    store = SQLiteStore(args.db)
 
     if args.backfill:
         start, end = _parse_range(args.backfill)
         total_rows = total_inserts = 0
         for d in _daterange(start, end):
-            rows, ins = process_date(d.isoformat(), conn, args.write_db, args.out_dir)
+            rows, ins = process_date(d.isoformat(), store, args.write_db, args.out_dir)
             total_rows += rows
             total_inserts += ins
         log.info("backfill complete: %d rows, %d inserts", total_rows, total_inserts)
         return 0
 
     target = args.date or date.today().isoformat()
-    rows, inserts = process_date(target, conn, args.write_db, args.out_dir, only_game_id=args.game)
+    rows, inserts = process_date(target, store, args.write_db, args.out_dir, only_game_id=args.game)
     log.info("date %s: %d rows, %d inserts", target, rows, inserts)
     return 0
 

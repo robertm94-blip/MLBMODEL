@@ -27,7 +27,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 from typing import Any
 
-from src.ingest import db
+from src.data_ingestion.storage import DEFAULT_DB_PATH, SQLiteStore
 from src.projection_engine import compute_game_projection
 from src.projections import get_league_avg_rpg
 
@@ -83,10 +83,10 @@ def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
 
 
 def _load_features_by_game(
-    conn: sqlite3.Connection, target_date: str
+    store: SQLiteStore, target_date: str
 ) -> dict[str, dict[str, dict[str, Any]]]:
     """Returns {game_id: {'home': {...}, 'away': {...}}} for the date."""
-    rows = conn.execute(
+    rows = store.conn.execute(
         """
         SELECT * FROM team_features
         WHERE sport='mlb' AND game_date=?
@@ -101,12 +101,12 @@ def _load_features_by_game(
 
 
 def project_date(
-    conn: sqlite3.Connection,
+    store: SQLiteStore,
     target_date: str,
     out_dir: str,
     league_avg_rpg: float,
 ) -> tuple[int, str | None]:
-    games = _load_features_by_game(conn, target_date)
+    games = _load_features_by_game(store, target_date)
     if not games:
         log.warning("[%s] no team_features rows; skipping", target_date)
         return 0, None
@@ -185,7 +185,7 @@ def project_date(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Core MLB projection engine")
-    parser.add_argument("--db", default=db.DEFAULT_DB_PATH, help="SQLite path (default: data/ingest.db)")
+    parser.add_argument("--db", default=DEFAULT_DB_PATH, help=f"SQLite path (default: {DEFAULT_DB_PATH})")
     parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR, help="CSV output dir")
     parser.add_argument("--log-level", default="INFO")
     grp = parser.add_mutually_exclusive_group()
@@ -200,7 +200,7 @@ def main(argv: list[str] | None = None) -> int:
         level=getattr(logging, args.log_level.upper(), logging.INFO),
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
-    conn = db.connect(args.db)
+    store = SQLiteStore(args.db)
     league_avg_rpg = get_league_avg_rpg()
     log.info("league avg R/G = %.3f", league_avg_rpg)
 
@@ -208,13 +208,13 @@ def main(argv: list[str] | None = None) -> int:
         start, end = _parse_range(args.backfill)
         total = 0
         for d in _daterange(start, end):
-            n, _ = project_date(conn, d.isoformat(), args.out_dir, league_avg_rpg)
+            n, _ = project_date(store, d.isoformat(), args.out_dir, league_avg_rpg)
             total += n
         log.info("backfill complete: %d games projected", total)
         return 0
 
     target = args.date or date.today().isoformat()
-    project_date(conn, target, args.out_dir, league_avg_rpg)
+    project_date(store, target, args.out_dir, league_avg_rpg)
     return 0
 
 
