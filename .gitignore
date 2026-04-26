@@ -22,3 +22,4 @@ data/ingest.db-journal
 data/ingest.db-wal
 data/ingest.db-shm
 data/features/
+data/projections_csv/

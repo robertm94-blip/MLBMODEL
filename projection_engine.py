@@ -1,0 +1,222 @@
+"""CLI for the core projection engine.
+
+Reads per-team feature rows from the SQLite `team_features` table
+(produced by `feature_engineer.py`), produces per-game projections
+(fair lines + projected totals), and writes a daily CSV.
+
+Examples:
+    python projection_engine.py --date 2026-03-30
+    python projection_engine.py --date 2026-03-30 --out data/projections_csv/
+    python projection_engine.py --backfill 2025-04-01:2025-04-30
+
+Edge / Kelly columns are intentionally excluded for now (deferred until
+a market-odds source is wired in). When that lands, run the rows from
+this CSV through `src.edge.analyze_game` to populate edges without
+changing this engine.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import logging
+import os
+import sqlite3
+import sys
+from collections import defaultdict
+from datetime import date, timedelta
+from typing import Any
+
+from src.ingest import db
+from src.projection_engine import compute_game_projection
+from src.projections import get_league_avg_rpg
+
+log = logging.getLogger("projection_engine")
+
+DEFAULT_OUT_DIR = os.path.join("data", "projections_csv")
+
+CSV_COLUMNS = [
+    "date",
+    "game_id",
+    "venue_id",
+    "park_runs_factor",
+    "away_team_id", "away_team_name",
+    "home_team_id", "home_team_name",
+    "away_offensive_factor", "home_offensive_factor",
+    "away_pitching_fip", "home_pitching_fip",
+    "away_pitching_factor", "home_pitching_factor",
+    "away_is_opener", "home_is_opener",
+    "away_is_bullpen_heavy", "home_is_bullpen_heavy",
+    "away_lambda", "home_lambda",
+    "away_win_pct", "home_win_pct",
+    "away_fair_decimal", "home_fair_decimal",
+    "away_fair_line", "home_fair_line",
+    "expected_total_nb",
+    "projected_total",
+    "ou_line",
+    "totals_confidence",
+    "predicted_score_away", "predicted_score_home", "score_probability_pct",
+]
+
+
+def _parse_range(value: str) -> tuple[date, date]:
+    start_str, _, end_str = value.partition(":")
+    if not end_str:
+        raise argparse.ArgumentTypeError("--backfill must be START:END (YYYY-MM-DD:YYYY-MM-DD)")
+    start = date.fromisoformat(start_str)
+    end = date.fromisoformat(end_str)
+    if end < start:
+        raise argparse.ArgumentTypeError("--backfill END must be >= START")
+    return start, end
+
+
+def _daterange(start: date, end: date):
+    cur = start
+    one = timedelta(days=1)
+    while cur <= end:
+        yield cur
+        cur += one
+
+
+def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+    return {k: row[k] for k in row.keys()}
+
+
+def _load_features_by_game(
+    conn: sqlite3.Connection, target_date: str
+) -> dict[str, dict[str, dict[str, Any]]]:
+    """Returns {game_id: {'home': {...}, 'away': {...}}} for the date."""
+    rows = conn.execute(
+        """
+        SELECT * FROM team_features
+        WHERE sport='mlb' AND game_date=?
+        ORDER BY game_id, side
+        """,
+        (target_date,),
+    ).fetchall()
+    grouped: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
+    for r in rows:
+        grouped[r["game_id"]][r["side"]] = _row_to_dict(r)
+    return grouped
+
+
+def project_date(
+    conn: sqlite3.Connection,
+    target_date: str,
+    out_dir: str,
+    league_avg_rpg: float,
+) -> tuple[int, str | None]:
+    games = _load_features_by_game(conn, target_date)
+    if not games:
+        log.warning("[%s] no team_features rows; skipping", target_date)
+        return 0, None
+
+    rows_out: list[dict[str, Any]] = []
+    skipped = 0
+    for game_id, sides in games.items():
+        home = sides.get("home")
+        away = sides.get("away")
+        if not home or not away:
+            log.warning("[%s] game %s missing one side; skipping", target_date, game_id)
+            skipped += 1
+            continue
+        proj = compute_game_projection(home, away, league_avg_rpg=league_avg_rpg)
+        rows_out.append({
+            "date": target_date,
+            "game_id": proj["game_id"],
+            "venue_id": proj.get("venue_id"),
+            "park_runs_factor": proj.get("park_runs_factor"),
+            "away_team_id": proj.get("away_team_id"),
+            "away_team_name": proj.get("away_team_name"),
+            "home_team_id": proj.get("home_team_id"),
+            "home_team_name": proj.get("home_team_name"),
+            "away_offensive_factor": proj.get("away_offensive_factor"),
+            "home_offensive_factor": proj.get("home_offensive_factor"),
+            "away_pitching_fip": proj.get("away_pitching_fip"),
+            "home_pitching_fip": proj.get("home_pitching_fip"),
+            "away_pitching_factor": proj.get("away_pitching_factor"),
+            "home_pitching_factor": proj.get("home_pitching_factor"),
+            "away_is_opener": int(bool(proj.get("away_is_opener"))),
+            "home_is_opener": int(bool(proj.get("home_is_opener"))),
+            "away_is_bullpen_heavy": int(bool(proj.get("away_is_bullpen_heavy"))),
+            "home_is_bullpen_heavy": int(bool(proj.get("home_is_bullpen_heavy"))),
+            "away_lambda": proj.get("away_lambda"),
+            "home_lambda": proj.get("home_lambda"),
+            "away_win_pct": proj.get("away_win_pct"),
+            "home_win_pct": proj.get("home_win_pct"),
+            "away_fair_decimal": proj.get("away_fair_decimal"),
+            "home_fair_decimal": proj.get("home_fair_decimal"),
+            "away_fair_line": proj.get("away_fair_line"),
+            "home_fair_line": proj.get("home_fair_line"),
+            "expected_total_nb": proj.get("expected_total_nb"),
+            "projected_total": proj.get("projected_total"),
+            "ou_line": proj.get("ou_line"),
+            "totals_confidence": proj.get("totals_confidence"),
+            "predicted_score_away": proj.get("predicted_score_away"),
+            "predicted_score_home": proj.get("predicted_score_home"),
+            "score_probability_pct": proj.get("score_probability_pct"),
+        })
+
+    rows_out.sort(key=lambda r: str(r.get("game_id")))
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, f"projections_{target_date}.csv")
+    with open(out_path, "w", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
+        writer.writeheader()
+        for row in rows_out:
+            writer.writerow(row)
+    log.info(
+        "[%s] wrote %d games (%d skipped) -> %s",
+        target_date, len(rows_out), skipped, out_path,
+    )
+
+    for r in rows_out:
+        log.info(
+            "[%s] %s @ %s | %s/%s win%% | fair %+d/%+d | total %.1f (ou %.1f, %s)",
+            target_date,
+            r["away_team_name"], r["home_team_name"],
+            r["away_win_pct"], r["home_win_pct"],
+            r["away_fair_line"] or 0, r["home_fair_line"] or 0,
+            r["projected_total"] or 0, r["ou_line"] or 0, r["totals_confidence"],
+        )
+
+    return len(rows_out), out_path
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Core MLB projection engine")
+    parser.add_argument("--db", default=db.DEFAULT_DB_PATH, help="SQLite path (default: data/ingest.db)")
+    parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR, help="CSV output dir")
+    parser.add_argument("--log-level", default="INFO")
+    grp = parser.add_mutually_exclusive_group()
+    grp.add_argument("--date", help="Single date YYYY-MM-DD (default: today)")
+    grp.add_argument("--backfill", help="Range START:END (YYYY-MM-DD:YYYY-MM-DD)")
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    logging.basicConfig(
+        level=getattr(logging, args.log_level.upper(), logging.INFO),
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    conn = db.connect(args.db)
+    league_avg_rpg = get_league_avg_rpg()
+    log.info("league avg R/G = %.3f", league_avg_rpg)
+
+    if args.backfill:
+        start, end = _parse_range(args.backfill)
+        total = 0
+        for d in _daterange(start, end):
+            n, _ = project_date(conn, d.isoformat(), args.out_dir, league_avg_rpg)
+            total += n
+        log.info("backfill complete: %d games projected", total)
+        return 0
+
+    target = args.date or date.today().isoformat()
+    project_date(conn, target, args.out_dir, league_avg_rpg)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
