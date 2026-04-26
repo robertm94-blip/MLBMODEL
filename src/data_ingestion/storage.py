@@ -160,10 +160,24 @@ SCHEMA: list[str] = [
         PRIMARY KEY (sport, game_id, team_id)
     )
     """,
-    "CREATE INDEX IF NOT EXISTS idx_games_date         ON games (sport, game_date)",
-    "CREATE INDEX IF NOT EXISTS idx_lineups_game       ON lineups (sport, game_id)",
-    "CREATE INDEX IF NOT EXISTS idx_box_game           ON box_scores (sport, game_id)",
-    "CREATE INDEX IF NOT EXISTS idx_team_features_date ON team_features (sport, game_date)",
+    """
+    CREATE TABLE IF NOT EXISTS odds_snapshots (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sport TEXT NOT NULL,
+        game_id TEXT NOT NULL,
+        market TEXT NOT NULL,                -- 'moneyline' | 'total' | 'runline' | 'spread'
+        side TEXT NOT NULL,                  -- 'home'|'away' (moneyline/runline) | 'over'|'under' (total)
+        american_odds INTEGER,
+        line REAL,                           -- run line / spread / total line; NULL for ML
+        sportsbook TEXT,                     -- 'pinnacle', 'draftkings', etc. NULL = aggregate/no-vig
+        captured_at TEXT NOT NULL            -- ISO timestamp the snapshot was taken
+    )
+    """,
+    "CREATE INDEX IF NOT EXISTS idx_games_date          ON games (sport, game_date)",
+    "CREATE INDEX IF NOT EXISTS idx_lineups_game        ON lineups (sport, game_id)",
+    "CREATE INDEX IF NOT EXISTS idx_box_game            ON box_scores (sport, game_id)",
+    "CREATE INDEX IF NOT EXISTS idx_team_features_date  ON team_features (sport, game_date)",
+    "CREATE INDEX IF NOT EXISTS idx_odds_snapshots_game ON odds_snapshots (sport, game_id, captured_at)",
 ]
 
 
@@ -540,6 +554,59 @@ class SQLiteStore:
             ),
         )
         return not existed
+
+
+    # ---- odds snapshots (line-movement history) ---------------------
+
+    def add_odds_snapshot(
+        self,
+        *,
+        sport: str,
+        game_id: str,
+        market: str,
+        side: str,
+        american_odds: int | None,
+        line: float | None = None,
+        sportsbook: str | None = None,
+        captured_at: str | None = None,
+    ) -> int:
+        cur = self.conn.execute(
+            """
+            INSERT INTO odds_snapshots
+                (sport, game_id, market, side, american_odds, line, sportsbook, captured_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                sport, _s(game_id), market, side, american_odds, line, sportsbook,
+                captured_at or _now_iso(),
+            ),
+        )
+        self.conn.commit()
+        return int(cur.lastrowid)
+
+    def query_odds_snapshots(
+        self, sport: str, game_id: str, market: str | None = None,
+    ) -> list[dict[str, Any]]:
+        """Return snapshots for a game ordered by capture time."""
+        if market:
+            rows = self.conn.execute(
+                """
+                SELECT * FROM odds_snapshots
+                WHERE sport=? AND game_id=? AND market=?
+                ORDER BY captured_at
+                """,
+                (sport, _s(game_id), market),
+            ).fetchall()
+        else:
+            rows = self.conn.execute(
+                """
+                SELECT * FROM odds_snapshots
+                WHERE sport=? AND game_id=?
+                ORDER BY captured_at, market, side
+                """,
+                (sport, _s(game_id)),
+            ).fetchall()
+        return [dict(r) for r in rows]
 
 
 __all__ = ["SQLiteStore", "DEFAULT_DB_PATH", "SCHEMA"]

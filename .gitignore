@@ -23,3 +23,4 @@ data/data_ingestion.db-wal
 data/data_ingestion.db-shm
 data/features/
 data/projections_csv/
+data/odds/
