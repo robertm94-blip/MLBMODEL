@@ -17,3 +17,7 @@ ENV/
 .mypy_cache/
 *.log
 output/
+data/ingest.db
+data/ingest.db-journal
+data/ingest.db-wal
+data/ingest.db-shm
