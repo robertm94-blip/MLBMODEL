@@ -60,12 +60,27 @@ TOTALS_PARK_ADJ = {
     2394: -0.15, # Comerica Park
 }
 
-# League average total runs per game (2025 actual)
-LEAGUE_AVG_TOTAL = 8.90
+# League average total runs per game.
+# Calibrated 2026-04-27 via backtest_totals.py + live-slate verification:
+# 2024-2025 raw actual mean was 8.84, but live projections built from
+# lineup-specific wRC+ (which skews above team-season averages because active
+# starters are above league avg) push the projected mean ~0.3 higher than
+# this baseline. Anchoring at 8.50 brings the live slate mean (~8.6) in line
+# with posted-market totals, which themselves shade ~0.3 below raw season actuals.
+LEAGUE_AVG_TOTAL = 8.50
 
 # Regression weight toward league mean
 # Higher = more regression = more conservative (less overshoot)
-REGRESSION_TO_MEAN = 0.55  # 55% regression toward league average
+REGRESSION_TO_MEAN = 0.55
+
+# Multiplier on the offense + pitching adjustments. 1.0 = full scaling (legacy).
+# Values < 1.0 dampen the contribution of team factors to the run-pool sum,
+# countering the additive collision when both teams have above-average
+# offenses or above-average pitching simultaneously.
+# Calibrated against 2024-2025 actuals + live-slate verification on 2026-04-27:
+# 0.55 cuts the additive scaling roughly in half, which collapses the
+# typical above-average lineup pile-up from ~+0.6 raw runs to ~+0.3.
+FACTOR_SCALE_DAMPENER = 0.55
 
 
 def compute_totals_projection(
@@ -103,14 +118,14 @@ def compute_totals_projection(
 
     away_off_adj = (away_off_factor - 1.0) * avg_rpg
     home_off_adj = (home_off_factor - 1.0) * avg_rpg
-    offense_adj = away_off_adj + home_off_adj
+    offense_adj = (away_off_adj + home_off_adj) * FACTOR_SCALE_DAMPENER
 
     # ── PITCHING ADJUSTMENTS (additive) ──
     # Pitching factor > 1.0 means MORE runs allowed (worse pitching)
     # Factor applied to opposing team's offense
     away_pitch_adj = (away_pitching_factor - 1.0) * avg_rpg  # Away pitcher affects home runs
     home_pitch_adj = (home_pitching_factor - 1.0) * avg_rpg  # Home pitcher affects away runs
-    pitching_adj = away_pitch_adj + home_pitch_adj
+    pitching_adj = (away_pitch_adj + home_pitch_adj) * FACTOR_SCALE_DAMPENER
 
     # ── PARK ADJUSTMENT (additive, pre-calibrated) ──
     park_adj = TOTALS_PARK_ADJ.get(venue_id, 0.0) if venue_id else 0.0
