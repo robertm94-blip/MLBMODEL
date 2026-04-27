@@ -1,0 +1,5 @@
+{
+  "_comment": "Shadow Maker market mapping. 'overrides' add or replace entries from auto-discovery. 'exclude' is a list of Kalshi tickers to skip. 'side' must be 'yes_home' or 'yes_away'.",
+  "overrides": [],
+  "exclude": []
+}
