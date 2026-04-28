@@ -1,0 +1,78 @@
+# Tennis model configuration. Override on the CLI with --config.
+
+data:
+  # tennis-data.co.uk yearly files (2001-2026). Files <= 2012 are .xls, after .xlsx.
+  td_atp_url_template: "http://www.tennis-data.co.uk/{year}/{year}.{ext}"
+  td_wta_url_template: "http://www.tennis-data.co.uk/{year}w/{year}.{ext}"
+  # Sackmann raw CSVs.
+  sackmann_atp_matches: "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_{year}.csv"
+  sackmann_wta_matches: "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_matches_{year}.csv"
+  sackmann_atp_players: "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_players.csv"
+  sackmann_wta_players: "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_players.csv"
+  cache_dir: "tennis_model/data/cache"
+  start_year: 2010
+  end_year: 2026
+  tours: ["ATP", "WTA"]
+
+elo:
+  # K-factor decays with match count; surface-specific blend with overall.
+  k_initial: 32.0
+  k_min: 12.0
+  k_decay: 0.0015
+  surface_blend: 0.65   # weight on surface elo, 1-x on overall
+  prior_rating: 1500.0
+
+features:
+  recent_form_windows: [5, 10, 20]
+  h2h_min_matches: 1
+  rest_cap_days: 21      # cap rest days to avoid extreme outliers (long injury layoffs)
+  min_career_matches: 10 # floor on career surface win% denominators
+
+model:
+  # Walk-forward parameters
+  train_window_years: 4
+  step_months: 3         # retrain every N months
+  min_train_rows: 5000
+
+  # XGBoost
+  xgb_params:
+    objective: "binary:logistic"
+    eval_metric: "logloss"
+    max_depth: 5
+    learning_rate: 0.04
+    subsample: 0.85
+    colsample_bytree: 0.75
+    reg_alpha: 0.1
+    reg_lambda: 1.5
+    min_child_weight: 8
+    n_estimators: 600
+    tree_method: "hist"
+
+  # Calibration: 'isotonic' or 'sigmoid' or null
+  calibration: "isotonic"
+
+backtest:
+  # Edge filter on (model_prob - implied_prob).
+  edge_threshold: 0.04
+  # Skip bets where model probability is too extreme (likely calibration noise).
+  prob_min: 0.10
+  prob_max: 0.90
+  # Kelly fraction (0 disables, 1 = full Kelly).
+  kelly_fraction: 0.25
+  kelly_cap: 0.05        # cap any single bet to 5% of bankroll
+  flat_stake: 1.0
+  initial_bankroll: 100.0
+  # Which odds column to use: 'AvgW/AvgL', 'B365W/B365L', 'PSW/PSL' (Pinnacle).
+  # Pinnacle is sharpest; AvgW is more available historically.
+  odds_source: "PSW_PSL"   # or "AvgW_AvgL", "B365W_B365L"
+  fallback_odds: ["PSW_PSL", "AvgW_AvgL", "B365W_B365L"]
+
+logging:
+  level: "INFO"
+  file: "tennis_model/artifacts/run.log"
+
+artifacts:
+  model_path: "tennis_model/artifacts/model.joblib"
+  feature_pipeline: "tennis_model/artifacts/features.joblib"
+  backtest_csv: "tennis_model/artifacts/backtest_bets.csv"
+  metrics_json: "tennis_model/artifacts/metrics.json"
