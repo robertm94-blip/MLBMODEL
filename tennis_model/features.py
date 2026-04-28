@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import logging
 import math
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Iterable
 
@@ -31,6 +31,20 @@ import pandas as pd
 log = logging.getLogger(__name__)
 
 SURFACES = ("Hard", "Clay", "Grass", "Carpet")
+
+
+# Module-level factories so PlayerState is picklable (lambdas are not).
+def _form_deque() -> deque:
+    return deque(maxlen=20)
+
+
+def _surface_form_factory() -> dict:
+    # plain dict; we initialize entries lazily in update()
+    return {}
+
+
+def _int_dict() -> dict:
+    return {}
 
 
 @dataclass
@@ -50,15 +64,15 @@ class PlayerState:
     elo_overall: float
     elo_by_surface: dict[str, float]
     matches_played: int = 0
-    matches_by_surface: dict[str, int] = field(default_factory=lambda: defaultdict(int))
-    wins_by_surface: dict[str, int] = field(default_factory=lambda: defaultdict(int))
+    matches_by_surface: dict[str, int] = field(default_factory=_int_dict)
+    wins_by_surface: dict[str, int] = field(default_factory=_int_dict)
     last_match_date: pd.Timestamp | None = None
     # Rolling form: deque of 1/0 outcomes per surface and overall.
-    form_overall: deque = field(default_factory=lambda: deque(maxlen=20))
-    form_by_surface: dict[str, deque] = field(default_factory=lambda: defaultdict(lambda: deque(maxlen=20)))
+    form_overall: deque = field(default_factory=_form_deque)
+    form_by_surface: dict[str, deque] = field(default_factory=_surface_form_factory)
     # Rolling serve stats (Sackmann).
-    serve_pts_won: deque = field(default_factory=lambda: deque(maxlen=20))
-    return_pts_won: deque = field(default_factory=lambda: deque(maxlen=20))
+    serve_pts_won: deque = field(default_factory=_form_deque)
+    return_pts_won: deque = field(default_factory=_form_deque)
 
 
 @dataclass
@@ -125,20 +139,21 @@ class FeatureState:
         w.elo_by_surface[surface] += k_w * (1 - ew_s)
         l.elo_by_surface[surface] += k_l * (0 - (1 - ew_s))
 
-        # Counts
+        # Counts (plain dicts; init lazily)
         w.matches_played += 1
         l.matches_played += 1
-        w.matches_by_surface[surface] += 1
-        l.matches_by_surface[surface] += 1
-        w.wins_by_surface[surface] += 1
+        w.matches_by_surface[surface] = w.matches_by_surface.get(surface, 0) + 1
+        l.matches_by_surface[surface] = l.matches_by_surface.get(surface, 0) + 1
+        w.wins_by_surface[surface] = w.wins_by_surface.get(surface, 0) + 1
+        l.wins_by_surface.setdefault(surface, 0)
         w.last_match_date = date
         l.last_match_date = date
 
         # Form
         w.form_overall.append(1)
         l.form_overall.append(0)
-        w.form_by_surface[surface].append(1)
-        l.form_by_surface[surface].append(0)
+        w.form_by_surface.setdefault(surface, deque(maxlen=20)).append(1)
+        l.form_by_surface.setdefault(surface, deque(maxlen=20)).append(0)
 
         # Serve stats
         if serve_stats is not None:
