@@ -26,10 +26,15 @@ import requests
 log = logging.getLogger(__name__)
 
 # Canonical column names produced by load_tennis_data().
+# w_odds/l_odds is the *picked* source (per fallback chain) for backward compatibility.
+# w_odds_<src>/l_odds_<src> are the per-source pairs, populated independently.
+ODDS_SOURCES = ("pinnacle", "max", "avg", "b365")
+PER_SOURCE_ODDS_COLS = [f"{wl}_odds_{src}" for src in ODDS_SOURCES for wl in ("w", "l")]
 CANON_COLUMNS = [
     "date", "tour", "tournament", "surface", "level", "round",
     "best_of", "winner", "loser", "w_rank", "l_rank", "w_pts", "l_pts",
     "w_odds", "l_odds", "odds_source",
+    *PER_SOURCE_ODDS_COLS,
     "comment",
 ]
 
@@ -139,6 +144,14 @@ _ODDS_MAP = {
     "MaxW_MaxL": ("MaxW", "MaxL"),
 }
 
+# Short-name -> raw column pair, used when extracting all sources in parallel.
+SOURCE_COLUMN_MAP = {
+    "pinnacle": ("PSW", "PSL"),
+    "max":      ("MaxW", "MaxL"),
+    "avg":      ("AvgW", "AvgL"),
+    "b365":     ("B365W", "B365L"),
+}
+
 
 def standardize_tennis_data(raw: pd.DataFrame, fallback_odds: list[str]) -> pd.DataFrame:
     """Map tennis-data columns onto our canonical schema."""
@@ -163,10 +176,33 @@ def standardize_tennis_data(raw: pd.DataFrame, fallback_odds: list[str]) -> pd.D
     df["w_pts"] = pd.to_numeric(df.get("WPts"), errors="coerce")
     df["l_pts"] = pd.to_numeric(df.get("LPts"), errors="coerce")
 
-    # Odds: pick first available source for every row.
-    odds = df.apply(lambda r: _pick_odds(r, fallback_odds), axis=1, result_type="expand")
-    odds.columns = ["w_odds", "l_odds", "odds_source"]
-    df[["w_odds", "l_odds", "odds_source"]] = odds
+    # Per-source odds: keep all four pairs side-by-side. Vectorized; much faster
+    # than the row-wise apply this replaces.
+    for src, (wcol, lcol) in SOURCE_COLUMN_MAP.items():
+        w = pd.to_numeric(df.get(wcol), errors="coerce")
+        l = pd.to_numeric(df.get(lcol), errors="coerce")
+        # Treat <= 1.0 odds as missing (data quality artifacts).
+        w = w.where(w > 1.0)
+        l = l.where(l > 1.0)
+        df[f"w_odds_{src}"] = w
+        df[f"l_odds_{src}"] = l
+
+    # Legacy w_odds/l_odds: first-available pick from the configured fallback chain,
+    # so existing feature-build code keeps working without change.
+    df["w_odds"] = pd.NA
+    df["l_odds"] = pd.NA
+    df["odds_source"] = pd.NA
+    short_for = {"PSW_PSL": "pinnacle", "AvgW_AvgL": "avg",
+                 "B365W_B365L": "b365", "MaxW_MaxL": "max"}
+    for src in fallback_odds:
+        short = short_for.get(src)
+        if short is None:
+            continue
+        wc, lc = f"w_odds_{short}", f"l_odds_{short}"
+        mask = df["w_odds"].isna() & df[wc].notna() & df[lc].notna()
+        df.loc[mask, "w_odds"] = df.loc[mask, wc]
+        df.loc[mask, "l_odds"] = df.loc[mask, lc]
+        df.loc[mask, "odds_source"] = src
 
     # Comment includes "Completed", "Retired", "Walkover".
     df["comment"] = df.get("Comment", "Completed").fillna("Completed")
@@ -332,6 +368,12 @@ def matches_to_p1p2(df: pd.DataFrame, seed: int = 7) -> pd.DataFrame:
     out["p1_odds"] = np.where(flip, df["l_odds"], df["w_odds"])
     out["p2_odds"] = np.where(flip, df["w_odds"], df["l_odds"])
     out["odds_source"] = df["odds_source"].values
+    # Per-source odds: same flip applied independently to each source pair.
+    for src in ODDS_SOURCES:
+        wc, lc = f"w_odds_{src}", f"l_odds_{src}"
+        if wc in df.columns and lc in df.columns:
+            out[f"p1_odds_{src}"] = np.where(flip, df[lc], df[wc])
+            out[f"p2_odds_{src}"] = np.where(flip, df[wc], df[lc])
     out["y"] = (~flip).astype(int)   # 1 if player1 (= original winner when not flipped) wins
 
     # Carry through Sackmann columns if present, swapping w_/l_ to p1_/p2_ semantics.

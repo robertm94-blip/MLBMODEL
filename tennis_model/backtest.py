@@ -48,9 +48,26 @@ def _kelly(p: float, odds: float) -> float:
     return float(np.clip(f, 0.0, 1.0))
 
 
-def select_bets(oof: pd.DataFrame, cfg: BacktestConfig) -> pd.DataFrame:
-    """Build a ledger of bets to place from out-of-sample predictions."""
+def select_bets(oof: pd.DataFrame, cfg: BacktestConfig,
+                odds_source: str | None = None) -> pd.DataFrame:
+    """Build a ledger of bets to place from out-of-sample predictions.
+
+    `odds_source` selects which odds columns to use. None = the default
+    `p1_odds`/`p2_odds` already on the frame (Pinnacle preferred via fallback).
+    "pinnacle" | "max" | "avg" | "b365" use the per-source carry-through columns
+    populated by data_ingestion + features. Rows missing odds for the chosen
+    source are dropped — sources have differing coverage.
+    """
     df = oof.copy()
+    if odds_source is not None:
+        p1c = f"p1_odds_{odds_source}"
+        p2c = f"p2_odds_{odds_source}"
+        if p1c not in df.columns or p2c not in df.columns:
+            raise KeyError(f"OOF frame missing per-source columns {p1c}/{p2c}; "
+                           "rebuild features after upgrading data_ingestion.")
+        df = df.dropna(subset=[p1c, p2c]).copy()
+        df["p1_odds"] = df[p1c]
+        df["p2_odds"] = df[p2c]
     df["pred_p2"] = 1.0 - df["pred"]
     df["edge_p1"] = df["pred"] * df["p1_odds"] - 1.0
     df["edge_p2"] = df["pred_p2"] * df["p2_odds"] - 1.0

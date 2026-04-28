@@ -188,6 +188,17 @@ def run_pipeline(config_path: str) -> dict:
     bets, metrics = simulate(bets, bt_cfg)
     bets.to_csv(cfg["artifacts"]["backtest_csv"], index=False)
 
+    # Persist the full OOF frame so multi-source comparison runs (odds_compare)
+    # don't have to retrain. Parquet keeps the per-source odds columns intact.
+    oof_path = Path(cfg["artifacts"]["model_path"]).parent / "oof_predictions.parquet"
+    try:
+        oof.to_parquet(oof_path, index=False)
+        log.info("Saved OOF frame: %s (%d rows)", oof_path, len(oof))
+    except Exception as e:
+        # Parquet may not be available in all envs; CSV fallback.
+        log.warning("Parquet save failed (%s); writing CSV instead", e)
+        oof.to_csv(oof_path.with_suffix(".csv"), index=False)
+
     calib = calibration_table(oof)
     print("\nCalibration (model vs market vs actual):")
     print(calib.to_string(index=False))
@@ -329,13 +340,16 @@ def predict_match(model_artifact_path: str, upcoming: pd.DataFrame,
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--config", default="tennis_model/config.yaml")
-    p.add_argument("--action", choices=["train", "predict"], default="train")
+    p.add_argument("--action", choices=["train", "predict", "compare-odds"], default="train")
     p.add_argument("--upcoming", help="CSV of upcoming matches for --action predict")
     p.add_argument("--edge", type=float, default=0.04, help="edge threshold for predict")
     args = p.parse_args()
 
     if args.action == "train":
         run_pipeline(args.config)
+    elif args.action == "compare-odds":
+        from tennis_model.odds_compare import run_comparison
+        run_comparison(args.config)
     else:
         if not args.upcoming:
             raise SystemExit("--upcoming CSV required for predict action")

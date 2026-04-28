@@ -414,6 +414,12 @@ def build_features(p1p2: pd.DataFrame, td_full: pd.DataFrame, cfg: FeatureConfig
         feat["p1_odds"] = float(m["p1_odds"])
         feat["p2_odds"] = float(m["p2_odds"])
         feat["odds_source"] = m["odds_source"]
+        # Per-source odds: carry-throughs for multi-source backtests. NaN where
+        # that source didn't price the match.
+        for src in ("pinnacle", "max", "avg", "b365"):
+            for side in ("p1", "p2"):
+                col = f"{side}_odds_{src}"
+                feat[col] = float(m[col]) if (col in m.index and pd.notna(m[col])) else np.nan
         feat["player1"] = p1
         feat["player2"] = p2
 
