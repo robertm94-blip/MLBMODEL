@@ -23,6 +23,7 @@ import logging
 import os
 import sqlite3
 import sys
+import time
 from collections import defaultdict
 from datetime import date, timedelta
 from typing import Any
@@ -30,6 +31,7 @@ from typing import Any
 from src.data_ingestion.storage import DEFAULT_DB_PATH, SQLiteStore
 from src.projection_engine import compute_game_projection
 from src.projections import get_league_avg_rpg
+from src.weather import fetch_game_weather
 
 log = logging.getLogger("projection_engine")
 
@@ -40,6 +42,8 @@ CSV_COLUMNS = [
     "game_id",
     "venue_id",
     "park_runs_factor",
+    "weather_factor",
+    "weather_summary",
     "away_team_id", "away_team_name",
     "home_team_id", "home_team_name",
     "away_offensive_factor", "home_offensive_factor",
@@ -100,16 +104,51 @@ def _load_features_by_game(
     return grouped
 
 
+def _summarize_weather(summary: dict[str, Any] | None, data: dict[str, Any] | None) -> str:
+    """One-line description of the weather conditions for the CSV."""
+    if not summary and not data:
+        return ""
+    bits = []
+    if data:
+        t = data.get("temperature_2m")
+        w = data.get("wind_speed_10m")
+        wd = data.get("wind_direction_10m")
+        p = data.get("precipitation")
+        if t is not None: bits.append(f"{t:.0f}F")
+        if w is not None and wd is not None: bits.append(f"wind {w:.0f}mph @{wd:.0f}")
+        if p is not None and p > 0: bits.append(f"precip {p:.1f}mm")
+    if summary and summary.get("roof") in ("closed", "dome"):
+        bits.append(summary["roof"])
+    return ", ".join(bits)
+
+
 def project_date(
     store: SQLiteStore,
     target_date: str,
     out_dir: str,
     league_avg_rpg: float,
+    use_weather: bool = True,
 ) -> tuple[int, str | None]:
     games = _load_features_by_game(store, target_date)
     if not games:
         log.warning("[%s] no team_features rows; skipping", target_date)
         return 0, None
+
+    # Fetch weather once per venue (multiple games per day at the same park is rare for MLB
+    # but the cache keeps us safe for doubleheaders and saves API calls).
+    weather_cache: dict[Any, tuple[dict | None, float, dict]] = {}
+    if use_weather:
+        venue_ids = {sides[s].get("venue_id") for sides in games.values() for s in sides if sides[s]}
+        for vid in venue_ids:
+            if vid is None or vid in weather_cache:
+                continue
+            try:
+                vid_int = int(vid)
+            except (TypeError, ValueError):
+                continue
+            weather_cache[vid] = fetch_game_weather(vid_int)
+            time.sleep(0.05)
+        log.info("[%s] fetched weather for %d venues", target_date, sum(1 for v in weather_cache.values() if v[0]))
 
     rows_out: list[dict[str, Any]] = []
     skipped = 0
@@ -120,12 +159,21 @@ def project_date(
             log.warning("[%s] game %s missing one side; skipping", target_date, game_id)
             skipped += 1
             continue
-        proj = compute_game_projection(home, away, league_avg_rpg=league_avg_rpg)
+        venue_id = home.get("venue_id") or away.get("venue_id")
+        wx_data, wx_factor, wx_summary = weather_cache.get(venue_id, (None, 1.0, {}))
+        proj = compute_game_projection(
+            home, away,
+            league_avg_rpg=league_avg_rpg,
+            weather_factor=wx_factor,
+            weather_summary=wx_summary,
+        )
         rows_out.append({
             "date": target_date,
             "game_id": proj["game_id"],
             "venue_id": proj.get("venue_id"),
             "park_runs_factor": proj.get("park_runs_factor"),
+            "weather_factor": proj.get("weather_factor"),
+            "weather_summary": _summarize_weather(wx_summary, wx_data),
             "away_team_id": proj.get("away_team_id"),
             "away_team_name": proj.get("away_team_name"),
             "home_team_id": proj.get("home_team_id"),
@@ -188,6 +236,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--db", default=DEFAULT_DB_PATH, help=f"SQLite path (default: {DEFAULT_DB_PATH})")
     parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR, help="CSV output dir")
     parser.add_argument("--log-level", default="INFO")
+    parser.add_argument(
+        "--no-weather", action="store_true",
+        help="Skip the per-venue weather fetch (defaults to fetching live weather and "
+             "applying it to lambdas + totals)",
+    )
     grp = parser.add_mutually_exclusive_group()
     grp.add_argument("--date", help="Single date YYYY-MM-DD (default: today)")
     grp.add_argument("--backfill", help="Range START:END (YYYY-MM-DD:YYYY-MM-DD)")
@@ -203,18 +256,19 @@ def main(argv: list[str] | None = None) -> int:
     store = SQLiteStore(args.db)
     league_avg_rpg = get_league_avg_rpg()
     log.info("league avg R/G = %.3f", league_avg_rpg)
+    use_weather = not args.no_weather
 
     if args.backfill:
         start, end = _parse_range(args.backfill)
         total = 0
         for d in _daterange(start, end):
-            n, _ = project_date(store, d.isoformat(), args.out_dir, league_avg_rpg)
+            n, _ = project_date(store, d.isoformat(), args.out_dir, league_avg_rpg, use_weather=use_weather)
             total += n
         log.info("backfill complete: %d games projected", total)
         return 0
 
     target = args.date or date.today().isoformat()
-    project_date(store, target, args.out_dir, league_avg_rpg)
+    project_date(store, target, args.out_dir, league_avg_rpg, use_weather=use_weather)
     return 0
 
 

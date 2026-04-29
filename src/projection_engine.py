@@ -61,18 +61,27 @@ def compute_game_projection(
     *,
     league_avg_rpg: float | None = None,
     park_runs_factor: float | None = None,
+    weather_factor: float = 1.0,
+    weather_summary: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Produce the complete projection for one game.
 
     `home` and `away` are rows from the `team_features` table (or any
     dict with the same keys). The two rows are expected to share a
     venue and game date.
+
+    `weather_factor` (default 1.0) is a multiplicative scoring effect
+    derived from temperature/wind/humidity at the venue. Applied to both
+    teams' lambdas (so the NB-derived total + win prob both reflect it)
+    AND fed into the dedicated totals model. `weather_summary` is the
+    breakdown dict from `src.weather.fetch_game_weather` for transparency.
     """
     league = league_avg_rpg if league_avg_rpg is not None else get_league_avg_rpg()
     park = park_runs_factor
     if park is None:
         park = home.get("park_runs_factor") or away.get("park_runs_factor") or 1.0
     park = float(park)
+    wx = float(weather_factor or 1.0)
 
     home_off = float(home.get("offensive_factor") or 1.0)
     away_off = float(away.get("offensive_factor") or 1.0)
@@ -84,6 +93,8 @@ def compute_game_projection(
     # FIP already incorporates the IP-share weighted starter+bullpen blend
     # (handles openers smoothly via starter_share). compute_expected_runs
     # then collapses the 65/35 internal weighting to that single value.
+    # Weather is applied multiplicatively after the floor/cap, mirroring
+    # predict_full.py:184-200.
     away_lambda = compute_expected_runs(
         batting_team_off_factor=away_off,
         pitching_team_def_factor=home_pitch_factor,
@@ -91,7 +102,7 @@ def compute_game_projection(
         park_factor=park,
         league_avg_rpg=league,
         is_home=False,
-    )
+    ) * wx
     home_lambda = compute_expected_runs(
         batting_team_off_factor=home_off,
         pitching_team_def_factor=away_pitch_factor,
@@ -99,7 +110,7 @@ def compute_game_projection(
         park_factor=park,
         league_avg_rpg=league,
         is_home=True,
-    )
+    ) * wx
 
     away_team = away.get("team_name") or ""
     home_team = home.get("team_name") or ""
@@ -110,13 +121,16 @@ def compute_game_projection(
     away_fair_decimal, away_fair_line = prob_to_fair_line(away_prob)
     home_fair_decimal, home_fair_line = prob_to_fair_line(home_prob)
 
-    # Dedicated totals model (additive, with dynamic regression).
+    # Dedicated totals model (additive, with dynamic regression). Weather
+    # contributes via the existing 50%-dampened additive adjustment in
+    # compute_totals_projection (src/totals_model.py:121).
     totals = compute_totals_projection(
         away_off_factor=away_off,
         home_off_factor=home_off,
         away_pitching_factor=away_pitch_factor,
         home_pitching_factor=home_pitch_factor,
         venue_id=_int_or_none(home.get("venue_id") or away.get("venue_id")),
+        weather_factor=wx,
     )
 
     return {
@@ -141,6 +155,8 @@ def compute_game_projection(
         "away_is_bullpen_heavy": bool(away.get("is_bullpen_heavy")),
         "home_is_bullpen_heavy": bool(home.get("is_bullpen_heavy")),
         "home_advantage_runs": HOME_ADVANTAGE,
+        "weather_factor": round(wx, 4),
+        "weather_summary": weather_summary or {},
 
         "away_lambda": round(float(away_lambda), 3),
         "home_lambda": round(float(home_lambda), 3),
