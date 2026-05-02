@@ -21,7 +21,7 @@ from typing import Any
 
 from src.edge import american_to_decimal, decimal_to_american
 from src.features import HOME_ADVANTAGE, compute_expected_runs
-from src.model import generate_prediction
+from src.model import generate_prediction, predict_score_distribution, most_likely_score
 from src.projections import get_league_avg_rpg
 from src.totals_model import compute_totals_projection
 
@@ -41,6 +41,114 @@ def fip_to_factor(fip: float | None) -> float:
     if fip is None or fip <= 0:
         return 1.0
     return float(fip) / LEAGUE_AVG_FIP
+
+
+# F5 = first 5 innings. Markets settle on the score at the end of the top of
+# the 5th + the home half (i.e. the score in the books after the 5th has been
+# completed). Treated as 5/9 of a full game for run pool purposes, with
+# pitching weighted toward the starter (since the starter usually covers the
+# first 5 innings unless it's an opener).
+F5_FRACTION = 5.0 / 9.0
+F5_INNINGS = 5.0
+
+
+def f5_pitching_factor(team: dict[str, Any]) -> float:
+    """Pitching factor for F5 = blended starter+bullpen weighted by starter
+    coverage of the first 5 innings.
+
+    For a typical starter projected at 6.0 IP, the starter covers 100% of F5.
+    For an opener at 3.0 IP, the starter covers 60% of F5 and the bullpen
+    handles 40%.
+    """
+    starter_fip = team.get("starter_fip")
+    bullpen_fip = team.get("bullpen_fip")
+    starter_ip = team.get("starter_projected_ip") or 5.0
+    if starter_fip is None and bullpen_fip is None:
+        return 1.0
+    starter_share = min(float(starter_ip) / F5_INNINGS, 1.0)
+    s = float(starter_fip) if starter_fip else LEAGUE_AVG_FIP
+    b = float(bullpen_fip) if bullpen_fip else LEAGUE_AVG_FIP
+    blended = starter_share * s + (1.0 - starter_share) * b
+    return blended / LEAGUE_AVG_FIP
+
+
+def compute_f5_projection(
+    home: dict[str, Any],
+    away: dict[str, Any],
+    *,
+    league_avg_rpg: float,
+    park_runs_factor: float,
+    weather_factor: float = 1.0,
+) -> dict[str, Any]:
+    """Project first-5-innings outcomes.
+
+    Differences vs full-game:
+    - Pitching factor weighted toward starter (or starter+pen for openers)
+      via `f5_pitching_factor`.
+    - No home-field advantage in F5 markets (each side pitches 5 innings;
+      no walk-off mechanic).
+    - Lambdas scaled by 5/9.
+    - Ties (F5 markets call this "F5 tie" or void) are reported separately
+      rather than redistributed; the win% values are strict "leads after 5".
+    """
+    park = float(park_runs_factor or 1.0)
+    wx = float(weather_factor or 1.0)
+    home_off = float(home.get("offensive_factor") or 1.0)
+    away_off = float(away.get("offensive_factor") or 1.0)
+    home_pitch = f5_pitching_factor(home)
+    away_pitch = f5_pitching_factor(away)
+
+    # Build full-game lambdas with NO home-field bonus, then scale to 5 innings.
+    away_full = compute_expected_runs(
+        batting_team_off_factor=away_off,
+        pitching_team_def_factor=home_pitch,
+        starter_factor=home_pitch,
+        park_factor=park,
+        league_avg_rpg=league_avg_rpg,
+        is_home=False,
+    )
+    home_full = compute_expected_runs(
+        batting_team_off_factor=home_off,
+        pitching_team_def_factor=away_pitch,
+        starter_factor=away_pitch,
+        park_factor=park,
+        league_avg_rpg=league_avg_rpg,
+        is_home=False,    # no home bump in F5
+    )
+    away_lambda = away_full * F5_FRACTION * wx
+    home_lambda = home_full * F5_FRACTION * wx
+
+    matrix = predict_score_distribution(away_lambda, home_lambda, max_runs=12)
+
+    # Strict-lead win probabilities. Do NOT redistribute the tie mass; F5
+    # markets settle on ties as a push (or refund) so the user wants to
+    # see the tie share explicitly.
+    away_win = home_win = tie = 0.0
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            p = float(matrix[i][j])
+            if i > j:
+                away_win += p
+            elif j > i:
+                home_win += p
+            else:
+                tie += p
+
+    away_score, home_score, score_p = most_likely_score(matrix)
+
+    return {
+        "f5_away_lambda": round(away_lambda, 3),
+        "f5_home_lambda": round(home_lambda, 3),
+        "f5_away_pitching_factor": round(away_pitch, 4),
+        "f5_home_pitching_factor": round(home_pitch, 4),
+        "f5_away_win_pct": round(away_win * 100, 1),
+        "f5_home_win_pct": round(home_win * 100, 1),
+        "f5_tie_pct": round(tie * 100, 1),
+        "f5_predicted_score_away": int(away_score),
+        "f5_predicted_score_home": int(home_score),
+        "f5_score_probability_pct": round(score_p * 100, 2),
+        "f5_total": round(away_lambda + home_lambda, 2),
+    }
 
 
 def prob_to_fair_line(probability: float) -> tuple[float | None, int | None]:
@@ -133,6 +241,14 @@ def compute_game_projection(
         weather_factor=wx,
     )
 
+    # F5 (first-5-innings) projection. Pitcher-driven, no home-field bonus.
+    f5 = compute_f5_projection(
+        home, away,
+        league_avg_rpg=league,
+        park_runs_factor=park,
+        weather_factor=wx,
+    )
+
     return {
         "game_id": home.get("game_id") or away.get("game_id"),
         "game_date": home.get("game_date") or away.get("game_date"),
@@ -177,6 +293,9 @@ def compute_game_projection(
         "predicted_score_away": prediction["predicted_score"]["away"],
         "predicted_score_home": prediction["predicted_score"]["home"],
         "score_probability_pct": prediction["score_probability"],
+
+        # F5 (first 5 innings) — pitcher-driven, no home-field bonus.
+        **f5,
     }
 
 

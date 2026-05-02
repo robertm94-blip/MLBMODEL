@@ -60,6 +60,12 @@ CSV_COLUMNS = [
     "ou_line",
     "totals_confidence",
     "predicted_score_away", "predicted_score_home", "score_probability_pct",
+    # F5 (first 5 innings)
+    "f5_away_lambda", "f5_home_lambda",
+    "f5_away_pitching_factor", "f5_home_pitching_factor",
+    "f5_away_win_pct", "f5_home_win_pct", "f5_tie_pct",
+    "f5_predicted_score_away", "f5_predicted_score_home",
+    "f5_score_probability_pct", "f5_total",
 ]
 
 
@@ -203,6 +209,17 @@ def project_date(
             "predicted_score_away": proj.get("predicted_score_away"),
             "predicted_score_home": proj.get("predicted_score_home"),
             "score_probability_pct": proj.get("score_probability_pct"),
+            "f5_away_lambda": proj.get("f5_away_lambda"),
+            "f5_home_lambda": proj.get("f5_home_lambda"),
+            "f5_away_pitching_factor": proj.get("f5_away_pitching_factor"),
+            "f5_home_pitching_factor": proj.get("f5_home_pitching_factor"),
+            "f5_away_win_pct": proj.get("f5_away_win_pct"),
+            "f5_home_win_pct": proj.get("f5_home_win_pct"),
+            "f5_tie_pct": proj.get("f5_tie_pct"),
+            "f5_predicted_score_away": proj.get("f5_predicted_score_away"),
+            "f5_predicted_score_home": proj.get("f5_predicted_score_home"),
+            "f5_score_probability_pct": proj.get("f5_score_probability_pct"),
+            "f5_total": proj.get("f5_total"),
         })
 
     rows_out.sort(key=lambda r: str(r.get("game_id")))
