@@ -30,13 +30,36 @@ python live.py                    # all live games dashboard
 python live.py --game 824135      # single game detailed view
 python live.py --sims 5000        # more sims per update
 
-# Backtesting
+# Backtesting (historical, team-level proxy — see data caveat below)
 python backtest_2025.py                              # single season
 python backtest_multiyear.py --seasons 2023,2024,2025  # multi-year
+python backtest_totals.py --years 2024,2025 --calibrate  # totals bias + grid search
+python backtest_winprob.py --years 2024,2025         # win-prob calibration / Brier / ECE
+
+# Daily forward-testing pipeline (ingest -> features -> project -> grade)
+python daily.py --date 2026-05-14    # one command does the whole loop
+python track_record.py               # cumulative out-of-sample record from prediction_log
 
 # Older/simpler model (Poisson-era, no 10-factor)
 python predict_today.py --date 2026-03-31
 ```
+
+## Forward Testing & Track Record
+
+The historical backtests (`backtest_totals.py`, `backtest_winprob.py`) validate the
+model *machinery* but use a team-level RS/RA proxy, because the live lineup/FIP inputs
+can't be reconstructed historically (FanGraphs projection files are point-in-time-current).
+
+The **honest** measure of the live model is forward testing:
+- `projection_engine.py` banks every prediction to the `prediction_log` SQLite table
+  (keyed by sport/game_id/model_version; latest run before first pitch is the prediction
+  of record). Stamped with `MODEL_VERSION` from `src/projection_engine.py`.
+- `grade_predictions.py` settles logged predictions against final scores (side correctness,
+  Brier, totals error).
+- `track_record.py` reports the cumulative calibration curve, Brier, ECE, side accuracy,
+  and totals MAE/bias over all graded predictions — the leak-free version of the backtest.
+- `prediction_log` has nullable `close_*_ml`/`close_total` columns reserved for CLV once a
+  market-odds source is wired in (odds ingestion is still deferred).
 
 ## Architecture
 

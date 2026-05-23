@@ -29,7 +29,7 @@ from datetime import date, timedelta
 from typing import Any
 
 from src.data_ingestion.storage import DEFAULT_DB_PATH, SQLiteStore
-from src.projection_engine import compute_game_projection
+from src.projection_engine import MODEL_VERSION, compute_game_projection
 from src.projections import get_league_avg_rpg
 from src.weather import fetch_game_weather
 
@@ -128,12 +128,23 @@ def _summarize_weather(summary: dict[str, Any] | None, data: dict[str, Any] | No
     return ", ".join(bits)
 
 
+def _lineup_state(home: dict, away: dict) -> str:
+    h = (home.get("lineup_source") or "").startswith("official")
+    a = (away.get("lineup_source") or "").startswith("official")
+    if h and a:
+        return "official_both"
+    if h or a:
+        return "official_partial"
+    return "none"
+
+
 def project_date(
     store: SQLiteStore,
     target_date: str,
     out_dir: str,
     league_avg_rpg: float,
     use_weather: bool = True,
+    log_predictions: bool = True,
 ) -> tuple[int, str | None]:
     games = _load_features_by_game(store, target_date)
     if not games:
@@ -222,6 +233,33 @@ def project_date(
             "f5_total": proj.get("f5_total"),
         })
 
+        # Bank this prediction for forward testing / track record.
+        if log_predictions:
+            store.log_prediction({
+                "sport": "mlb",
+                "game_id": proj["game_id"],
+                "game_date": target_date,
+                "model_version": MODEL_VERSION,
+                "away_team": proj.get("away_team_name"),
+                "home_team": proj.get("home_team_name"),
+                "away_win_prob": (proj.get("away_win_pct") or 0) / 100.0,
+                "home_win_prob": (proj.get("home_win_pct") or 0) / 100.0,
+                "away_fair_line": proj.get("away_fair_line"),
+                "home_fair_line": proj.get("home_fair_line"),
+                "away_lambda": proj.get("away_lambda"),
+                "home_lambda": proj.get("home_lambda"),
+                "projected_total": proj.get("projected_total"),
+                "ou_line": proj.get("ou_line"),
+                "f5_away_win_prob": (proj.get("f5_away_win_pct") or 0) / 100.0,
+                "f5_home_win_prob": (proj.get("f5_home_win_pct") or 0) / 100.0,
+                "f5_total": proj.get("f5_total"),
+                "lineup_state": _lineup_state(home, away),
+                "weather_factor": proj.get("weather_factor"),
+                "park_runs_factor": proj.get("park_runs_factor"),
+            })
+    if log_predictions:
+        store.conn.commit()
+
     rows_out.sort(key=lambda r: str(r.get("game_id")))
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"projections_{target_date}.csv")
@@ -258,6 +296,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Skip the per-venue weather fetch (defaults to fetching live weather and "
              "applying it to lambdas + totals)",
     )
+    parser.add_argument(
+        "--no-log", action="store_true",
+        help="Skip writing predictions to the prediction_log forward-test table",
+    )
     grp = parser.add_mutually_exclusive_group()
     grp.add_argument("--date", help="Single date YYYY-MM-DD (default: today)")
     grp.add_argument("--backfill", help="Range START:END (YYYY-MM-DD:YYYY-MM-DD)")
@@ -274,18 +316,21 @@ def main(argv: list[str] | None = None) -> int:
     league_avg_rpg = get_league_avg_rpg()
     log.info("league avg R/G = %.3f", league_avg_rpg)
     use_weather = not args.no_weather
+    log_predictions = not args.no_log
 
     if args.backfill:
         start, end = _parse_range(args.backfill)
         total = 0
         for d in _daterange(start, end):
-            n, _ = project_date(store, d.isoformat(), args.out_dir, league_avg_rpg, use_weather=use_weather)
+            n, _ = project_date(store, d.isoformat(), args.out_dir, league_avg_rpg,
+                                use_weather=use_weather, log_predictions=log_predictions)
             total += n
         log.info("backfill complete: %d games projected", total)
         return 0
 
     target = args.date or date.today().isoformat()
-    project_date(store, target, args.out_dir, league_avg_rpg, use_weather=use_weather)
+    project_date(store, target, args.out_dir, league_avg_rpg,
+                 use_weather=use_weather, log_predictions=log_predictions)
     return 0
 
 

@@ -173,11 +173,61 @@ SCHEMA: list[str] = [
         captured_at TEXT NOT NULL            -- ISO timestamp the snapshot was taken
     )
     """,
+    """
+    CREATE TABLE IF NOT EXISTS prediction_log (
+        sport TEXT NOT NULL,
+        game_id TEXT NOT NULL,
+        game_date TEXT NOT NULL,
+        model_version TEXT NOT NULL,
+        snapshot_at TEXT NOT NULL,           -- when this prediction was last (re)made
+
+        away_team TEXT,
+        home_team TEXT,
+
+        -- full-game predictions
+        away_win_prob REAL,                  -- 0..1
+        home_win_prob REAL,
+        away_fair_line INTEGER,
+        home_fair_line INTEGER,
+        away_lambda REAL,
+        home_lambda REAL,
+        projected_total REAL,
+        ou_line REAL,
+
+        -- F5 predictions
+        f5_away_win_prob REAL,
+        f5_home_win_prob REAL,
+        f5_total REAL,
+
+        -- prediction-time context
+        lineup_state TEXT,                   -- 'official_both'|'official_partial'|'none'
+        weather_factor REAL,
+        park_runs_factor REAL,
+
+        -- closing line slot (nullable; filled when odds are wired in -> enables CLV)
+        close_away_ml INTEGER,
+        close_home_ml INTEGER,
+        close_total REAL,
+
+        -- grading (filled by grade_predictions once the game is Final)
+        graded_at TEXT,
+        actual_away_score INTEGER,
+        actual_home_score INTEGER,
+        actual_winner TEXT,                  -- 'home'|'away'
+        side_correct INTEGER,                -- 1 if model's favorite (>=50%) won
+        brier REAL,                          -- (home_win_prob - home_won)^2
+        total_error REAL,                    -- projected_total - (away+home actual)
+        total_abs_error REAL,
+
+        PRIMARY KEY (sport, game_id, model_version)
+    )
+    """,
     "CREATE INDEX IF NOT EXISTS idx_games_date          ON games (sport, game_date)",
     "CREATE INDEX IF NOT EXISTS idx_lineups_game        ON lineups (sport, game_id)",
     "CREATE INDEX IF NOT EXISTS idx_box_game            ON box_scores (sport, game_id)",
     "CREATE INDEX IF NOT EXISTS idx_team_features_date  ON team_features (sport, game_date)",
     "CREATE INDEX IF NOT EXISTS idx_odds_snapshots_game ON odds_snapshots (sport, game_id, captured_at)",
+    "CREATE INDEX IF NOT EXISTS idx_prediction_log_date ON prediction_log (sport, game_date)",
 ]
 
 
@@ -607,6 +657,125 @@ class SQLiteStore:
                 (sport, _s(game_id)),
             ).fetchall()
         return [dict(r) for r in rows]
+
+    # ---- prediction log (forward testing / track record) -------------
+
+    def log_prediction(self, row: dict[str, Any]) -> bool:
+        """Upsert one game's prediction of record (latest run wins).
+
+        Keyed by (sport, game_id, model_version) so re-running the same day
+        refreshes the prediction without spawning duplicates. Grading columns
+        are preserved on conflict (re-logging a prediction doesn't wipe a
+        grade, but the grader recomputes from current values anyway).
+        Returns True if newly inserted.
+        """
+        sport = row["sport"]
+        game_id = _s(row["game_id"])
+        mv = row.get("model_version", "unknown")
+        existed = self.conn.execute(
+            "SELECT 1 FROM prediction_log WHERE sport=? AND game_id=? AND model_version=?",
+            (sport, game_id, mv),
+        ).fetchone() is not None
+        self.conn.execute(
+            """
+            INSERT INTO prediction_log (
+                sport, game_id, game_date, model_version, snapshot_at,
+                away_team, home_team,
+                away_win_prob, home_win_prob, away_fair_line, home_fair_line,
+                away_lambda, home_lambda, projected_total, ou_line,
+                f5_away_win_prob, f5_home_win_prob, f5_total,
+                lineup_state, weather_factor, park_runs_factor
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(sport, game_id, model_version) DO UPDATE SET
+                game_date = excluded.game_date,
+                snapshot_at = excluded.snapshot_at,
+                away_team = excluded.away_team,
+                home_team = excluded.home_team,
+                away_win_prob = excluded.away_win_prob,
+                home_win_prob = excluded.home_win_prob,
+                away_fair_line = excluded.away_fair_line,
+                home_fair_line = excluded.home_fair_line,
+                away_lambda = excluded.away_lambda,
+                home_lambda = excluded.home_lambda,
+                projected_total = excluded.projected_total,
+                ou_line = excluded.ou_line,
+                f5_away_win_prob = excluded.f5_away_win_prob,
+                f5_home_win_prob = excluded.f5_home_win_prob,
+                f5_total = excluded.f5_total,
+                lineup_state = excluded.lineup_state,
+                weather_factor = excluded.weather_factor,
+                park_runs_factor = excluded.park_runs_factor
+            """,
+            (
+                sport, game_id, row["game_date"], mv, _now_iso(),
+                row.get("away_team"), row.get("home_team"),
+                row.get("away_win_prob"), row.get("home_win_prob"),
+                row.get("away_fair_line"), row.get("home_fair_line"),
+                row.get("away_lambda"), row.get("home_lambda"),
+                row.get("projected_total"), row.get("ou_line"),
+                row.get("f5_away_win_prob"), row.get("f5_home_win_prob"), row.get("f5_total"),
+                row.get("lineup_state"), row.get("weather_factor"), row.get("park_runs_factor"),
+            ),
+        )
+        return not existed
+
+    def grade_prediction(
+        self, sport: str, game_id: str, away_score: int, home_score: int,
+    ) -> bool:
+        """Fill grading columns for one logged prediction from a final score.
+        Returns True if a row was graded."""
+        rows = self.conn.execute(
+            "SELECT * FROM prediction_log WHERE sport=? AND game_id=?",
+            (sport, _s(game_id)),
+        ).fetchall()
+        if not rows:
+            return False
+        graded_any = False
+        for r in rows:
+            if away_score == home_score:
+                continue  # ties not graded
+            home_won = 1 if home_score > away_score else 0
+            winner = "home" if home_won else "away"
+            hp = r["home_win_prob"]
+            side_correct = None
+            brier = None
+            if hp is not None:
+                side_correct = 1 if ((hp >= 0.5) == (home_won == 1)) else 0
+                brier = (hp - home_won) ** 2
+            total_err = total_abs = None
+            if r["projected_total"] is not None:
+                total_err = r["projected_total"] - (away_score + home_score)
+                total_abs = abs(total_err)
+            self.conn.execute(
+                """
+                UPDATE prediction_log SET
+                    graded_at=?, actual_away_score=?, actual_home_score=?,
+                    actual_winner=?, side_correct=?, brier=?,
+                    total_error=?, total_abs_error=?
+                WHERE sport=? AND game_id=? AND model_version=?
+                """,
+                (_now_iso(), away_score, home_score, winner, side_correct, brier,
+                 total_err, total_abs, sport, _s(game_id), r["model_version"]),
+            )
+            graded_any = True
+        return graded_any
+
+    def query_prediction_log(
+        self, sport: str = "mlb", graded_only: bool = False,
+        start_date: str | None = None, end_date: str | None = None,
+    ) -> list[dict[str, Any]]:
+        q = "SELECT * FROM prediction_log WHERE sport=?"
+        params: list[Any] = [sport]
+        if graded_only:
+            q += " AND graded_at IS NOT NULL"
+        if start_date:
+            q += " AND game_date >= ?"
+            params.append(start_date)
+        if end_date:
+            q += " AND game_date <= ?"
+            params.append(end_date)
+        q += " ORDER BY game_date, game_id"
+        return [dict(r) for r in self.conn.execute(q, params).fetchall()]
 
 
 __all__ = ["SQLiteStore", "DEFAULT_DB_PATH", "SCHEMA"]

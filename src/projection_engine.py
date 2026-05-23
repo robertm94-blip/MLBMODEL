@@ -26,6 +26,11 @@ from src.projections import get_league_avg_rpg
 from src.totals_model import compute_totals_projection
 
 
+# Bump when the model logic changes so the prediction log can distinguish
+# predictions made by different model generations during forward testing.
+MODEL_VERSION = "nb-r12-totalscal-weather-v1"
+
+
 # League-average FIP. Used to convert per-team blended FIP from the
 # features into the unitless "factor" shape expected by
 # compute_expected_runs (1.0 = league-average pitching).
@@ -321,9 +326,11 @@ def _int_or_none(value: Any) -> int | None:
 # to convert future market lines.
 __all__ = [
     "LEAGUE_AVG_FIP",
+    "MODEL_VERSION",
     "fip_to_factor",
     "prob_to_fair_line",
     "compute_game_projection",
+    "compute_f5_projection",
     "american_to_decimal",
     "decimal_to_american",
 ]
